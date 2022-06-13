@@ -30,7 +30,13 @@ There are few giants who have taught courses (mostly shared their courses online
 
 ## Acknowledgement
 
-As I have stated above, I have been inspired by the three exceptional groups with their talents of teaching and selfless approach of sharing their materials that they have painstakingly developed. I would like to give due cerdits to those, including these three groups, from whom I have learnt some of the materials, and/or used their shared materials in my lectures and get some help in setting up the paltforms that has made my life a lot easier during the development stage of this course.
+As I have stated above, I have been inspired by the three exceptional groups with their talents of teaching and selfless approach of sharing their materials that they have painstakingly developed. I would like to give due cerdits to those, including these three groups, from whom I have learnt 
+
+* some of the materials, and/or 
+* used their shared materials in the forms of datasets, Julia codes, Pluto notebooks in my lectures and 
+* get some help in setting up the paltforms that has made my life a lot easier 
+
+during the development stage of this course.
 
 
 
