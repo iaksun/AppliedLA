@@ -55,7 +55,7 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 Please note that I will do my best to include the references in my lecture notes wherever they are due, but I will try to give their credits on this opening page as well. So, this page is intended to keep growing while I am developing the lectures, and hoping that there will be many other references and contributors along the way.
 
-M. Ýrþadi Aksun, Prof.
-Koç University
-Electrical and Electronics Eng.
-Ýstanbul, Türkiye
+``M. \; Ýrþadi \;Aksun, \;Prof.\
+Koç \;University\
+Electrical \;and \;Electronics \;Eng.\
+Ýstanbul, \;Türkiye``
