@@ -47,7 +47,7 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 **Prof. Stephen P. Boyd**, Stanford University, _ENGR108: Introduction to Matrix Methods_, Lecture slides, videos, Julia language companion and aditional exercises (https://stanford.edu/class/engr108/index.html).
 
-**Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press.
+**Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press (https://web.stanford.edu/~boyd/vmls/vmls.pdf).
 
 **Alan Edelman, David P. Sanders & Charles E. Leiserson**, _Introduction to Computational Thinking_, Pluto notebooks of lectures and homeworks, videos of lectures, cheatsheets and more (https://computationalthinking.mit.edu/Spring21/).
 
