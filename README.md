@@ -39,7 +39,7 @@ As I have stated above, I have been inspired by the three exceptional groups wit
 during the development stage of this course.
 
 
-Here are the resources, in no particular order, that I have used and will be using in my lecture notes: 
+Here are the resources, in no particular order, that I have used and will be using in my lecture notes (in progress): 
 
 **Prof. William Gilbert Strang**, MIT, _Linear Algebra, Lecture videos, notes and problems_, MIT OpenCourseWare with the MIT OpenCourseWare Creative Commons license (https://ocw.mit.edu/terms/).
 
@@ -51,4 +51,6 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 **Alan Edelman, David P. Sanders & Charles E. Leiserson**, _Introduction to Computational Thinking_, Pluto notebooks of lectures and homeworks, videos of lectures, cheatsheets and more (https://computationalthinking.mit.edu/Spring21/).
 
-I am hoping that the lectures would serve their purpose and 
+**Ege Aksun**, _Private Communications_, Introduction to GitHub environment and assistance during the development of the lectures.
+
+Please note that this page is intended to keep growing while I am developing the lectures, and hoping that there will be many other references and contributors along the way.
