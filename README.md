@@ -58,4 +58,4 @@ Please note that I will do my best to include the references in my lecture notes
 M. Irsadi Aksun, Prof.\
 Koç University\
 Electrical and Electronics Eng.\
-Ýstanbul, Türkiye
+Istanbul, Türkiye
