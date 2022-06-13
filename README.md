@@ -39,5 +39,17 @@ As I have stated above, I have been inspired by the three exceptional groups wit
 during the development stage of this course.
 
 
+Here are the resources, in no particular order, that I have used and will be using in my lecture notes: 
+
+**Prof. William Gilbert Strang**, MIT, _Linear Algebra, Lecture videos, notes and problems_, MIT OpenCourseWare with the MIT OpenCourseWare Creative Commons license (https://ocw.mit.edu/terms/).
+
+**W. Gilbert Strang**, _Linear Algebra for Everyone_, 2020, Wellesley-Cambridge Press, Wellesley, MA 02482.
+
+**Prof. Stephen P. Boyd**, Stanford University, _ENGR108: Introduction to Matrix Methods_, Lecture slides, videos, Julia language companion and aditional exercises (https://stanford.edu/class/engr108/index.html).
+
+**Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press.
+
+** Alan Edelman, David P. Sanders & Charles E. Leiserson**, _Introduction to Computational Thinking_, Pluto notebooks of lectures and homework, videos of lectures, cheatsheets and more (https://computationalthinking.mit.edu/Spring21/)
+
 
 I am hoping that the lectures would serve their purpose and 
