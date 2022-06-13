@@ -53,4 +53,9 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 **Ege Aksun**, _Private Communications_, Introduction to GitHub environment and assistance during the development of the lectures.
 
-Please note that this page is intended to keep growing while I am developing the lectures, and hoping that there will be many other references and contributors along the way.
+Please note that I will do my best to include the references in my lecture notes wherever they are due, but I will try to give their credits on this opening page as well. So, this page is intended to keep growing while I am developing the lectures, and hoping that there will be many other references and contributors along the way.
+
+M. Ýrþadi Aksun, Prof.
+Koç University
+Electrical and Electronics Eng.
+Ýstanbul, Türkiye
