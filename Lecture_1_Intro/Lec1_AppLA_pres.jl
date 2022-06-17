@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.5
+# v0.19.9
 
 using Markdown
 using InteractiveUtils
@@ -32,8 +32,40 @@ begin
 	using XLSX
 end
 
+# ╔═╡ fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
+html"""<button onclick="present()">present</button>"""
+
+# ╔═╡ 5d6f309b-b4cf-438b-96f7-23c9189ac6e5
+html"""<details>
+    <summary> A secret </summary>
+    <p> Pluto is fun </p>
+</details>"""
+
+# ╔═╡ dd39a31a-caea-4119-b88e-aad547cdd310
+html"""<button onclick="myFunction()">Click me</button>"""
+
+# ╔═╡ b8171bbb-d3f4-4236-9d77-3ccffd6d4613
+md"""# Applied Linear Algebra for Everyone
+``M. \;İrşadi \;Aksun, \;\;September \;xx, \;2022`` 
+
+``Electrical \;and \;Electronics \;Engineering``
+
+`` {\bf e-mail}: iaksun@ku.edu.tr``
+
+``{\bf Tel}:\;1539``
+
+``Course \;webpage:xxxxxx``
+
+#### Reference Books:
+* Stephen P. Boyd and ... _Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares_
+
+
+* W. Gilbert Strang, _Linear Algebra for Everyone_
+
+"""
+
 # ╔═╡ a272d501-5f4f-4f65-9f0d-8e7397935646
-PlutoUI.TableOfContents(aside=true)
+#PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
 md"""
@@ -41,9 +73,6 @@ md"""
 
 _When running this notebook for the first time, this could take a little longer, a few minutes. Hang in there!_
 """
-
-# ╔═╡ fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
-html"<button onclick='present()'>present</button>"
 
 # ╔═╡ 48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
 md"# _Disclaimer – On-Line Teaching_
@@ -62,35 +91,66 @@ md"# _Disclaimer – On-Line Teaching_
 ---
 "
 
-# ╔═╡ b129ba7c-953a-11ea-3379-17adae34924c
-md"""# Lecture - 1: _Welcome to Applied Linear Algebra Course!_
-``M. \;İrşadi \;Aksun, \;\;September \;xx, \;2022`` 
+# ╔═╡ e4e67907-bab7-4775-bc4d-1072de1faad0
+md"# Motivation
 
-``Electrical \;and \;Electronics \;Engineering``
-
-`` {\bf e-mail}: iaksun@ku.edu.tr``
-
-``{\bf Tel}:\;1539``
+* **Linear Algebra** has been a topic for math-savvy students and taught only in Science and Engineering programs since its foundation in 1600's.
 
 
-## _Introduction_
-
-* ``\large \bf Review \;some \;of \;the \;Linear \;Algebra \;topics`` that gained wide-spread use in **_Data Science_** and **_Machine Learning_** applications.
+* However, **in today's world, data is everywhere** and methods from Linear Algebra help decipher the underlying story of data in every field. 
 
 
-* ``\large \bf Provide \;computational \;thinking`` for these topics with real life examples.
+* **Social sciences, administrative sciences, medicine, law, in addition to engineering and sciences, have all been inundated with data and data-centric approaches**.
 
 
-* `` \large \bf Main \;goal`` is to give the students a **_good understanding of the basic ideas_**, as well as an **_appreciation for how they are used in many applications_**, including
+* Therefore, **it is only natural that the processed data by the methods of linear algebra would make sense to the people trained in the specific field** of the data much better.
+
+
+* Consequently, those who are trained in any field, that is **everyone, need to understand the tools**, as well as their working principles, in order to work on and make sense out of the pre-processed and processed data. Hence
+
+#### Applied Linear Algebra for Everyone 
+---
+"
+
+# ╔═╡ 5f6a7a63-dbda-45c1-8505-84e2861f9c60
+md"# Goal and Requirements
+
+**The main goal of this course** is to help students, professionals and researchers in any field to be literate in data manipulations using the tools from Linear Algebra. 
+
+Hence, the students would **gain a good understanding of the basic ideas**, as well as an **_appreciation for how they are used in many applications_**, including
   
-  - ``\large \it data \;fitting``,
-  - ``\large \it classification``,
-  - ``\large \it clustering``,
-  - ``\large \it Markov \;model``,
-  - ``\large \it Principle \;Component \;Analysis (PCA)``,
-  - ``\large \it machine \;learning``,
-  - ``\large \it image \;processing``,
-  - ``\large \it Fourier \;Transform.``
+  - data fitting,
+  - classification,
+  - clustering,
+  - Markov model,
+  - Principle Component Analysis (PCA),
+  - machine learning (neural net and gradient descent),
+  - image processing,
+  - Linear programming,
+  - ...
+
+---
+"
+
+# ╔═╡ 112c4c4f-7990-4336-ad37-5fa6b0874024
+md"""#
+
+**Applied Linear Algebra for Everyone** has been prepared (still ongoing) with the following **mindset and expectations**:. 
+
+
+* it **uses the Julia programming language on the Pluto notebook** as the teaching and application environment; 
+
+
+* it **does not require any prerequisite** to follow and learn the materials, just enough motivation and perseverance would suffice; 
+
+
+* the lecture notebooks on Pluto will **include single line codes (occasionally a few lines would be needed)**, markdown texts and necessary equations (not many); 
+
+
+* it mainly **emphasizes the concepts and intuitions with many examples and applications** rather than math foundations of the methods;
+
+
+* **for curious and math oriented people, and for some who are willing to invest a little more**, there will be brief intros and a few handworked examples of some methods that are considered to be important and fundamental for the understanding and building intuitions of the concepts.
 
 !!! note
 
@@ -104,9 +164,93 @@ md"""# Lecture - 1: _Welcome to Applied Linear Algebra Course!_
 ---
 """
 
+# ╔═╡ d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
+md"# Inspiration
+
+A few pioneers have been teaching similar courses (mostly available online) and written excellent books on the fundamentals, applications and importance of Linear Algebra.
+
+Here I would like to name a few who have inspired me to embark on this project:
+
+* First and foremost, **_Prof. William Gilbert Strang_** from MIT,
+  - inspiring lectures on Linear Algebra, talks on the importance of Linear Algebra for everyone, all available on YouTube;  
+  - book titled `Linear Algebra for Everyone`, and 
+  - assessment of linear algebra to be simpler and more accessible than Calculus. 
+
+
+*  **_Prof. Stephen P. Boyd_** from Stanford University, 
+  - lectures on _Introduction to Applied Linear Algebra_ on youtube;  
+  - the [course materials on the webpage] (https://stanford.edu/class/engr108); 
+  - textbook [`Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares`] (https://web.stanford.edu/~boyd/vmls/) available online, 
+  - [`Julia Language Companion`] (https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf) and lecture slides. 
+
+
+*  **_Profs. Alan Edelman, David P. Sanders & Charles E. Leiserson_** from MIT, 
+  - lectures on _Introduction to Computational Thinking_, delivered online on the Pluto notebook, 
+  - videos of lectures, homeworks, cheatsheets, all are available on the [webpage of the course] (https://computationalthinking.mit.edu/Spring21/).
+
+---
+"
+
+# ╔═╡ 534234e3-e8a3-4d8d-a905-9dc6c59baf8d
+md"# Content of the course
+
+> #### Lecture 1: Vectors 
+
+> #### Lecture 2: Matrices
+
+> #### Lecture 3: Clusstering
+
+> #### Lecture 4: Least Squares
+>> ##### Lecture 4.1: Linear Regression
+>> ##### Lecture 4.2: Polynomial and piecewise fit
+>> ##### Lecture 4.3: Classification
+
+> #### Lecture 5: Eigenvalues and Eigenvectors
+
+> #### Lecture 6: Factorization
+>> ##### Lecture 6.1: LU, QR and QΛQ^T
+>> ##### Lecture 6.2: Singular Value Decomposition (SVD)
+
+> #### Lecture 7: Principal Component Analysis (PCA)
+
+> #### Lecture 8: Neural Nets: Biological to Artificial
+
+> #### Lecture 9: Gradient descent and its variants (??)
+
+> #### Lecture 10: Linear programming (??)
+---
+"
+
+# ╔═╡ 01797703-30fb-42e7-893a-faa5883fea10
+md"# Lecture - 1: Vectors
+
+### Content 
+
+> ##### 1.1. Installing Julia and Pluto
+
+> ##### 1.2. Brief Review of vectors
+>> ##### 1.2.1. Vectors in physics (2D and 3D)
+>> ##### 1.2.2. Vectors in general
+>>> #####  Brief digression: Dataframes
+>> ##### 1.2.3. Simple vector operations
+>>> ##### Add, subtract and multiply
+>> ##### 1.2.4. A few definitions
+>>> ##### Length and distance
+>>> ##### Norm
+
+>> ##### 1.3. Relevant applications
+>>> ##### 1.3.1. Sum, Mean, RMS value
+>>> ##### 1.3.2. De-meaned vector, Standart deviation
+>>> ##### 1.3.3. Standardization
+>>> ##### 1.3.4. Correlation coefficient
+>>> ##### 1.3.5. Projection
+
+---
+"
 
 # ╔═╡ 5af9b4df-93ac-468b-a23d-a47121cade0a
-md"## _Julia Programing Language_
+md"# 1.1. Julia & Pluto
+
 
 * Throughout the course, we are going to use **_Julia_** programing language on **_Pluto_** notebook.
 
@@ -114,9 +258,20 @@ md"## _Julia Programing Language_
 * In the first lecture, I will go through the installation of Julia programing language and Pluto notebook environment, together with the basics of using Pluto notebook.
 
 
-* **_Julia_**, Launched in 2012, combines the interactivity and syntax of _scripting_ languages, such as ``Python``, ``Matlab`` and ``R``, with the speed of _compiled_ languages such as ``Fortran`` and ``C``.
+### Why Julia?
 
-#### Benchmark
+* **_Julia_** was launched as an open-source programing language in 2012 by a group at MIT. 
+
+
+* From the start, the **_Julia_** programming language was built for scientific and numerical computation with the speed comparable to ``C`` and ``Fortran`` and with the ease of learning comparable to ``Python``, ``Matlab``, ``R`` and other scripting languages. 
+
+
+* Its math-friendly syntax makes it easy for users of ``Matlab``, ``Mathematica``, ``Octave`` and ``R`` to adapt.
+
+
+* It started and is still being developed as a tool for efficient and fast computations required in data science problems and in implementations of machine learning algorithms, as well as in all sorts of numerical computations arisen in different fields.
+
+### Benchmark Julia
 "
 
 # ╔═╡ f002d8e5-821a-485c-8a13-0c198935c955
@@ -146,7 +301,7 @@ md"""
 """
 
 # ╔═╡ b956d523-8f52-4b9b-8885-6c77b9e64c7a
-md"## _Pluto Notebook_
+md"""## 1.1.1. Pluto Notebook
 
 * **_Pluto_** is a programming environment for **_Julia_**, designed to be _interactive_ and _helpful_; somewhat similar to **_Jupyter_** notebook.
  
@@ -155,10 +310,14 @@ md"## _Pluto Notebook_
 
 	**_Pluto_** notebook is an interctive environment and **changes while working on it**.
 
-"
+!!! note \"Notebook vs IDE\"
+	* **Notebooks** are files which supports the use of computer codes and text elements and images.
+	* **Integrated Development Environments** (IDE) are software for building applications with the different tools for writing a program such as source code editor and code debugger.
+
+"""
 
 # ╔═╡ f48a0e46-ef4d-4b40-9702-4155ba681df2
-md"##### Set up Pluto environment
+md"### Set up Pluto environment
 
 * **_Pluto_** is a package that runs on Julia:
 
@@ -179,7 +338,7 @@ to start Pluto Environment, as shown below.
 
 # ╔═╡ 8fab1792-a13c-470a-83eb-f8d67887e32e
 md"#
-### Pluto environment - 1
+### User Interface
 Note that the **Pluto Notebook** will open in your default browser as shown below:"
 
 # ╔═╡ 755b31d0-c2fb-4687-84c8-bc6cdf2cd34b
@@ -193,7 +352,7 @@ pluto_browser[pluto_rows,:]
 
 # ╔═╡ dfe8d392-e180-459f-9633-316dfe99ea93
 md"#
-### Pluto environment - 2
+
 You may wish to open
 * a **_sample notebook_** to study and learn notebook environment, or
 * a **_new notebook_** to start writing your code, or
@@ -209,43 +368,33 @@ pluto_browser[pluto_rows,:]
 
 # ╔═╡ 1e9b21e4-078e-4d3d-8dc2-908181f81267
 md"#
-### Pluto environment - 3
+### Interactivity
 Since Julia is a scripting language where one can type an operation and see the result, I will give a few simple arithmetic operations below and introduce what we mean by _interactive_ environment:
 
-"
-
-# ╔═╡ 3eb20ee8-3788-411c-bd97-78f898394dd1
-md"
 !!! note 
 
 	* Results appear above the cell in Pluto environment, different from other notebooks like **_Juypiter Notebook_**. 
 	
 	* You can hide the code cell by clicking the ``eye`` sign on the left of the cell, which allows user to present a ``clean`` page with results only.
-   
-"
-
-# ╔═╡ 49d5cc44-655d-4fbd-95ca-909834a046a6
-md"#### Interactivity
 
 !!! important 
 
 	When you change a value in one cell, **_Pluto_** checks all the cells, find dependencies between cells and implement those cells to update the values. 
 
-"  
+"
 
 # ╔═╡ 4d970613-94f3-4918-964d-d62df499763a
-md"# 
-### Interactivity
+md"
 ``Example-1:``
 * Assign values for ``a`` and ``b``, and calculate ``c=a/b``,
 * then, change ``a`` or ``b`` as you wish and observe.
 "
 
 # ╔═╡ 7e054d5e-badd-48e4-b9e2-5ed0aa85de26
-a = 22;
+a = rand((1:5),1)
 
 # ╔═╡ b40e4488-9409-4a35-b979-f437a54a8276
-b = 3;
+b = rand((1:5),1)
 
 # ╔═╡ c912c3cf-cd26-4a1a-9189-3d762da321a7
 c = a/b
@@ -287,7 +436,7 @@ md"#
 "
 
 # ╔═╡ c4dec3a3-6d20-4c09-85a8-f753cd3dc094
-md"# Brief Review of Vectors
+md"# 1.2. Brief Review of Vectors
 
 "
 
@@ -301,46 +450,56 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/fNk_zzaMoSs" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ 95c70bf2-5da3-44a7-bae5-1dcb9fe4ee61
-md"#  Brief Review of Vectors
-
-* ``\Large Vectors \;in \;Physics``
-
-
-* ``\Large Vectors \;in \;General``
-
-
-* ``\Large Simple \;Vector \;Operations``
-  
-  + ``Addition``
-
-  + ``Scalar \;Multiplication``
-
-  + ``Vector \;Multiplication``
-
-    + ``Dot \;Product``
-
-    + ``Cross \;Product``
-
-
-* ``\Large A \;few \;Applications``
-
-"
-
 # ╔═╡ 93134e1f-4cec-4f05-8f18-6428a26afaf8
-md"
+md"""
 
-## Vectors in Physics
-* **Vectors** in freshmen physics: _Velocity_ (`` \bf v``), _Accelaration_ (`` \bf a``), _Force_ (`` \bf F``), etc..
+## 1.2.1. Why do we need vectors?
+
+
+It is all about **defining a quantity uniquely** so that we can understand, comprehend and use them in our daily lives. Here are a few examples:
+
+* certain objects need **real numbers**, like 
+  - a person's weight and height, I am 75kg and 1.8m tall
+  - when shopping, you need to quantify the food like 1.5 kg of cheese, 2 kg of orange etc.
+  - when driving, the speed of a car may be about 65 km/h or 100 km/h
+  - your age may be defined as 21 or 21.5 years old
+  - ...
+
+
+* Some others may be defined using only **integer numbers** like
+  - number of courses you take may be 5 or 6 
+  - a student's rank in the class, 1st, 10th, ..
+  - number of books you carry daily on average
+  - ...
+
+
+* Some others may be defined using **Boolean data type** like 
+  - rain, snow and other weather conditions usually defined by "YES" or "NO", 
+  - pass or fail is like '1:Pass' or '0:Fail'
+  - having a hearth deases is '1:YES' or '0:NO'
+  - ...
+
+
+* Meanwhile, some others like displacement, velocity, force may **need more than one number** for their unique definitions, like
+  - for a velocity of a car, we need its speed as well as its direction
+  - your location on the campus, we need more than a distance from the student center
+  - if you are pushing an object with a force, we need not only its magnitude but also its direction 
+  - price of a house is defined by many parameters, like square meter, number of rooms and bathrooms, location, etc..
+
+
+!!! note
+	When we need more than one number to define a quantity, we usually use vector (also called as array) notation.
+
+**Vectors in freshmen physics:** _Velocity_ (`` \bf v``), _Accelaration_ (`` \bf a``), _Force_ (`` \bf F``), etc..
 For example:
 ```math
-{\bf v} = 3 {\it i} + 4 {\it j} \;\; meter/sec {\rm \;\; in\;2D\;space,\;or}
+{\bf v} = 3 {\it i} + 4 {\it j} = (3,4) \;\; meter/sec {\rm \;\; in\;2D\;space,\;or}
 ``` 
 ```math
-{\bf F} = 10 {\it i} + 20 {\it j} + 30 {\it k} \;\; N {\rm \;\; in\;3D\;space.}
+{\bf F} = 10 {\it i} + 20 {\it j} + 30 {\it k} = (10, 20, 30) \;\; Newton {\rm \;\; in\;3D\;space.}
 ``` 
 where $i$, $j$ and $k$ are the unit vectors in $x$, $y$ and $z$ directions, respectively.
-"
+"""
 
 # ╔═╡ d8a2533f-e241-4d1d-a939-8006b555daef
 md" 
@@ -358,8 +517,9 @@ md"
 
 # ╔═╡ 93625590-1e00-42f9-9ff0-a17d1eb2a286
 md"#
-### Vectors in Physics (2D)
-`` \large Let \;us \;draw \;2-vectors \;on \;the \;cartasian \;coordinate``
+### Examples
+
+##### Let us draw 2-vectors on the cartasian coordinate
 
 ``v_1 = [v_{11},v_{12}] \rm {\color{blue} \;is \;the \;blue \;vector}, \;and``
 ``v_2 = [v_{21},v_{22}] \rm {\color{red} \;is \;the \;red \;vector}:``
@@ -368,7 +528,8 @@ md"#
 # ╔═╡ ff2f7d91-2c71-4cf4-a8dc-75f18650088b
 begin
 	v1 = rand((-2:0.2:2),2) # A vector in R^2 
-	v2 = rand((-2:0.2:2),2) # Another vector in R^2       
+	v2 = rand((-2:0.2:2),2) # Another vector in R^2  
+	md" $\bf v_1=$", v1, md" $\bf v_2=$", v2
 end
 
 # ╔═╡ f6eef184-ae45-492e-8896-ae5e755a2b9e
@@ -390,17 +551,18 @@ end
 
 # ╔═╡ 025a7287-b093-48a4-980c-f5174fc00f30
 md"#
-### Vectors in Physics (3D)
-`` \large Let \;us \;draw \;3-vectors \;on \;the \;cartasian \;coordinate``
 
-``v_3 = [v_{31},v_{32},v_{33}] \rm {\color{blue} \;is \;the \;blue \;vector}, \;and``
-``v_4 = [v_{41},v_{42},v_{43}] \rm {\color{red} \;is \;the \;red \;vector}:``
+##### Let us draw 3-vectors on the cartasian coordinate
+
+``{\color{blue} {\bf v_3} = [v_{31},v_{32},v_{33}] \rm \;is \;the \;blue \;vector}, \;and\;``
+``{\color{red} {\bf v_4}= [v_{41},v_{42},v_{43}] \rm \;is \;the \;red \;vector}:``
 " 
 
 # ╔═╡ 4f0f0340-8cc2-4820-99a0-94b7e00b50ec
 begin
-	v3 = rand((-2:02:2),3) #[-1, -1, 1] #randn(3) # A vector in R^3  
-	v4 = rand((-2:02:2),3) #[-1, 1, -1] #randn(3) # A vector in R^3  
+	v3 = rand((-2:0.2:2),3) #[-1, -1, 1] #randn(3) # A vector in R^3  
+	v4 = rand((-2:0.2:2),3) #[-1, 1, -1] #randn(3) # A vector in R^3 
+	md" $\color{blue} \bf v_3=$", v3, md" $\color{red} \bf v_4=$", v4
 end
 
 # ╔═╡ c9d0d206-08d7-40a9-a520-eae2c24bc477
@@ -428,31 +590,26 @@ md"
 "
 
 # ╔═╡ 4154d786-0a91-4c05-a159-5afc2b820fec
-md" 
-## Vectors in general
+md""" 
+## 1.2.2. Vectors in general
 * Quantities in physics are represented by ``3`` numbers, at most, to define them uniquely.
 
 
 * Quantities in general problems can be defined uniquely by more than ``3`` numbers.
 
-  + In most Linear Algebra applications, especially in ML applications, one encounters quantities that have 1000's of defining components.
+  + In most Linear Algebra applications, especially in Data Science applications, one encounters quantities that have 1000's of defining components.
   + Usually represented by ``n`` dimensional vectors (referred to as _arrays_) where ``n`` is the number of independent components to uniquely identify the quantity. 
 
-$\bf Quantities \;with \;n \;independent \;components?$
+#### Quantities with n independent components?
 
-"
-
-# ╔═╡ 14526aab-55a7-431a-9f3b-47dafb520f16
-md"#
-### Vectors in general (cont'd)
-For a real-estate agency, **House Market** in a given city is important and each house in the market needs to be identified uniquely. 
-
-$\bf HOW?$
-"
+"""
 
 # ╔═╡ d7ef1697-b832-4038-9d9f-512a74094fca
-md"
-`House` is a quantity to be defined by many independent components (referred to as properties' atributes or features) like, 
+md"#
+
+#### Example:
+
+`House` is a quantity to be defined by many independent components (referred to as properties, atributes or features) like, 
 * `location`, 
 * `sq meter`,
 * `price`,
@@ -471,7 +628,7 @@ Therefore, each house can be defined by many attributes that constitute the comp
 
 # ╔═╡ 4f30b1ac-195a-45dd-9cc8-aad4cbea0904
 md"# 
-### A brief digression: Tables via DataFrame package
+### A brief digression: DataFrame package
 
 The following data set is taken from the website
 [kaggle.com] (https://www.kaggle.com/shivachandel/kc-house-data), which contains house sale prices for King County in USA, including Seattle.
@@ -565,14 +722,14 @@ size(df_house)
 md" 
 
 !!! conclusion
-	Each row of the table corresponds to a specific house and every one of them has 21 entries, as the vectors in 21 Dimensional space. 
+	Each row of the table corresponds to a specific house and every one of them has 19 entries, as the vectors in 19 Dimensional space. 
 
-$\bf End \;of \;Digression$
+#### End of Digression
 "
 
 # ╔═╡ 2cb76c55-488d-4b81-9ae3-dbec88f12deb
 md"
-## Simple vector operations
+## 1.2.3. Simple vector operations
 
 ### Creating and adding two random vectors
 
@@ -618,12 +775,18 @@ md"#
  $\color{green} {\bf u_1 + u_2} =(x_1+x_2, y_1+y_2)$ $\color{green} is \;the \;green \;vector$, .
 "
 
+# ╔═╡ 20be3bc6-16ec-4709-a8d8-7b22d8b95379
+x1=rand(-3:1:3); y1=rand(-3:1:3); x2=rand(-3:1:3); y2=rand(-3:1:3);
+
+# ╔═╡ 2647fcc9-9d4f-43a6-9712-210bcbf9be3f
+md""" 
+ 	``{\bf u_1}`` =( $x1 , $y1 )  ``\qquad {\bf u_2}`` =( $x2 , $y2 ) 
+  ``\;\; \Rightarrow \;\; {\bf u_1} + {\bf u_2}`` = ( $(x1 + x2) , $(y1 + y2)  )
+
+"""
+
 # ╔═╡ 3cd4208b-4b1c-4d7c-afdb-e6d2addda3cb
 begin
-	x1=rand(-3:1:3); 
-	y1=rand(-3:1:3);
-	x2=rand(-3:1:3);
-	y2=rand(-3:1:3);
 
 	x_vals = [0 0 x1 x2 0 ; x1 x2 (x1+x2) (x1+x2) (x1+x2)]
 	y_vals = [0 0 y1 y2 0 ; y1 y2 (y1+y2) (y1+y2) (y1+y2)]
@@ -638,33 +801,24 @@ begin
      framestyle = :zerolines) #try framestyle = :origin
 end
 
-# ╔═╡ 2647fcc9-9d4f-43a6-9712-210bcbf9be3f
-md" 
- 	${\bf u_1}$ =( $x1 , $y1 ),  
-  
- 	${\bf u_2}$ =( $x2 , $y2 ), 
-  
- 	${\bf u_1} + {\bf u_2}$ = ( $(x1 + x2) , $(y1 + y2)  )
-
-"
-
 # ╔═╡ cded91d4-baf0-46c2-a341-872202a8472c
 md" 
 **Vector substraction** is nothing but scalar multiplication of a vector and adding to another. For example, let us say we would like to subtract ${\bf u_3}=(x_3,y_3)$ from ${\bf u_4}=(x_4,y_4)$, then
 
 ${\bf u_3} + (-1) {\bf u_4}=(x_3,y_3) + (-1) (x_4,y_4) = (x_3-x_4,y_3-y_4)$
 
+---
 "
 
 # ╔═╡ b15ae47f-1905-47af-9831-7c4c9dfcd147
-md"
-#### Examples:
+md"#
+### Examples
 
 * **Displacements:** When vectors $\bf a$ and $\bf b$ represent displacements, the sum $\bf a + b$ is the net displacement found by first displacing by $\bf a$, then displacing by $\bf b$.
 
 
 * **Displacements between two points:** If the vectors $\bf p$ and $\bf q$ represent the positions of two points in 2-D or 3-D space, then $\bf p − q$ is the displacement vector from $\bf q$ to $\bf p$. 
----
+
 "
 
 # ╔═╡ 445f969a-2d87-42c3-893a-8c5db4f37c48
@@ -831,7 +985,7 @@ A few applications may include the following: it may be used
 
 # ╔═╡ 0e03a31f-b062-4fa0-aacb-4d9b4ece185d
 md" 
-## A few tools and applications
+## 1.2.4. A few definitions 
 ### Length of a vector
 ###### What is the length (magnitude) of a vector?
 
@@ -877,7 +1031,7 @@ size(vv) # gives the dimension as the number of rows and columns
 md"""# 
 ### Norm and Distance
 
-**`Norm` of a vector is simply a measure of its magnitude**
+##### Norm of a vector is simply a measure of its magnitude
 
 
 * There are many different definitions of `Norm` for vectors and matrices and it is denoted by $\| \cdot \|$.
@@ -923,21 +1077,111 @@ $\|x - z_j\| \le \|x - z_i\|\qquad for \; i=1,\dots,m$
 """
 
 # ╔═╡ 35a01f9e-06e3-45a4-ab08-f16102b7819b
+md"""# 1.3. Relevant applications
+
+### Sum and Average of an array
+
+Dot product can also be used to sum up the entries of an array
+ 
+"""
+
+# ╔═╡ b5cc6660-e52d-45fc-90de-c8a4b3c2d9ee
+vv_1 = rand(0:5,5)
+
+# ╔═╡ 0f05f2ee-fe1a-4d85-abec-6a3531182fb9
+ww_1 = ones(5)
+
+# ╔═╡ 79f4d5b8-7ac9-44fd-95ff-7dbdbc20942b
+dot(vv_1, ww_1)
+
+# ╔═╡ cd686799-ef18-43a1-946f-f79a3eb1327c
+md"So, let us remember the table we have worked in the context of `DataFrames`, and find the average price of an house sold in that neighborhood and in that time frame: We need to 
+1. **find the names of the columns** in the table: `names(df_house)`
+2. **find the number of rows** of the table: `size(df_house)[1]`
+3. **form an array** that is composed of `1`s only, with the size of the number of rows: `ones(size(df_house)[1])`
+4. **sum up the entries of the column** for _price_: `dot(ones(size(df_house)[1]), df_house.price)`
+5. **divide it by the number of entries** in the array: /`size(df_house)[1]` 
+"
+
+# ╔═╡ e1daa7b0-1f65-4263-a5b5-f9f7f79375d2
+names(df_house) # 1.
+
+# ╔═╡ e89ae5fd-f4ec-488c-95d6-6593676ee163
+size(df_house)[1] # 2.
+
+# ╔═╡ 20b49e47-5a79-4d72-aaf9-b79b423bde02
+ones(size(df_house)[1]) # 3.
+
+# ╔═╡ ddac83ca-c67b-4a07-9990-e8d165630998
+dot(ones(size(df_house)[1]), df_house.price) # 4.
+
+# ╔═╡ 9152e5a8-3818-4cd6-ad6a-b741f843a24d
+sum(df_house.price)
+
+# ╔═╡ af21ae80-d242-46aa-ab9f-0ed21f7b1284
+dot(ones(size(df_house)[1]), df_house.price)/size(df_house)[1] # 5.
+
+# ╔═╡ da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
 md"""# 
-### De-meaned vector and Standard Deviation
+### Root-Mean-Square Value (rms)
+
+${\bf{\text rms}(x)} = \sqrt{\frac{x_1^2 + \dots + x_n^2}{n}} = \frac{\|{\bf x}\|}{\sqrt{n}}$
+
+* The RMS value of a vector $\bf x$ is useful when comparing norms of vectors with different dimensions.
+
+
+* **RMS prediction error:** Suppose that the n-vector $\bf y$ represents a time series of some quantity, for example, hourly temperature at some location, and $\hat{\bf y}$ is another n-vector that represents an estimate or prediction of the same time series, based on other information. The difference $\bf y - \hat{\bf y}$ is called the prediction error, and its RMS value ${\bf{\text rms}(\bf y - \hat{\bf y})}$ is called the RMS prediction error. If this value is small (say, compared to ${\bf{\text rms}(y)}$) the prediction is good.
+"""
+
+# ╔═╡ a445b2f7-1468-4916-b062-80585b441abb
+norm(ones(16)) # norm of n-vector 1 = 1/sqrt(n) 
+
+# ╔═╡ e361943a-7ac7-43cb-8dd3-269130c01419
+norm(ones(16))/sqrt(16) # RMS value is 1; a typical value of the vector
+
+# ╔═╡ 8a8d9a85-aabb-4fbf-916c-7f7723f462d7
+md"""#
+### Demeaning a vector
 
 * For any vector $\bf x$, the vector $\tilde{\bf x} = {\bf x} − avg(\bf x)1$ is called the associated **de-meaned vector**, obtained by subtracting from each entry of $\bf x$ the mean value of the entries.
 
   The de-meaned vector is useful for understanding how the entries of a vector deviate from their mean value.
 
+"""
 
-* The **standard deviation** of an n-vector $\bf x$ is defined as the RMS value of the de-meaned vector ${\bf x} − avg(\bf x)1$, as given below.
+# ╔═╡ 92a37af5-b98d-477c-b824-7a642d56a386
+p_mean = let
+	μ_liv = ones(size(df_house)[1]) * sum(df_house.sqft_living)/size(df_house)[1]
+	μ_pr = ones(size(df_house)[1]) .* sum(df_house.price)/size(df_house)[1]
+	scatter(df_house.sqft_living, df_house.price)
+	plot!(df_house.sqft_living, μ_pr, color = :red)
+	plot!(μ_liv, df_house.price, color = :red)
+end
+
+# ╔═╡ 53ab6b9d-9835-4ab0-8711-c43fe76c9ac0
+dmean_living = df_house.sqft_living .- sum(df_house.sqft_living)/size(df_house)[1]
+
+# ╔═╡ 6b4f6269-b400-430f-921e-9d62a5bfd557
+dmean_price = df_house.price .- sum(df_house.price)/size(df_house)[1]
+
+# ╔═╡ 8052ad94-2fcd-4184-aa82-9715d5f16d7b
+scatter(dmean_living, dmean_price)
+
+# ╔═╡ 8cad4f8e-fcf7-4a4e-ad01-6762174204e3
+md"""#
+
+### Standart deviation
+
+##### The standard deviation is a measure of how spread out numbers are.
+\
+
+The **standard deviation** of an n-vector $\bf x$ is defined as the RMS value of the de-meaned vector ${\bf x} − avg(\bf x)1$, as given below.
 
   The standard deviation of a vector $\bf x$ tells us the typical amount by which its entries deviate from their average value.
   
 $std({\bf x}) = \sqrt{\frac{(x_1 -avg({\bf x}))^2 + \dots + (x_n -avg({\bf x}))^2}{n}}$
 
-$std({\bf x}) = \frac{\|{\bf x} - ({\bf 1}^T {\bf x} \| / n){\bf 1}}{\sqrt{n}}$
+$std({\bf x}) = \frac{\|{\bf x} - ({\bf 1}^T {\bf x}/n) {\bf 1}\|}{\sqrt{n}}$
 
 
 * Another slightly different definition of the standard deviation of a vector is widely used, in which the denominator $\sqrt{n}$ is replaced with $\sqrt{n − 1}$ (for n ≥ 2).
@@ -950,7 +1194,7 @@ $\mu = {\bf 1}^T {\bf x}/n, \qquad \sigma = \|{\bf x}- \mu {\bf 1} \| / \sqrt{n}
 $std({\bf x}+a {\bf 1}) = std(\bf x)$
 
 * **Multiplying a vector by a scalar multiplies the standard deviation by the absolute value of the scalar**:
-$std(a{\bf x}) = |a| std({\bf x})$. 
+$std(a{\bf x}) = |a| std({\bf x})$.
 """
 
 # ╔═╡ 8fc7ad49-27dc-4aad-9237-976e1e9cf37e
@@ -1089,18 +1333,6 @@ end
 # ╔═╡ 585b27eb-1c5a-4f57-a14b-c2b8ac99d3b5
 ρ1,ρ2,ρ3
 
-# ╔═╡ da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
-md"""# 
-### Root-Mean-Square Value (rms)
-
-${\bf{\text rms}(x)} = \sqrt{\frac{x_1^2 + \dots + x_n^2}{n}} = \frac{\|{\bf x}\|}{\sqrt{n}}$
-
-* The RMS value of a vector $\bf x$ is useful when comparing norms of vectors with different dimensions.
-
-
-* **RMS prediction error:** Suppose that the n-vector $\bf y$ represents a time series of some quantity, for example, hourly temperature at some location, and $\hat{\bf y}$ is another n-vector that represents an estimate or prediction of the same time series, based on other information. The difference $\bf y - \hat{\bf y}$ is called the prediction error, and its RMS value ${\bf{\text rms}(\bf y - \hat{\bf y})}$ is called the RMS prediction error. If this value is small (say, compared to ${\bf{\text rms}(y)}$) the prediction is good.
-"""
-
 # ╔═╡ c3d684f7-8978-4cc6-b65d-59e6da94cef3
 md"""# 
 ### Projection
@@ -1120,14 +1352,14 @@ Assuming that the magnitude of $\bf w$ is unity ($\|{\bf w}\|=1$), then from the
 Hence, the projection of $\bf v$ onto $\bf w$ is represented as
 
 ```math
-	Proj_{\bf w} \bf v = (\bf v \cdot \bf w) \bf v
+	Proj_{\bf w} \bf v = (\bf v \cdot \bf w) \bf w
 ```
 """
 
 # ╔═╡ f05fda42-ae5d-404a-8e71-25f6f338362a
 begin
-	vv1 = rand(-3:1:3,2) # Vector v
-	ww1 = rand(-3:1:3,2) # Vector w
+	vv1 = rand(-3:0.5:3,2) # Vector v
+	ww1 = rand(-3:0.5:3,2) # Vector w
 	mag_ww1=norm(ww1) # magnitude of w
 	ww1_n = ww1/mag_ww1 # unit vector w
 	proj_wv = dot(vv1,ww1_n)*ww1_n # Projection of v on unit vector w
@@ -1149,49 +1381,7 @@ begin
 	plot!([-3*ww1[1], 3*ww1[1]],[-3*ww1[2], 3*ww1[2]], color=:red,linestyle=:dash)
 	plot!([vv1[1] 0; proj_wv[1] proj_wv[1]], [vv1[2] 0; proj_wv[2] proj_wv[2]], arrow = true, color=:blue, linestyle=[:dash :dash],
 	annotations = [(proj_wv[1]-0.2, proj_wv[2]-0.2, Plots.text(L"^{proj_w \mathbf{v}}", color="blue")), ((vv1[1]+proj_wv[1])/2-0.5, (vv1[2]+proj_wv[2])/2, Plots.text(L"^{||\mathbf{v \times w}||}", color="blue"))])
-	
 end
-
-# ╔═╡ 722f8d31-5bdd-499c-a0c4-e25f6393a648
-md"# 
-### Sum and Average of an array
-
-Dot product can also be used to sum up the entries of an array
-
-"
-
-# ╔═╡ 4873aa9c-02f0-4744-a23b-d72fa009e690
-vv_1 = rand(0:5,5)
-
-# ╔═╡ c91d6347-07d9-4487-a098-b68ec2c83f97
-ww_1 = ones(5)
-
-# ╔═╡ 8da5c259-d674-4981-9958-586099c337fd
-dot(vv_1, ww_1)
-
-# ╔═╡ 7d0966b6-ba54-485f-9378-43683ec69e6e
-md"So, let us remember the table we have worked in the context of `DataFrames`, and find the average price of an house sold in that neighborhood and in that time frame: We need to 
-1. find the names of the columns in the table: `names(df_house)`
-2. find the number of rows of the table: `size(df_house)[1]`
-3. form an array that is composed of `1`s only, with the size of the number of rows: `ones(size(df_house)[1])`
-4. sum up the entries of the column for _price_: `dot(ones(size(df_house)[1]), df_house.price)`
-5. divide it by the number of entries in the array: /`size(df_house)[1]` 
-"
-
-# ╔═╡ 52bbe6f0-52de-4cad-a244-2d96d18930ea
-names(df_house) # 1.
-
-# ╔═╡ 50ba04e3-567a-4be2-af9f-14193e50a3be
-size(df_house)[1] # 2.
-
-# ╔═╡ 92da8c10-2efa-4c15-8ff1-9b3dc19c4632
-ones(size(df_house)[1]) # 3.
-
-# ╔═╡ fbfa7bb3-cb46-4088-af38-f848ace0f434
-dot(ones(size(df_house)[1]), df_house.price) # 4.
-
-# ╔═╡ 6fa28551-8cb4-45b2-8e9a-1e5c147013a0
-dot(ones(size(df_house)[1]), df_house.price)/size(df_house)[1] # 5.
 
 # ╔═╡ b750f433-babe-40ec-9587-7650c56870d3
 md"
@@ -1202,6 +1392,12 @@ md"
 * Pluto - One year later (Youtube) [Pluto](https://www.youtube.com/watch?v=HiI4jgDyDhY)
 * Stephen Boyd, Lieven Vandenberghe, [Introduction to Applied Linear Algebra: Vectors, Matrices, and Least Squares] (https://web.stanford.edu/~boyd/vmls/vmls.pdf), Cambridge University Press, 2018.
 "
+
+# ╔═╡ 15bbc002-e797-404d-961b-494e20fef2df
+md"""
+<center><b><p
+style="color:black;font-size:40px;">END</p></b></center>
+"""|>HTML
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1283,9 +1479,9 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.CEnum]]
-git-tree-sha1 = "215a9aa4a1f23fbd05b92769fdd62559488d70e9"
+git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
 uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
-version = "0.4.1"
+version = "0.4.2"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -1301,33 +1497,33 @@ version = "0.5.1"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "926870acb6cbcf029396f2f2de030282b6bc1941"
+git-tree-sha1 = "9489214b993cd42d17f44c36e359bf6a7c919abf"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.11.4"
+version = "1.15.0"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "bf98fa45a0a4cee295de98d4c1462be26345b9a1"
+git-tree-sha1 = "1e315e3f4b0b7ce40feded39c73049692126cf53"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.2"
+version = "0.1.3"
 
 [[deps.ColorSchemes]]
-deps = ["ColorTypes", "Colors", "FixedPointNumbers", "Random"]
-git-tree-sha1 = "6b6f04f93710c71550ec7e16b650c1b9a612d0b6"
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
+git-tree-sha1 = "7297381ccb5df764549818d9a7d57e45f1057d30"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.16.0"
+version = "3.18.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "024fe24d83e4a5bf5fc80501a314ce0d1aa35597"
+git-tree-sha1 = "0f4e115f6f34bbe43c19751c90a38b2f380637b9"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.0"
+version = "0.11.3"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "SpecialFunctions", "Statistics", "TensorCore"]
-git-tree-sha1 = "3f1f500312161f1ae067abe07d13b40f78f32e07"
+git-tree-sha1 = "d08c20eef1f2cbc6e60fd3612ac4340b89fea322"
 uuid = "c3611d14-8923-5661-9e6a-0046d554d3a4"
-version = "0.9.8"
+version = "0.9.9"
 
 [[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
@@ -1337,9 +1533,9 @@ version = "0.12.8"
 
 [[deps.Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "44c37b4636bc54afac5c574d2d02b625349d6582"
+git-tree-sha1 = "9be8be1d8a6f44b96482c8af52238ea7987da3e3"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.41.0"
+version = "3.45.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1359,26 +1555,26 @@ uuid = "150eb455-5306-5404-9cee-2592286d6298"
 version = "0.6.2"
 
 [[deps.Crayons]]
-git-tree-sha1 = "b618084b49e78985ffa8422f32b9838e397b9fc2"
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
-version = "4.1.0"
+version = "4.1.1"
 
 [[deps.DataAPI]]
-git-tree-sha1 = "cc70b17275652eb47bc9e5f81635981f13cea5c8"
+git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.9.0"
+version = "1.10.0"
 
 [[deps.DataFrames]]
 deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
-git-tree-sha1 = "cfdfef912b7f93e4b848e80b9befdf9e331bc05a"
+git-tree-sha1 = "daa21eb85147f72e41f6352a57fccea377e310a9"
 uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.3.1"
+version = "1.3.4"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "3daef5523dd2e769dad2365274f760ff5f282c7d"
+git-tree-sha1 = "d1fff3a548102f48987a52a2e0d114fa97d730f0"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.11"
+version = "0.18.13"
 
 [[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -1410,9 +1606,9 @@ version = "1.6.0"
 
 [[deps.DualNumbers]]
 deps = ["Calculus", "NaNMath", "SpecialFunctions"]
-git-tree-sha1 = "84f04fe68a3176a583b864e492578b9466d87f1e"
+git-tree-sha1 = "5837a837389fccf076445fce071c8ddaea35a566"
 uuid = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
-version = "0.6.6"
+version = "0.6.8"
 
 [[deps.EarCut_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1422,9 +1618,9 @@ version = "2.2.3+0"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "b3bfd02e98aedfa5cf885665493c5598c350cd2f"
+git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.2.10+0"
+version = "2.4.8+0"
 
 [[deps.EzXML]]
 deps = ["Printf", "XML2_jll"]
@@ -1489,27 +1685,27 @@ uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 
 [[deps.GLFW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
-git-tree-sha1 = "0c603255764a1fa0b61752d2bec14cfbd18f7fe8"
+git-tree-sha1 = "51d2dfe8e590fbd74e7a842cf6d13d8a2f45dc01"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
-version = "3.3.5+1"
+version = "3.3.6+0"
 
 [[deps.GR]]
 deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
-git-tree-sha1 = "4a740db447aae0fbeb3ee730de1afbb14ac798a1"
+git-tree-sha1 = "c98aea696662d09e215ef7cda5296024a9646c75"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.63.1"
+version = "0.64.4"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "aa22e1ee9e722f1da183eb33370df4c1aeb6c2cd"
+git-tree-sha1 = "3a233eeeb2ca45842fe100e0413936834215abf5"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.63.1+0"
+version = "0.64.4+0"
 
 [[deps.GeometryBasics]]
 deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
-git-tree-sha1 = "58bcdf5ebc057b085e58d95c138725628dd7453c"
+git-tree-sha1 = "83ea630384a13fc4f002b77690bc0afeb4255ac9"
 uuid = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
-version = "0.4.1"
+version = "0.4.2"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -1525,9 +1721,9 @@ version = "2.68.3+2"
 
 [[deps.Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
-git-tree-sha1 = "1c5a84319923bea76fa145d49e93aa4394c73fc2"
+git-tree-sha1 = "d61890399bc535850c4bf08e4e0d3a7ad0f21cbd"
 uuid = "a2bd30eb-e257-5431-a919-1863eab51364"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1559,9 +1755,10 @@ uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
 version = "0.0.4"
 
 [[deps.HypertextLiteral]]
-git-tree-sha1 = "2b078b5a615c6c0396c77810d92ee8c6f470d238"
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-version = "0.9.3"
+version = "0.9.4"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
@@ -1582,16 +1779,16 @@ uuid = "a09fc81d-aa75-5fe9-8630-4744c3626534"
 version = "0.9.3"
 
 [[deps.ImageIO]]
-deps = ["FileIO", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
-git-tree-sha1 = "816fc866edd8307a6e79a575e6585bfab8cef27f"
+deps = ["FileIO", "IndirectArrays", "JpegTurbo", "LazyModules", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
+git-tree-sha1 = "d9a03ffc2f6650bd4c831b285637929d99a4efb5"
 uuid = "82e4d734-157c-48bb-816b-45c225c6df19"
-version = "0.6.0"
+version = "0.6.5"
 
 [[deps.ImageShow]]
 deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
-git-tree-sha1 = "d0ac64c9bee0aed6fdbb2bc0e5dfa9a3a78e3acc"
+git-tree-sha1 = "b563cf9ae75a635592fc73d3eb78b86220e55bd8"
 uuid = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
-version = "0.3.3"
+version = "0.3.6"
 
 [[deps.ImageTransformations]]
 deps = ["AxisAlgorithms", "ColorVectorSpace", "CoordinateTransformations", "ImageBase", "ImageCore", "Interpolations", "OffsetArrays", "Rotations", "StaticArrays"]
@@ -1616,10 +1813,9 @@ uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
 version = "0.1.2"
 
 [[deps.IniFile]]
-deps = ["Test"]
-git-tree-sha1 = "098e4d2c533924c921f9f9847274f2ad89e018b8"
+git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
-version = "0.5.0"
+version = "0.5.1"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -1627,15 +1823,15 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.Interpolations]]
 deps = ["AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
-git-tree-sha1 = "b15fc0a95c564ca2e0a7ae12c1f095ca848ceb31"
+git-tree-sha1 = "b7bc05649af456efc75d178846f47006c2c4c3c7"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-version = "0.13.5"
+version = "0.13.6"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "a7254c0acd8e62f1ac75ad24d5db43f5f19f3c65"
+git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.2"
+version = "0.1.7"
 
 [[deps.InvertedIndices]]
 git-tree-sha1 = "bee5f1ef5bf65df56bdd2e40447590b272a5471f"
@@ -1659,21 +1855,27 @@ version = "1.0.0"
 
 [[deps.JLLWrappers]]
 deps = ["Preferences"]
-git-tree-sha1 = "22df5b96feef82434b07327e2d3c770a9b21e023"
+git-tree-sha1 = "abc9885a7ca2052a736a600f7fa66209f96506e1"
 uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
-version = "1.4.0"
+version = "1.4.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
-git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
+git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.21.2"
+version = "0.21.3"
+
+[[deps.JpegTurbo]]
+deps = ["CEnum", "FileIO", "ImageCore", "JpegTurbo_jll", "TOML"]
+git-tree-sha1 = "a77b273f1ddec645d1b7c4fd5fb98c8f90ad10a5"
+uuid = "b835a17e-a41a-41e7-81f0-2f016b05efe0"
+version = "0.1.1"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "d735490ac75c5cb9f1b00d8b5509c11984dc6943"
+git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
-version = "2.1.0+0"
+version = "2.1.2+0"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1700,9 +1902,14 @@ version = "1.3.0"
 
 [[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
-git-tree-sha1 = "a8f4f279b6fa3c3c4f1adadd78a621b13a506bce"
+git-tree-sha1 = "46a39b9c58749eefb5f2dc1178cb8fab5332b1ab"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.9"
+version = "0.15.15"
+
+[[deps.LazyModules]]
+git-tree-sha1 = "a560dd966b386ac9ae60bdd3a3d3a326062d3c3e"
+uuid = "8cdb02fc-e678-4876-92c5-9defec4f444e"
+version = "0.3.1"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -1764,9 +1971,9 @@ version = "2.35.0+0"
 
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "Pkg", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "c9551dd26e31ab17b86cbd00c2ede019c08758eb"
+git-tree-sha1 = "3eb79b0ca5764d4799c06699573fd8f533259713"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.3.0+1"
+version = "4.4.0+0"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1780,9 +1987,9 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "e5718a00af0ab9756305a0392832c8952c7426c1"
+git-tree-sha1 = "09e4b894ce6a976c354a69041a04748180d43637"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.6"
+version = "0.3.15"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
@@ -1838,9 +2045,9 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "f755f36b19a5116bb580de457cda0c140153f283"
+git-tree-sha1 = "737a5957f387b17e74d4ad2f440eb330b39a62c5"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "0.3.6"
+version = "1.0.0"
 
 [[deps.Netpbm]]
 deps = ["FileIO", "ImageCore"]
@@ -1854,9 +2061,9 @@ version = "1.2.0"
 
 [[deps.OffsetArrays]]
 deps = ["Adapt"]
-git-tree-sha1 = "043017e0bdeff61cfbb7afeb558ab29536bbb5ed"
+git-tree-sha1 = "b4975062de00106132d0b01b5962c09f7db7d880"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.10.8"
+version = "1.12.5"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1888,9 +2095,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "648107615c15d4e09f7eca16307bc821c1f718d8"
+git-tree-sha1 = "ab05aa4cc89736e95915b01e7279e61b1bfe33b8"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.13+0"
+version = "1.1.14+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1917,9 +2124,9 @@ version = "8.44.0+0"
 
 [[deps.PNGFiles]]
 deps = ["Base64", "CEnum", "ImageCore", "IndirectArrays", "OffsetArrays", "libpng_jll"]
-git-tree-sha1 = "6d105d40e30b635cfed9d52ec29cf456e27d38f8"
+git-tree-sha1 = "e925a64b8585aa9f4e3047b8d2cdc3f0e79fd4e4"
 uuid = "f57f5aa1-a3ce-4bc8-8ab9-96f992907883"
-version = "0.3.12"
+version = "0.3.16"
 
 [[deps.PaddedViews]]
 deps = ["OffsetArrays"]
@@ -1929,9 +2136,9 @@ version = "0.5.11"
 
 [[deps.Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "92f91ba9e5941fc781fecf5494ac1da87bdac775"
+git-tree-sha1 = "1285416549ccfcdf0c50d4997a94331e88d68413"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.2.0"
+version = "2.3.1"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1958,33 +2165,33 @@ version = "2.0.1"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "68604313ed59f0408313228ba09e79252e4b2da8"
+git-tree-sha1 = "bb16469fd5224100e422f0b027d26c5a25de1200"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.1.2"
+version = "1.2.0"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "db7393a80d0e5bef70f2b518990835541917a544"
+git-tree-sha1 = "d16070abde61120e01b4f30f6f398496582301d6"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.25.6"
+version = "1.25.12"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "670e559e5c8e191ded66fa9ea89c97f10376bb4c"
+git-tree-sha1 = "8d1f54886b9037091edf146b517989fc4a09efec"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.38"
+version = "0.7.39"
 
 [[deps.PooledArrays]]
 deps = ["DataAPI", "Future"]
-git-tree-sha1 = "db3a23166af8aebf4db5ef87ac5b00d36eb771e2"
+git-tree-sha1 = "a6062fe4063cdafe78f4a0a81cfffb89721b30e7"
 uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
-version = "1.4.0"
+version = "1.4.2"
 
 [[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "2cf929d64681236a2e074ffafb8d568733d2e6af"
+git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.2.3"
+version = "1.3.0"
 
 [[deps.PrettyTables]]
 deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
@@ -1998,9 +2205,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.ProgressMeter]]
 deps = ["Distributed", "Printf"]
-git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+git-tree-sha1 = "d7a7aef8f8f2d537104f170139553b14dfe39fe9"
 uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
-version = "1.7.1"
+version = "1.7.2"
 
 [[deps.QOI]]
 deps = ["ColorTypes", "FileIO", "FixedPointNumbers"]
@@ -2015,10 +2222,10 @@ uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+1"
 
 [[deps.Quaternions]]
-deps = ["DualNumbers", "LinearAlgebra"]
-git-tree-sha1 = "adf644ef95a5e26c8774890a509a55b7791a139f"
+deps = ["DualNumbers", "LinearAlgebra", "Random"]
+git-tree-sha1 = "b327e4db3f2202a4efafe7569fcbe409106a1f75"
 uuid = "94ee1d12-ae83-5a48-8b1c-48b8ff168ae0"
-version = "0.4.2"
+version = "0.5.6"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -2030,9 +2237,9 @@ uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[deps.Ratios]]
 deps = ["Requires"]
-git-tree-sha1 = "01d341f502250e81f6fec0afe662aa861392a3aa"
+git-tree-sha1 = "dc84268fe0e3335a62e315a3a7cf2afa7178a734"
 uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
-version = "0.4.2"
+version = "0.4.3"
 
 [[deps.RecipesBase]]
 git-tree-sha1 = "6bf3f380ff52ce0832ddd3a2a7b9538ed1bcca7d"
@@ -2041,9 +2248,9 @@ version = "1.2.1"
 
 [[deps.RecipesPipeline]]
 deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase"]
-git-tree-sha1 = "37c1631cb3cc36a535105e6d5557864c82cd8c2b"
+git-tree-sha1 = "dc1e451e15d90347a7decc4221842a022b011714"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.5.0"
+version = "0.5.2"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
@@ -2064,9 +2271,9 @@ version = "1.3.0"
 
 [[deps.Rotations]]
 deps = ["LinearAlgebra", "Quaternions", "Random", "StaticArrays", "Statistics"]
-git-tree-sha1 = "2fa87d198bc5356c649b92109ed3ce46ee1eb89d"
+git-tree-sha1 = "3177100077c68060d63dd71aec209373c3ec339b"
 uuid = "6038ab10-8711-5258-84ad-4b1120ba62dc"
-version = "1.1.1"
+version = "1.3.1"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -2112,9 +2319,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "e08890d19787ec25029113e88c34ec20cac1c91e"
+git-tree-sha1 = "a9e798cae4867e3a41cae2dd9eb60c047f1212db"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.0.0"
+version = "2.1.6"
 
 [[deps.StackViews]]
 deps = ["OffsetArrays"]
@@ -2124,30 +2331,31 @@ version = "0.1.1"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "2ae4fe21e97cd13efd857462c1869b73c9f61be3"
+git-tree-sha1 = "383a578bdf6e6721f480e749d503ebc8405a0b22"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.3.2"
+version = "1.4.6"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[deps.StatsAPI]]
-git-tree-sha1 = "d88665adc9bcf45903013af0982e2fd05ae3d0a6"
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "2c11d7290036fe7aac9038ff312d3b3a2a5bf89e"
 uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.2.0"
+version = "1.4.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "51383f2d367eb3b444c961d485c565e4c0cf4ba0"
+git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.14"
+version = "0.33.16"
 
 [[deps.StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
-git-tree-sha1 = "d21f2c564b21a202f4677c0fba5b5ee431058544"
+git-tree-sha1 = "9abba8f8fb8458e9adf07c8a2377a070674a24f1"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
-version = "0.6.4"
+version = "0.6.8"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -2161,10 +2369,10 @@ uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 version = "1.0.1"
 
 [[deps.Tables]]
-deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "bb1064c9a84c52e277f1096cf41434b675cd368b"
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "OrderedCollections", "TableTraits", "Test"]
+git-tree-sha1 = "5ce79ce186cc678bbb5c5681ca3379d1ddae11a1"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.6.1"
+version = "1.7.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
@@ -2183,9 +2391,14 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TiffImages]]
 deps = ["ColorTypes", "DataStructures", "DocStringExtensions", "FileIO", "FixedPointNumbers", "IndirectArrays", "Inflate", "OffsetArrays", "PkgVersion", "ProgressMeter", "UUIDs"]
-git-tree-sha1 = "991d34bbff0d9125d93ba15887d6594e8e84b305"
+git-tree-sha1 = "f90022b44b7bf97952756a6b6737d1a0024a3233"
 uuid = "731e570b-9d59-4bfa-96dc-6df516fadf69"
-version = "0.5.3"
+version = "0.5.5"
+
+[[deps.Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
 
 [[deps.URIs]]
 git-tree-sha1 = "97bbe755a53fe859669cd907f2d96aee8d2c1355"
@@ -2218,9 +2431,9 @@ version = "1.19.0+0"
 
 [[deps.Wayland_protocols_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "66d72dc6fcc86352f01676e8f0f698562e60510f"
+git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
-version = "1.23.0+0"
+version = "1.25.0+0"
 
 [[deps.WoodburyMatrices]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -2230,15 +2443,15 @@ version = "0.5.5"
 
 [[deps.XLSX]]
 deps = ["Dates", "EzXML", "Printf", "Tables", "ZipFile"]
-git-tree-sha1 = "96d05d01d6657583a22410e3ba416c75c72d6e1d"
+git-tree-sha1 = "7fa8618da5c27fdab2ceebdff1da8918c8cd8b5d"
 uuid = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
-version = "0.7.8"
+version = "0.7.10"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "1acf5bdf07aa0907e0a37d3718bb88d4b687b74a"
+git-tree-sha1 = "58443b63fb7e465a8a7210828c91c08b92132dff"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.9.12+0"
+version = "2.9.14+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
@@ -2385,9 +2598,9 @@ version = "1.2.12+1"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "cc4bf3fdde8b7e3e9fa0351bdeedba1cf3b7f6e6"
+git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.0+0"
+version = "1.5.2+0"
 
 [[deps.libass_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
@@ -2454,13 +2667,21 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
+# ╠═fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
+# ╠═5d6f309b-b4cf-438b-96f7-23c9189ac6e5
+# ╠═dd39a31a-caea-4119-b88e-aad547cdd310
+# ╠═b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
 # ╟─be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
 # ╠═f7c985b3-731b-4c56-afdb-4c67f47d9c94
 # ╠═b4b7ed3f-43f4-479a-9913-519706c02a2f
-# ╟─fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
-# ╟─b129ba7c-953a-11ea-3379-17adae34924c
+# ╟─e4e67907-bab7-4775-bc4d-1072de1faad0
+# ╟─5f6a7a63-dbda-45c1-8505-84e2861f9c60
+# ╟─112c4c4f-7990-4336-ad37-5fa6b0874024
+# ╟─d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
+# ╟─534234e3-e8a3-4d8d-a905-9dc6c59baf8d
+# ╟─01797703-30fb-42e7-893a-faa5883fea10
 # ╟─5af9b4df-93ac-468b-a23d-a47121cade0a
 # ╟─f002d8e5-821a-485c-8a13-0c198935c955
 # ╟─4d88b926-9543-11ea-293a-1379b1b5ae64
@@ -2475,8 +2696,6 @@ version = "0.9.1+5"
 # ╟─dfe8d392-e180-459f-9633-316dfe99ea93
 # ╟─a56c4db6-8d98-4c58-9862-97bfb57f430b
 # ╟─1e9b21e4-078e-4d3d-8dc2-908181f81267
-# ╟─3eb20ee8-3788-411c-bd97-78f898394dd1
-# ╟─49d5cc44-655d-4fbd-95ca-909834a046a6
 # ╟─4d970613-94f3-4918-964d-d62df499763a
 # ╠═7e054d5e-badd-48e4-b9e2-5ed0aa85de26
 # ╠═b40e4488-9409-4a35-b979-f437a54a8276
@@ -2488,18 +2707,16 @@ version = "0.9.1+5"
 # ╟─c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 # ╟─70f17fd5-c54d-4888-b745-9ac48bf7efb9
 # ╟─001b6077-9659-472c-8975-192465264100
-# ╟─95c70bf2-5da3-44a7-bae5-1dcb9fe4ee61
 # ╟─93134e1f-4cec-4f05-8f18-6428a26afaf8
 # ╟─d8a2533f-e241-4d1d-a939-8006b555daef
 # ╟─93625590-1e00-42f9-9ff0-a17d1eb2a286
 # ╠═ff2f7d91-2c71-4cf4-a8dc-75f18650088b
 # ╟─f6eef184-ae45-492e-8896-ae5e755a2b9e
 # ╟─025a7287-b093-48a4-980c-f5174fc00f30
-# ╟─4f0f0340-8cc2-4820-99a0-94b7e00b50ec
+# ╠═4f0f0340-8cc2-4820-99a0-94b7e00b50ec
 # ╟─c9d0d206-08d7-40a9-a520-eae2c24bc477
 # ╟─0a2597c4-4b63-45b5-b170-a8af7d066ead
 # ╟─4154d786-0a91-4c05-a159-5afc2b820fec
-# ╟─14526aab-55a7-431a-9f3b-47dafb520f16
 # ╟─d7ef1697-b832-4038-9d9f-512a74094fca
 # ╟─4f30b1ac-195a-45dd-9cc8-aad4cbea0904
 # ╟─a2a0aa9d-c6a7-4b72-8f77-5dcd1123732d
@@ -2525,11 +2742,12 @@ version = "0.9.1+5"
 # ╠═df0aae44-d5e4-4152-8707-9f339875ece1
 # ╟─75b87a28-3744-4f07-94d4-4d8827329f8c
 # ╟─9162c574-1b3d-4660-8369-2cc16f545f44
-# ╟─3cd4208b-4b1c-4d7c-afdb-e6d2addda3cb
+# ╠═20be3bc6-16ec-4709-a8d8-7b22d8b95379
 # ╟─2647fcc9-9d4f-43a6-9712-210bcbf9be3f
+# ╟─3cd4208b-4b1c-4d7c-afdb-e6d2addda3cb
 # ╟─cded91d4-baf0-46c2-a341-872202a8472c
 # ╟─b15ae47f-1905-47af-9831-7c4c9dfcd147
-# ╠═445f969a-2d87-42c3-893a-8c5db4f37c48
+# ╟─445f969a-2d87-42c3-893a-8c5db4f37c48
 # ╟─a5efcaed-1e2e-4c6d-b96a-a362bb93c792
 # ╟─f7f08d7b-d8a2-4b13-82d5-9b56202a04fc
 # ╠═a0e8a024-68b1-488d-83c5-7da9f2f6ddec
@@ -2559,6 +2777,25 @@ version = "0.9.1+5"
 # ╠═30676169-e350-4a54-8daf-577c9dbfe28f
 # ╟─8fa6a139-6cac-4428-b2d2-c2e7058b9906
 # ╟─35a01f9e-06e3-45a4-ab08-f16102b7819b
+# ╠═b5cc6660-e52d-45fc-90de-c8a4b3c2d9ee
+# ╠═0f05f2ee-fe1a-4d85-abec-6a3531182fb9
+# ╠═79f4d5b8-7ac9-44fd-95ff-7dbdbc20942b
+# ╟─cd686799-ef18-43a1-946f-f79a3eb1327c
+# ╠═e1daa7b0-1f65-4263-a5b5-f9f7f79375d2
+# ╠═e89ae5fd-f4ec-488c-95d6-6593676ee163
+# ╠═20b49e47-5a79-4d72-aaf9-b79b423bde02
+# ╠═ddac83ca-c67b-4a07-9990-e8d165630998
+# ╠═9152e5a8-3818-4cd6-ad6a-b741f843a24d
+# ╠═af21ae80-d242-46aa-ab9f-0ed21f7b1284
+# ╟─da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
+# ╠═a445b2f7-1468-4916-b062-80585b441abb
+# ╠═e361943a-7ac7-43cb-8dd3-269130c01419
+# ╟─8a8d9a85-aabb-4fbf-916c-7f7723f462d7
+# ╟─92a37af5-b98d-477c-b824-7a642d56a386
+# ╠═53ab6b9d-9835-4ab0-8711-c43fe76c9ac0
+# ╠═6b4f6269-b400-430f-921e-9d62a5bfd557
+# ╠═8052ad94-2fcd-4184-aa82-9715d5f16d7b
+# ╟─8cad4f8e-fcf7-4a4e-ad01-6762174204e3
 # ╟─8fc7ad49-27dc-4aad-9237-976e1e9cf37e
 # ╠═f1638480-d63e-418e-af69-1201e8e7137e
 # ╠═f91f7995-cf8d-4719-80fa-6fe11a0c9dbd
@@ -2567,22 +2804,12 @@ version = "0.9.1+5"
 # ╟─624ea283-b640-4241-befc-73ca3c529111
 # ╟─486368b5-a701-4eae-bace-b11885178e04
 # ╠═74db1ecb-0ca8-4f56-8b28-84b2c21fc008
-# ╠═fec7f28f-aab3-491f-afaa-185eb4a3b278
+# ╟─fec7f28f-aab3-491f-afaa-185eb4a3b278
 # ╠═585b27eb-1c5a-4f57-a14b-c2b8ac99d3b5
-# ╟─da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
 # ╟─c3d684f7-8978-4cc6-b65d-59e6da94cef3
 # ╠═f05fda42-ae5d-404a-8e71-25f6f338362a
 # ╟─4d2db045-e798-421b-8b76-74271176031a
-# ╟─722f8d31-5bdd-499c-a0c4-e25f6393a648
-# ╠═4873aa9c-02f0-4744-a23b-d72fa009e690
-# ╠═c91d6347-07d9-4487-a098-b68ec2c83f97
-# ╠═8da5c259-d674-4981-9958-586099c337fd
-# ╟─7d0966b6-ba54-485f-9378-43683ec69e6e
-# ╠═52bbe6f0-52de-4cad-a244-2d96d18930ea
-# ╠═50ba04e3-567a-4be2-af9f-14193e50a3be
-# ╠═92da8c10-2efa-4c15-8ff1-9b3dc19c4632
-# ╠═fbfa7bb3-cb46-4088-af38-f848ace0f434
-# ╠═6fa28551-8cb4-45b2-8e9a-1e5c147013a0
 # ╟─b750f433-babe-40ec-9587-7650c56870d3
+# ╟─15bbc002-e797-404d-961b-494e20fef2df
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
