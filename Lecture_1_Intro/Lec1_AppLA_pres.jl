@@ -35,14 +35,15 @@ end
 # ╔═╡ fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
 html"""<button onclick="present()">present</button>"""
 
-# ╔═╡ 5d6f309b-b4cf-438b-96f7-23c9189ac6e5
-html"""<details>
-    <summary> A secret </summary>
-    <p> Pluto is fun </p>
-</details>"""
+# ╔═╡ be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
+md"""
+#### Intializing packages
 
-# ╔═╡ dd39a31a-caea-4119-b88e-aad547cdd310
-html"""<button onclick="myFunction()">Click me</button>"""
+_When running this notebook for the first time, this could take a little longer, a few minutes. Hang in there!_
+"""
+
+# ╔═╡ a272d501-5f4f-4f65-9f0d-8e7397935646
+PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 md"""# Applied Linear Algebra for Everyone
@@ -62,16 +63,6 @@ md"""# Applied Linear Algebra for Everyone
 
 * W. Gilbert Strang, _Linear Algebra for Everyone_
 
-"""
-
-# ╔═╡ a272d501-5f4f-4f65-9f0d-8e7397935646
-#PlutoUI.TableOfContents(aside=true)
-
-# ╔═╡ be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
-md"""
-#### Intializing packages
-
-_When running this notebook for the first time, this could take a little longer, a few minutes. Hang in there!_
 """
 
 # ╔═╡ 48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
@@ -2668,13 +2659,11 @@ version = "0.9.1+5"
 
 # ╔═╡ Cell order:
 # ╠═fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
-# ╠═5d6f309b-b4cf-438b-96f7-23c9189ac6e5
-# ╠═dd39a31a-caea-4119-b88e-aad547cdd310
-# ╠═b8171bbb-d3f4-4236-9d77-3ccffd6d4613
-# ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
 # ╟─be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
-# ╠═f7c985b3-731b-4c56-afdb-4c67f47d9c94
-# ╠═b4b7ed3f-43f4-479a-9913-519706c02a2f
+# ╟─f7c985b3-731b-4c56-afdb-4c67f47d9c94
+# ╟─b4b7ed3f-43f4-479a-9913-519706c02a2f
+# ╟─a272d501-5f4f-4f65-9f0d-8e7397935646
+# ╟─b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
 # ╟─e4e67907-bab7-4775-bc4d-1072de1faad0
 # ╟─5f6a7a63-dbda-45c1-8505-84e2861f9c60
