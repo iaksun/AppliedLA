@@ -47,15 +47,13 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 **Prof. Stephen P. Boyd**, Stanford University, _ENGR108: Introduction to Matrix Methods_, Lecture slides, videos, Julia language companion and aditional exercises (https://stanford.edu/class/engr108/index.html).
 
-**Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press (https://web.stanford.edu/~boyd/vmls/vmls.pdf).
+**Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra â€“ Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press (https://web.stanford.edu/~boyd/vmls/vmls.pdf).
 
 **Alan Edelman, David P. Sanders & Charles E. Leiserson**, _Introduction to Computational Thinking_, Pluto notebooks of lectures and homework, videos of lectures, cheatsheets and more (https://computationalthinking.mit.edu/Spring21/).
-
-**Ege Aksun**, _Private Communications_, Introduction to GitHub environment and assistance during the development of the lectures.
 
 Please note that I will do my best to include the references in my lecture notes wherever they are due, but I will try to give their credits on this opening page as well. So, this page is intended to keep growing while I am developing the lectures, and hoping that there will be many other references and contributors along the way.
 
 M. Irsadi Aksun, Prof.\
-Koç University\
+KoÃ§ University\
 Electrical and Electronics Eng.\
-Istanbul, Türkiye
+Istanbul, TÃ¼rkiye
