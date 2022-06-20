@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.5
+# v0.19.9
 
 using Markdown
 using InteractiveUtils
@@ -472,6 +472,12 @@ So, for a white screen of $6 \times 6$ pixels (remember GRB(1,1,1) is white)
 
 **OR** for a real grayscale picture of 600 pixels by 800 pixels, 480,000 numbers become 1,400.
 "
+
+# ╔═╡ 83b5ad21-ec8a-49c3-85b7-ed9d94dba742
+[1:4;]
+
+# ╔═╡ 11b57734-cf9e-450e-a7df-0639414a05a8
+collect(1:4)
 
 # ╔═╡ 24b3970f-e78b-4b55-8f43-5d4898fbc935
 md"#
@@ -2624,7 +2630,7 @@ version = "0.9.1+5"
 
 # ╔═╡ Cell order:
 # ╠═5504aec1-ecb0-41af-ba19-aaa583870875
-# ╟─cb5b4180-7e05-11ec-3b82-cd8631fc57ba
+# ╠═cb5b4180-7e05-11ec-3b82-cd8631fc57ba
 # ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
@@ -2637,7 +2643,7 @@ version = "0.9.1+5"
 # ╠═165e212a-4037-455e-9b76-f605bd7fde37
 # ╠═5859511e-55e8-4e77-b208-39d2c8151de2
 # ╠═013b7ebc-4201-4d42-ae02-cacdc2d98908
-# ╠═0ac852a2-446f-4756-b059-f30fe112a3cc
+# ╟─0ac852a2-446f-4756-b059-f30fe112a3cc
 # ╠═9742c131-55ad-47da-b600-1a622b90a152
 # ╠═307a0345-2621-430a-802e-c4150f289436
 # ╠═b52f4f54-66a8-41c4-9afc-c72a25e30b23
@@ -2689,16 +2695,18 @@ version = "0.9.1+5"
 # ╠═0c525731-e5e4-4f75-80de-d30fcc03ebbc
 # ╟─d5d2a909-a172-4352-aafd-08d3c1cf56f4
 # ╟─3fb56e0c-d551-4754-8950-32451eb88fa9
+# ╠═83b5ad21-ec8a-49c3-85b7-ed9d94dba742
+# ╠═11b57734-cf9e-450e-a7df-0639414a05a8
 # ╟─24b3970f-e78b-4b55-8f43-5d4898fbc935
 # ╠═9dd09625-482b-44dc-a641-13a8150815f9
 # ╠═33fdfd65-0950-4cc2-9200-69b7dbd35efd
 # ╟─f630e152-98a7-48f8-a355-ea9ebe1502f0
 # ╠═a7a46218-6ca9-4041-a9f1-7edc6ef5e458
 # ╠═bcaf90ce-6df3-4e39-ae30-280d5a3f2467
-# ╠═04054ed2-83a1-4ea3-a183-5787f61569dd
+# ╟─04054ed2-83a1-4ea3-a183-5787f61569dd
 # ╠═e38ac9e6-6fb7-426d-9b99-d51dacb8a106
 # ╠═83af63ef-6d6a-46ab-87bb-e8e957e3b9da
-# ╠═b979cadf-50a5-4192-a412-dbf8f005560d
+# ╟─b979cadf-50a5-4192-a412-dbf8f005560d
 # ╠═271dfb86-a875-48c7-a14b-c6fbf8c1566e
 # ╠═4442483a-9754-437b-aa90-69918fed6da7
 # ╟─733ecebc-19b2-4789-aacf-554544b78255
@@ -2726,7 +2734,7 @@ version = "0.9.1+5"
 # ╠═7fa7137c-b3e5-4bcf-9d6e-a8e3ce76a76e
 # ╠═7f2e64c6-e88c-4753-b368-c1f6256e6675
 # ╠═a69c62ab-4cb8-4066-a9ad-bfbbd628d07e
-# ╠═ba2b95f5-c6f3-4f56-a9b1-cc748cc8f9f1
+# ╟─ba2b95f5-c6f3-4f56-a9b1-cc748cc8f9f1
 # ╟─b5ce196c-85a6-4355-87a5-f65c53f109f0
 # ╠═35dd4722-49e9-4828-8d50-1feda8a454d3
 # ╠═ee28d927-bbb5-4f05-9d1c-09aa4c3d16fa

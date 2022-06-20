@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.5
+# v0.19.9
 
 using Markdown
 using InteractiveUtils
@@ -78,38 +78,42 @@ md"""# Applied Linear Algebra for Everyone
 
 * W. Gilbert Strang, _Linear Algebra for Everyone_
 
+---
 """
 
 # ╔═╡ 0c2bf16a-92b9-4021-a5f0-ac2334fb986a
 md"""# Lecture - 2: _Matrices_
 
-### Content 
+#### What is a matrix?
 
-> ##### 2.1. Linear Equations
->>> ##### A brief digression: Linear, non-linear equations 
->> ##### 2.1.1. Ellimination and back substitution 
->> ##### 2.1.2. Unique, many and no solutions
+* There is nothing to do with the movie of ``Matrix``, although with a little bit of imagination one can form a good analogy between the two. 
 
-> ##### 2.2. Matrices
->> ##### 2.2.1. ...
->> ##### 2.2.2. ...
->>> #####  Brief digression
 
-> ##### 2.3. Matrix operations
->> ##### 2.3.1. Add, subtract and transpose
->> ##### 2.3.2. Matrix multiplication
->>> ##### Matrix-Scalar multiplication
->>> ##### Matrix-Vector multiplication
->>>> ##### Multiplication by rows
->>>> ##### Multiplication by columns
->>> ##### Matrix-Matrix multiplication
->> ##### 2.3.3. Inverse of a matrix
->> ##### 2.3.4. Determinant of a matrix
+* Simply put, it is a rantangular formation of numbers such as
+${\bf A} = \begin{bmatrix} 2.1 & 4.2 & 1.5 & 0 \\ -1.5 & -3 & 2 & 1 \end{bmatrix}$
 
-> ##### 2.4. Some applications
->> ##### 2.4.1. Markov processes
->>> ##### Example: Page rank algorithm
->>> ##### Example: Covid-19 survival analysis
+
+#### Why do we need them?
+
+* Remember your experience with the **Microsoft Excel tables**, full of numbers with 100s (most probably thousands or millions in today's datacenteric world) of rows and columns, where some simple manipulations can be performed easily, like
+  - **sorting** a table in decreasing or incresaing order based on a colomn
+  - **summing up or averaging** the numbers in a column or
+  - doing all sorts of **simple manipulations** on the numbers in the table.
+
+
+* However, it will be **very difficult to implement some more involved calculations** on the data. **The difficulty** is in the sense of
+  -  **ease of implementation** and/or combining the data with some programing languages
+  - **computational efficiency**
+
+
+* To be fair, note that one may write macros (small codes) on Excel to implement some more involved computations. 
+
+
+* Even then, it will be no match to implementing algorithms in a traditional computer language like Java, C, Python, R or **_Julia_**.
+
+!!! matrix \" Matrix Format is used \"
+
+	to store tables (from Excel or any other spreadsheet app) and databases in order for the datascience algorithms can be implemented with ease and efficiency.
 
 ---
 
@@ -117,9 +121,11 @@ md"""# Lecture - 2: _Matrices_
 
 # ╔═╡ 3de20f99-af1c-413a-b8f4-dc2d259ece3a
 md""" # 2.1. Linear Equations
-* **Linear Equations** lie at the heart of linear algebra and appear almost in every field, Engineering, Finance, Sciences, Social Sciences,…
+* **Linear Equations** lie at the heart of linear algebra and appear almost in every field, such as Engineering, Finance, Sciences, Social Sciences,…
+
 
 * Even as early as in junior high, we have all learned how to solve a few linear equations simulatanously.
+
 
 * Here is a simple system of 2 equations with 2 unknowns:
 
@@ -135,6 +141,7 @@ The whole idea of **Linear Equations** and most part of **Linear Algebra** stem 
 
 We all know how to solve this by **ellimination**. So, let us plot these two equations and see if there is a solution:
 
+---
 """
 
 # ╔═╡ 8d0ad71b-34ca-407c-bd09-3fa191122c70
@@ -162,7 +169,24 @@ md"
 	* `x =[-3:1:3;]` start=-3, step=1, stop=3, or
 	* `x = collect(-3:1:3)` start=-3, step=1, stop=3
 	can be used. Note the semicolon (`;`) in the first assignment, which refers to 	`vcat` (vertical concatenation) for the entries defined.
+
+---
 "
+
+# ╔═╡ 4fb5808d-c406-4586-98b2-42f1b2911bf8
+range(-3,3,7)
+
+# ╔═╡ d7cf6b88-4111-4f36-9cc9-ba4e7a4d7688
+x_range = [-3:1:3]
+
+# ╔═╡ 9205b10a-fcfb-4fa9-88d4-e7d4a8b3e5c3
+collect(x_range)
+
+# ╔═╡ 9a3f3a66-40f1-4eb3-ac3e-5c243a60642d
+collect(range(-3,3,7))
+
+# ╔═╡ 905e16f4-d98b-461c-8c91-c484f8529eb7
+collect(-3.0:1.0:3.0)
 
 # ╔═╡ ae8bd2b8-f1a2-4ec4-a688-36be1d74b22f
 md"""#
@@ -170,7 +194,7 @@ md"""#
 
 To make sure what ``\color{red} non \;linear \;equation`` means, here are two pairs of simple non-linear and linear equations:
 
-> Non Linear: $f_1(x_1, x_2) = 4 x_1 - 5 x_2 + 2 {\color{red} x_1 x_2} \qquad \qquad   g_1(x_1,x_2) = 10 {\color{red} \sqrt{x_1}} + x_2 - 5$
+> Non Linear:  $f_1(x_1, x_2) = 4 x_1 - 5 x_2 + 2 {\color{red} x_1 x_2} \qquad    g_1(x_1,x_2) = 20 {\color{red} \sqrt{x_1}} + 2 {\color{red} x_2^2} - 20$
 >
 > Linear: $\quad\;\; f_2(x_1, x_2) = 4 x_1 - 10 x_2 -10  \qquad \qquad \;\;\;\;  g_2(x_1,x_2) = 10 x_1 + 5 x_2 + 5$
 
@@ -184,14 +208,18 @@ let
 	#f(x,y) = x*y-x-y+1
 	fnl(x,y) = 4x - 5y + 2 * x .* y
 	fl(x,y) = 4x - 10y .- 10
-	gnl(x,y) = 20 * sqrt.(x) + 2 * y .- 20
-	gl(x,y) = 10x + 5y .+ 5
+	gnl(x,y) = 20 * sqrt.(x) + 2 * (y.^2) .- 20
+	gl(x,y) = 10x + 5y .+ 15
 	fig1 = plot(x,y,fnl,st=:surface, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"f(x,y)", color=cgrad(:jet), colorbar = false)
 	plot!(x,y,fl,st=:surface, color=cgrad(:jet))
 	fig2 = plot(x,y,gnl,st=:surface, color=cgrad(:jet), colorbar = false, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"g(x,y)")
 	plot!(x,y,gl,st=:surface, color=cgrad(:jet))
 	plot(fig1,fig2, layout = (1,2))
 end
+
+# ╔═╡ b0dca955-16c4-4cd3-8090-02d577624ab6
+md"
+---"
 
 # ╔═╡ d5551789-6389-4a4e-be19-2399ece4236b
 md"""## 2.1.1. Ellimination and back substitution
@@ -208,12 +236,14 @@ md"""## 2.1.1. Ellimination and back substitution
 > $4 x_1 + 8 × 2 = 12$ ⇒ $x_1 = -1$ 
 
 * This is know as **Gaussian ellimination** and is widely used to solve large systems of equations.
+
+---
 """
 
 # ╔═╡ d553f6c0-364d-4b8c-ba9f-dec14261be06
-md"""## 2.1.2. Unique, many and no solution
+md"""## 2.1.2. No solution and many solutions
 
-##### How do we have many or no solution?
+##### How do we have no solution or many solutions?
 \
 Let us modify the second equation as follows:
 
@@ -230,6 +260,12 @@ ${\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad  {\color{red} 2 x_1 + 4 x_2 = 6}
 
 * Right-hand sides on the red equations are consistent, what does it mean? 
 
+---
+"""
+
+# ╔═╡ d81b7910-a720-4233-8d7d-0c34a0369dfb
+md"""#
+##### Plot the equations
 """
 
 # ╔═╡ 520539c0-479e-4168-8667-668ef2077a18
@@ -254,16 +290,56 @@ md"
 *  the ${\color{red} red \;equations}$ give the same information (${\color{red} consistent, \;infinitely \;many \;solutions}$).
 "
 
+# ╔═╡ 5f76850e-e45e-4765-b91b-e90dcbb737cb
+md"""
+##### What happens after the ellimination step
+
+${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
+${\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad  {\color{red} 2 x_1 + 4 x_2 = 6}$
+$\Downarrow \qquad \qquad \qquad \qquad \Downarrow$
+
+${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
+${\color{blue} 0 + 0 = -5} \qquad \qquad  {\color{red} 0 + 0 = 0}$
+
+##### After ellimination,
+
+* **inconsistent equations result in contradiction**,
+
+
+* **consistent but dependent equations result in $0 = 0$**.
+
+---
+"""
+
 # ╔═╡ 59abb2ae-9614-4ffe-bb2c-c2646629e509
-md"# 
-### Solutions of Linear Equations
-#### Unique Solution
-* It is simple to solve for unknowns in a set of 2 equations with 2 unknowns. 
+md"""## 2.1.3. Unique Solution
+
+#### For uniqeness,
+
+* **there must be equal number of equations as the number of unknowns**, and
+
+
+* **equations must be independent**.
+
+
+#### For solutions,
+
+* it is simple to solve for unknowns in a set of 2 equations with 2 unknowns. 
+
 
 * Perhaps, for 3 equations and 3 unknown, it may still be tractible by hand, at least for some people.
 
-* In general, solutions are obtained by **_elimination_** and **_back-substitution_**, either by hand or by computer.
-"
+
+* However, in general, solutions are obtained by **_elimination_** and **_back-substitution_**, mostly by computers.
+
+"""
+
+# ╔═╡ 6d78aefc-b2bd-4a50-a1a3-27346d67637b
+md"""
+## 2.1.4. Examples
+
+#### 1. Unique solution:
+"""
 
 # ╔═╡ 77cd7684-b0ee-4cb7-a0f7-be9a4cbb3b58
 TwoColumn(
@@ -280,18 +356,35 @@ $5 x_1 \qquad -5 x_3 = 10$
 """		
 )
 
+# ╔═╡ c0e65fa8-2bfc-4d72-9f0f-c1c4e5418370
+md"""
+##### ⇒ Apply ellimination and back substitution:
+\
+ $x_1 - 2 x_2 + x_3 =0 \qquad \qquad \;\; x_1 - 2 x_2 + x_3 =0 \qquad \qquad x_1 = 1$ 
+ $\qquad 2 x_2 - 8 x_3 = 8  \qquad \qquad 0 x_1 +  x_2 -4 x_3 = 4 \qquad \qquad x_2 = 0 \color{red} \Uparrow_{(2)}$ 
+ $5 x_1 \qquad -5 x_3 = 10  \quad \qquad \;\;0 x_1 + 0 x_2 + x_3 = -1 \quad \qquad x_3 = -1 \color{red} \Uparrow_{(1)}$
+
+---
+"""
+
+# ╔═╡ 2bc2ed20-197a-46f5-ac39-ec2a9e3557e8
+md"""
+##### ⇒ Use Julia:
+"""
+
 # ╔═╡ 3c0a921b-c8cc-4e8b-b0a6-3eb5d339fa63
-let
-A = [1 -2 1; 0 2 -8; 5 0 -5] # Matrix A
-b = [0, 8, 10] # Column vector b
-x = A\b # Solution for the unknown vector x
-x = inv(A) * b # Solution with inverse of A
+begin
+	A_33 = [1 -2 1; 0 2 -8; 5 0 -5] # Matrix A
+	b_3 = [0, 8, 10] # Column vector b
+	x_31 = A_33\b_3 # Solution for the unknown vector x
+	x_32 = inv(A_33) * b_3 # Solution with inverse of A
 end
 
 # ╔═╡ 3a417947-eb23-4247-9e79-af925733aabf
 md"# 
-#### No Solution or Many Solutions
-Let us see what happens when we have no solution or many solutions, that is, at least one equation is parallel to the one of the others or the combination of others.
+#### 2. No Solution or Many Solutions
+\
+Let us see what happens when we have no solution or many solutions, that is, at least one equation is dependent to the one of the others or the combination of others.
 
 For the sake of illustration, let us double the first equation and use it as the second one:
 * with different right hand side (_inconsistent_, **_no solution_**), or
@@ -312,6 +405,22 @@ $5 x_1 \qquad -5 x_3 = 10$
 \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 0 \\ 8 \\ 10 \end{bmatrix}$
 """		
 )
+
+# ╔═╡ 576fb1a5-9c1e-46dd-82b9-33563b5cda26
+md"""
+##### ⇒ Apply ellimination and back substitution:
+\
+ $\;\;x_1 - 2 x_2 + x_3 =0 \qquad \qquad \;\; x_1 - 2 x_2 + x_3 =0$ 
+ $2 x_1 - 4 x_2 + 2 x_3 = 8  \qquad \qquad 0 x_1 - 0 x_2 + 0 x_3 = 8 \qquad \qquad 0 = 8 \color{red} \Rightarrow \; \rm{Inconsistent}$ 
+ $5 x_1 \qquad \;\; -5 x_3 = 10  \quad \qquad \;\;0 x_1 + 10 x_2 - 10 x_3 = 10$
+
+---
+"""
+
+# ╔═╡ 8329c9df-888b-4210-8a1d-c3a206be0a45
+md"""
+##### ⇒ Use Julia:
+"""
 
 # ╔═╡ af88ebfb-e6bf-4fa0-85c7-79fe09705509
 let
@@ -334,13 +443,16 @@ ${\bf A} = \begin{bmatrix} 1 & 0.1 & 3 & -2.5 \\
 
 * An important attribute of a matrix is its size or dimensions, i.e., the numbers of rows and columns. The matrix above has 3 rows and 4 columns, so its size is 3 × 4.
 
+
 * The $i,j$ element of matrix $A$ is the value in the $i^{th}$ row and $j^{th}$ column, denoted by double subscripts: $A_{ij}$. For example, $A_{23}=0$, $A_{32}=-4.2$, $A_{13}=-2.5$ 
+
 
 * If $A$ is an m × n matrix, then the row index $i$ runs from 1 to m and the column index $j$ runs from 1 to n.
   - A `square matrix` has an equal number of rows and columns (n × n),
   - A `tall matrix` has more rows than columns (m × n, where m > n),
   - A `wide matrix` has more columns than rows (m × n, where m < n).
-  
+
+
 !!! note \"Throughout this course\" 
 	the salient features of matrices will be introduced (when and where needed) enough for anyone (with no a priori knowledge on Linear Algebra) to be able to follow the rest of the materials.
 
@@ -350,14 +462,14 @@ ${\bf A} = \begin{bmatrix} 1 & 0.1 & 3 & -2.5 \\
 """
 
 # ╔═╡ 7a1eb229-da44-40e0-8365-640a5ce88569
-md"""#
-
-#### Matrices in the context of linear equations
+md"""## 2.2.1. Matrices for linear equations
 
 In real life problems, we usually have many unknowns (thousands, millions) with generally much more equations than the number of unknowns. That is,
 
 * systems may not be square (mostly not) - more equations than unknowns;
-* they need to be cast into ``Matrix`` forms with $m$ rows ($\equiv$ number of equations) and $n$ columns ($\equiv$ number of unknowns) in order to be able to work on with comparative ease and computational efficiency;
+
+
+* they need to be cast into **Matrix** forms with $m$ rows ($\equiv$ number of equations) and $n$ columns ($\equiv$ number of unknowns) in order to be able to work on with comparative ease and computational efficiency;
 
 $\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} 
 \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}$ 
@@ -366,11 +478,12 @@ $\bf A  x   =  b$
 
 * **_no one can solve such a huge system by hand, or even by computer if not come up with smart algorithms_**. That is the main reason why we refer to Matrix notation and Linear Algebra tools in Big Data problems.
 
+---
 """
 
 # ╔═╡ c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
 md" 
-## Matrices in Julia
+### Matrices in Julia
 
 * **Creating matrices from the entries:**
 "
@@ -385,6 +498,12 @@ A2_34 = [0.0 1.0 -2.3 0.1; 1.3 4.0 -0.1 0.0; 4.1 -1.0 0.0 1.7];
 
 # ╔═╡ 2b9984b3-b38e-498b-9a05-3df4f56c525e
 size(A_34) # Gives the dimension as a tuple; size(A_34,1) = 3
+
+# ╔═╡ 356a6388-9778-4892-97ce-77ebff7429eb
+A_77 = rand((0:4), 7, 7)
+
+# ╔═╡ cc0a9986-b370-4243-9611-4dd21e246c6a
+A_77[:,2]
 
 # ╔═╡ 8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
 md"#
@@ -422,7 +541,7 @@ b = [ -2.1; -3; 0 ] # A 3-vector or 3x1 matrix
 
 # ╔═╡ 19e9c605-fb39-450a-a4a2-edf617c72614
 md"#
-* **Slicing and Submatrices:** Using colon notation you can extract a submatrix.
+* **Slicing and Submatrices:** Using column notation you can extract a submatrix.
 "
 
 # ╔═╡ 060cb524-7c1d-422d-82ea-7263d829a0cb
@@ -467,19 +586,102 @@ begin
 	A1 = [B1 C1 ; D1 E1]
 end
 
+# ╔═╡ d0f9a0c9-f58d-48fe-81b0-539c14134969
+md"""## 2.2.2. Special Matrices
+
+* **Zero matrix $\bf 0$:** A matrix with all entries are zero
+
+
+* **Ones matrix $\bf 1$:** A matrix with all entries are ones
+
+
+* **Identity matrix $\bf I$:** A matrix with diagonal entries 1 and everything else 0
+
+
+* **Diagonal matrix:** A matrix with only diagonal entries
+
+
+* **Triangular matrices:** There are two types of triangular matrices
+  - Upper triangular
+  - Lower triangular
+"""
+
+# ╔═╡ 1d01ecdd-6bed-46e7-acbe-684d9806fd40
+zeros(2,3)
+
+# ╔═╡ 421dea52-181f-453b-818d-2407f66a1f0b
+ones(4,4)
+
+# ╔═╡ a83552bd-f6bf-47f2-827b-8b17676c9e24
+I(4) # Identity matrix
+
+# ╔═╡ 63ac2822-a157-4090-a165-849c15f1217d
+a_diag = rand((1:4),4) # rand(1,4) or rand(4,1) won't work as they generate matrices
+
+# ╔═╡ 88b473fe-b7bf-4111-a30a-02a8d9c9e32c
+Diagonal(a_diag) # diagonal matrix
+
+# ╔═╡ 51d948b7-1b9d-449d-b885-c1235e0b3097
+diagm(a_diag) # diagonal full matrix
+
+# ╔═╡ 9f0c9b8f-301e-4d9f-b305-8a6ea39e84fd
+LowerTriangular(ones(4,4))
+
+# ╔═╡ fc73f681-c70b-41bd-af89-722ad033d55a
+UpperTriangular(rand(3,3
+))
+
+# ╔═╡ 5c8b26f6-a5c3-4e15-a671-27d2b9b26205
+ A_uptr = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0]
+
+# ╔═╡ 3d2bd49e-aef4-4795-8ea5-b5975d011087
+UpperTriangular(A_uptr)
+
+# ╔═╡ d31061b4-93a9-4e35-90d2-2977c70e8d05
+UnitLowerTriangular(A_uptr)
+
+# ╔═╡ 115539ad-8b9c-4b38-8b23-b8064164ddc2
+UnitUpperTriangular(A_uptr)
+
 # ╔═╡ f3838d6f-0b17-48fe-b90a-0053f7ce74dc
-md"## Matrix Operations
+md"""# 2.3. Matrix Operations
 
-As stated above, this review is not going to be a mathematically rigirous one, rather it will review the operations in Matrix algebra 
+!!! note \"Matrix notations\"
+	During this course, 
+	* **bold capital letters** like ${\bf A, B, X, Y,} ...$ are used for matrices
+	* **bold small letters** like ${\bf a, b, x, y,} ...$ are used for vectors and arrays
+	* **small letters** like $a, b, x, y, ...$ are used for ordinary real (rarely complex) constants
+	
 
-### 1. Matrix transpose
+* To work with matrices and arrays, one needs to know the basic operations: **addition, subtraction, multiplication, division**, and some other operations that are useful in matrices.
 
-* If $\bf A$ is an m × n matrix, its transpose, denoted ${\bf A}^T$ (or sometimes ${\bf A}^′$ or ${\bf A}^∗$), is the n × m matrix given by (${\bf A}^T)_{ij} = {\bf A}_{ji}$. 
 
+* Remember that we all have learnt these operations for regular algebra in primary schools or junior highs. That is, **they are simple and don't require any advanced knowledge**, which is the same for matrix operations as well.
+
+
+* Here are the list of operations that we need to learn and be fluent in matrix algebra:
+  - scalar multiplication: $a \bf A$, $\alpha \bf x$, $c ({\bf x + y})$, $\beta ({\bf A + B})$, ...
+  - addition, subtraction: $\bf A ± B$, $\bf x ± y$, ...
+  - matrix-vector multiplication: $\bf A x$, $\bf y B$, ...
+  - matrix-matrix multiplication $\bf A B$, $\bf B Y$, ...
+  - determinant: $det({\bf A}) ≡ |{\bf A}|$, $|{\bf X}|$, ... $\color{red} \Leftarrow Square\;matrices$
+  - transpose: $\bf A'$, $\bf x'$, ...
+  - inverse: ${\bf A}^{-1}$, ${\bf X}^{-1}$, ... $\color{red} \Leftarrow Square\;matrices$
+
+"""
+
+# ╔═╡ ad2961bc-cf04-4206-a86f-1307416a3fe2
+md"""
+## 2.3.1. Matrix transpose
+
+* If $\bf A$ is an m × n matrix, its transpose, denoted by $\bf A'$ in this course (${\bf A}^T$ is also used), is the n × m matrix given by $({\bf A}' )_{ij} = {\bf A}_{ji}$. 
+
+${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow \bf A' = \begin{bmatrix} a & c \\ b & d \end{bmatrix};\qquad {\bf Z} = \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \Rightarrow \bf Z' = \begin{bmatrix} a & c & e \\ b & d & f \end{bmatrix}$
+
+${\bf x} = \begin{bmatrix} a \\ b \\ c \end{bmatrix} \Rightarrow \bf x' = \begin{bmatrix} a & b & c \end{bmatrix}; \qquad {\bf y} = \begin{bmatrix} α & β & γ \end{bmatrix} \Rightarrow {\bf y'} = \begin{bmatrix} α \\ β \\ γ \end{bmatrix}$
 
 * Transposing a matrix twice results in the original matrix.
-
-"
+"""
 
 # ╔═╡ dc5e390f-ece4-4e27-9b25-023a731cc633
 A_exT = rand(-3:3, 3,2)
@@ -487,31 +689,10 @@ A_exT = rand(-3:3, 3,2)
 # ╔═╡ eec8c31c-5324-44a4-8e55-3fed81d9dbd8
 A_exT'# Transposing a matrix twice results in the original matrix
 
-# ╔═╡ f130d717-bedc-4ebd-bba5-3908d54c07bc
-md"#
-
-### 2. Matrix addition
-
-* Two matrices of **the same size** can be added together.
-
-
-* The result is another matrix of the same size, obtained by **adding the corresponding elements** of the two matrices. 
-
-"
-
-# ╔═╡ 4fd22565-7443-4f10-baf3-a2881651a2be
-A_exA = rand(-3:3, 3,2)
-
-# ╔═╡ 556f68f3-481b-4660-b5bd-f1a643676ee2
-B_exA = rand(-3:3, 3,2)
-
-# ╔═╡ 05c341eb-3db3-42bd-ae08-05f8aa370cb7
-A_exA + B_exA
-
 # ╔═╡ ba787e69-7f86-4f41-87f5-b20d9e8831c6
-md"#
+md"
 
-### 3. Matrix-Scalar multiplication
+## 2.3.2. Matrix-Scalar multiplication
 
 Given a matrix $\bf A$ and a scalar $c$, then $c \bf A$ is equal to the matrix whose entries are the entries of $\bf A$ multiplied by $c$:
 
@@ -540,9 +721,33 @@ c \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots 
 # ╔═╡ 45ced395-a8a2-465b-9552-186806b0e6e1
 # cA1 == cA2 # elementwise comparison ".=="
 
+# ╔═╡ f130d717-bedc-4ebd-bba5-3908d54c07bc
+md"
+
+## 2.3.3. Matrix addition/subtraction
+
+* Two matrices of **the same size** can be added/subtracted.
+
+
+* The result is another matrix of the same size, obtained by **adding/subtracting the corresponding elements** of the two matrices. 
+
+${\bf A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix};\qquad {\bf B} = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}$
+
+${\bf A} \pm {\bf B} = \begin{bmatrix} a_{11} \pm b_{11} & a_{12} \pm b_{12} \\ a_{21} \pm b_{21} & a_{22} \pm b_{22} \end{bmatrix}$
+"
+
+# ╔═╡ 4fd22565-7443-4f10-baf3-a2881651a2be
+A_exA = rand(-3:3, 3,2)
+
+# ╔═╡ 556f68f3-481b-4660-b5bd-f1a643676ee2
+B_exA = rand(-3:3, 3,2)
+
+# ╔═╡ 05c341eb-3db3-42bd-ae08-05f8aa370cb7
+A_exA + B_exA
+
 # ╔═╡ 2cf6c3c0-0406-49d8-b53b-56983d290188
-md"""#
-### 4. Matrix-vector multiplication
+md"""
+## 2.3.4. Matrix-vector multiplication
 
 >Here is a nice overview of **_Matrix-vector Multiplication_** by 3-Blue-1-Brown (Grant Sanderson) for your reference. I strongly recommend you to watch it and try to understand the intuitive picture of the concept rather than the mathematical details.
 
@@ -553,9 +758,16 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/kYB8IZa5AuE" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
+# ╔═╡ 28d718bd-610a-4257-91dc-7148e3fe45df
+md"""
+!!! condition
+	*  $\bf A x$ is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf x$.\
+	* For a given ($m,\color{red}n$) matrix $\bf A$, $\bf x$ must be a column vector of (${\color{red}n},1$).
+"""
+
 # ╔═╡ 2d3abfe1-8cda-49f8-b5b1-b8b602626d92
 md"#
-##### Rotation matrix 
+### Example: Rotation matrix 
 ```math 
 	{\bf R}_\theta = \begin{bmatrix} cos\theta & -sin\theta \\
  									 sin\theta & cos\theta \end{bmatrix}
@@ -578,16 +790,17 @@ Can you write x-axis as ${\bf x}=[1, 0]$ and y-axis as ${\bf y}=[0, 1]$?
 
 # ╔═╡ e022e5e5-186b-48f8-bd7d-4be9dc6610ab
 begin
-θ = θ° * π / 180
-x₀ = [1, 0]
-y₀ = [0, 1]
+θ = θ° * π / 180 # change degree to radian
+x₀ = [1, 0] # x axis
+y₀ = [0, 1] # y axis
 A_rot = [cos(θ) -sin(θ);
-		sin(θ) cos(θ)]
+		sin(θ) cos(θ)]  # rotation matrix
 x_rot = A_rot * x₀
 y_rot = A_rot * y₀
 	x_vals = [0 0 0 0; x₀[1] y₀[1] x_rot[1] y_rot[1] ]
 	y_vals = [0 0 0 0; x₀[2] y₀[2] x_rot[2] y_rot[2] ]
-
+# There are 4 vectors and all start at (0,0) -> 4 zeros for x, 4 zeros for y
+# Each (0,0) connects to the other end of the vector. That is, first (0,0) -> (x₀[1],x₀[2]), second (0,0) -> (y₀[1], y₀[2]), ..
 # 	# After importing LaTeXStrings package, L stands for Latex in the following expressions; L"v_1"
 	plot(x_vals, y_vals, arrow = true, color = [:blue :blue :red :red],
      legend = :none, xlims = (-1, 1), ylims = (-1, 1), aspectratio = true,
@@ -601,13 +814,8 @@ end
 
 # ╔═╡ a55816f3-1c24-4e6f-b35f-2aba8f8e8194
 md"""#
-For a given ($m,\color{red}n$) matrix $\bf A$ and a (${\color{red}n},1$) column vector $\bf x$, there are two ways of multiplying a matrix and a column vector, which will be introduced below:
 
-!!! note
-	**Ax is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf x$.**
-
-\
-``\large Multiplication \;by \;Rows \;(\equiv Inner \;Product)``
+### Multiplication by Rows
 
 !!! julia
 	```math
@@ -637,7 +845,7 @@ A2 * x; # Notice that just writing A * x gives the right result, provided the tw
 # ╔═╡ e36cbcee-5092-4d91-ad44-be63b695ce60
 md"""#
 
-``\large Multiplication \;by \;Columns``
+### Multiplication by Columns
 
 !!! julia
 	```math
@@ -685,14 +893,13 @@ Examine the following sets of equations:
 )
 
 # ╔═╡ 1668cb38-6078-4a7f-8ade-96f6d42280b6
-md"""#
+md"""
+## 2.3.5. Matrix-Matrix multiplication
 
-### 5. Matrix-Matrix multiplication
 
-For a given ($m,\color{red}n$) matrix $\bf A$ and a (${\color{red}n},k$) matrix $\bf B$,
-
-!!! note
-	**AB is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf B$.**
+!!! condition
+	 *  $\bf A B$ is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf B$.\
+	* For a given ($m,\color{red}n$) matrix $\bf A$, $\bf B$ must be a matrix of (${\color{red}n},k$) dimension, and the resulting matrix $\bf A B$ will be of ($m,k$) dimension.
 
 Considering Matrix-Vector multiplication by rows, and treating the columns of ${\bf B}$ as the vectors ${\bf B} = [b_1 \; b_2 \; \cdots \; b_k]$, then
 
@@ -710,6 +917,8 @@ ${\bf AB}[i,j] = \; (i-th \;row \;of \;{\bf A}) \cdot \; (j-th \;column \;of \;{
 	```math
 	{\bf A*B} = [ A[i,:] ⋅ B[:,j] \;\;for \;i \;in \;(1:m), \;j \;in \;(1:k)] 
 	```
+
+---
 """
 
 # ╔═╡ d9636375-def7-4693-a2c3-91879d304b81
@@ -728,9 +937,9 @@ ${\bf AB}[i,j] = \; (i-th \;row \;of \;{\bf A}) \cdot \; (j-th \;column \;of \;{
 #AB2 = [A3[i,:]' * B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
 
 # ╔═╡ 75e91ef3-8893-48fc-a297-e54aa6b6c671
-md"""#
+md"""
 
-### 4. Determinant of a Matrix
+## 2.3.6. Determinant of a Matrix
 
 >Here is a nice overview of **_Determinant_** by 3-Blue-1-Brown (Grant Sanderson) for your reference. I strongly recommend you to lisen to it and try to understand the intuitive picture of the concept rather than the mathematical details.
 
@@ -743,7 +952,7 @@ html"""
 
 # ╔═╡ 877ef381-df6c-4a5b-bf99-88f8afba0995
 md"#
-##### Properties:
+### Properties
 1.  $det \;{\bf I}$ = $1$
 2. if two rows are interchanged, the determinant changes sign.
 3. If a row is multiplied by a number, the determinant is multiplied by the same number.
@@ -760,11 +969,43 @@ md"#
 12.  $det \;{\bf A\;B} = (det \;{\bf A}) (\;det \;{\bf B})$
     -  $det (\;{\bf A\;A}^{-1})=det \;{\bf I} \Rightarrow det \;{\bf A}^{-1}=1/det \;{\bf A}$
     -  $det \;{\bf A}^2 = (det \;{\bf A})^2$
+13. It is easy to calculate the determinant for $2 \times 2$ matrices,
+${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow det({\bf A}) = {ad - bc}$
 
+---
 "
 
+# ╔═╡ 3a8ef338-38a4-4954-862c-6ce50e80f2fe
+md"""
+
+## 2.3.7. Inverse of a Matrix
+
+* is needed in places of a divide for algebraic equations;
+$5 a = 15 \Rightarrow a = 5^{-1} \times 15 = 15 / 5 = 3$
+${\bf A x = b} \Rightarrow {\bf x} = {\bf A}^{-1} {\bf b}$
+
+* is like a reciprocal of a number, 5 and 1/5, or 7 and 1/7, when multiplied results in 1, or identity matrix $\bf I$ in cases of matrices;
+
+
+* is denoted by ${\bf A}^{-1}$;
+
+
+* is defined only for square matrices, that is, $n \times n$ matrices;
+
+
+* is defined only for non-singular matrices ($det(\bf A) \ne 0$);
+
+
+* results in an identity matrix when multiplied by itself,
+${\bf A}{\bf A}^{-1} = {\bf A}^{-1}{\bf A} = {\bf I};$
+
+* is easy to find for $2 \times 2$ matrices,
+${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}.$
+---
+"""
+
 # ╔═╡ 2d036e2e-6850-46d8-bbb5-21856403ecc8
-md"# A Few Applications
+md"# 2.4. A Few Applications
 \
 `` \bullet \Large \;\; Markov \;\; Process``
 
@@ -783,9 +1024,9 @@ md"# A Few Applications
 "
 
 # ╔═╡ 7ad20af1-a7d6-4092-b982-fad27d6e51ea
-md"## Markov Processes 
+md"## 2.4.1. Markov Processes 
 
-### 1. Page Rank[^1] 
+### Example 1: Page Rank[^1] 
 **_Birth of Google's PageRank algorithm:_** Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
 
 From a theoretical point of view, the PageRank algorithm relies on the simple but fundamental mathematical notion of **_Markov chains_**.
@@ -807,6 +1048,9 @@ end
 md"#
 ### PageRank of a tiny website
 "
+
+# ╔═╡ 41ac05e6-b5a6-4546-9a21-e6694571f672
+#using ImageMagick
 
 # ╔═╡ 3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
 markov_example = load("markov_fig.gif");
@@ -1003,7 +1247,7 @@ md"""
 
 # ╔═╡ b16906ed-b4ab-446e-a0e8-d79418ef56ca
 md"#
-### 2. Covid-19 Survival Analysis[^2]
+### Example 2: Covid-19 Survival Analysis[^2]
 
 [^2]: [_A Markov Chain Model for Covid-19 Survival Analysis_] (https://web.cortland.edu/matresearch/MarkovChainCovid2020.pdf), Jorge Luis Romeu, July 17, 2020.
 
@@ -1259,6 +1503,7 @@ where only surviving block is the one showing the transition probabilities from 
 
 # ╔═╡ 424187c3-f6d3-4642-8d37-6266a2d9c597
 md"""
+
 ##### ${\bf F = (I-T)}^{-1}$ → Average number of days in transient states
 
 ```math
@@ -1277,6 +1522,7 @@ The average number of days a `non infected` person ($1^{st}$ column)
 
 !!! note \"Project Idea - 2\"
 	Based on Istanbul's Covid data, analyze the situation during the inital and latest phases of the pandemic.
+
 """
 
 # ╔═╡ 3ee12973-b0ad-409c-a451-bb765ad01cff
@@ -1356,15 +1602,9 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.CEnum]]
-git-tree-sha1 = "215a9aa4a1f23fbd05b92769fdd62559488d70e9"
+git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
 uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
-version = "0.4.1"
-
-[[deps.Cairo]]
-deps = ["Cairo_jll", "Colors", "Glib_jll", "Graphics", "Libdl", "Pango_jll"]
-git-tree-sha1 = "d0b3f8b4ad16cb0a2988c6788646a5e6a17b6b1b"
-uuid = "159f3aea-2a34-519c-b102-8c37f9878175"
-version = "1.0.5"
+version = "0.4.2"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -1374,33 +1614,33 @@ version = "1.16.1+1"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "f9982ef575e19b0e5c7a98c6e75ee496c0f73a93"
+git-tree-sha1 = "9489214b993cd42d17f44c36e359bf6a7c919abf"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.12.0"
+version = "1.15.0"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "bf98fa45a0a4cee295de98d4c1462be26345b9a1"
+git-tree-sha1 = "1e315e3f4b0b7ce40feded39c73049692126cf53"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.2"
+version = "0.1.3"
 
 [[deps.ColorSchemes]]
-deps = ["ColorTypes", "Colors", "FixedPointNumbers", "Luxor", "Random"]
-git-tree-sha1 = "5b7d2a8b53c68dfdbce545e957a3b5cc4da80b01"
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
+git-tree-sha1 = "7297381ccb5df764549818d9a7d57e45f1057d30"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.17.0"
+version = "3.18.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "024fe24d83e4a5bf5fc80501a314ce0d1aa35597"
+git-tree-sha1 = "0f4e115f6f34bbe43c19751c90a38b2f380637b9"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.0"
+version = "0.11.3"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "SpecialFunctions", "Statistics", "TensorCore"]
-git-tree-sha1 = "3f1f500312161f1ae067abe07d13b40f78f32e07"
+git-tree-sha1 = "d08c20eef1f2cbc6e60fd3612ac4340b89fea322"
 uuid = "c3611d14-8923-5661-9e6a-0046d554d3a4"
-version = "0.9.8"
+version = "0.9.9"
 
 [[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
@@ -1409,10 +1649,10 @@ uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.12.8"
 
 [[deps.Compat]]
-deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "44c37b4636bc54afac5c574d2d02b625349d6582"
+deps = ["Dates", "LinearAlgebra", "UUIDs"]
+git-tree-sha1 = "924cdca592bc16f14d2f7006754a621735280b74"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.41.0"
+version = "4.1.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1426,15 +1666,15 @@ uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
 version = "0.5.7"
 
 [[deps.DataAPI]]
-git-tree-sha1 = "cc70b17275652eb47bc9e5f81635981f13cea5c8"
+git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.9.0"
+version = "1.10.0"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "3daef5523dd2e769dad2365274f760ff5f282c7d"
+git-tree-sha1 = "d1fff3a548102f48987a52a2e0d114fa97d730f0"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.11"
+version = "0.18.13"
 
 [[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -1472,9 +1712,9 @@ version = "2.2.3+0"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "ae13fcbc7ab8f16b0856729b050ef0c446aa3492"
+git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.4.4+0"
+version = "2.4.8+0"
 
 [[deps.FFMPEG]]
 deps = ["FFMPEG_jll"]
@@ -1535,21 +1775,21 @@ version = "3.3.6+0"
 
 [[deps.GR]]
 deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
-git-tree-sha1 = "4a740db447aae0fbeb3ee730de1afbb14ac798a1"
+git-tree-sha1 = "c98aea696662d09e215ef7cda5296024a9646c75"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.63.1"
+version = "0.64.4"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "aa22e1ee9e722f1da183eb33370df4c1aeb6c2cd"
+git-tree-sha1 = "3a233eeeb2ca45842fe100e0413936834215abf5"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.63.1+0"
+version = "0.64.4+0"
 
 [[deps.GeometryBasics]]
 deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
-git-tree-sha1 = "58bcdf5ebc057b085e58d95c138725628dd7453c"
+git-tree-sha1 = "83ea630384a13fc4f002b77690bc0afeb4255ac9"
 uuid = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
-version = "0.4.1"
+version = "0.4.2"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -1565,9 +1805,9 @@ version = "2.68.3+2"
 
 [[deps.Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
-git-tree-sha1 = "1c5a84319923bea76fa145d49e93aa4394c73fc2"
+git-tree-sha1 = "d61890399bc535850c4bf08e4e0d3a7ad0f21cbd"
 uuid = "a2bd30eb-e257-5431-a919-1863eab51364"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1599,9 +1839,10 @@ uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
 version = "0.0.4"
 
 [[deps.HypertextLiteral]]
-git-tree-sha1 = "2b078b5a615c6c0396c77810d92ee8c6f470d238"
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-version = "0.9.3"
+version = "0.9.4"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
@@ -1622,16 +1863,16 @@ uuid = "a09fc81d-aa75-5fe9-8630-4744c3626534"
 version = "0.9.3"
 
 [[deps.ImageIO]]
-deps = ["FileIO", "JpegTurbo", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
-git-tree-sha1 = "464bdef044df52e6436f8c018bea2d48c40bb27b"
+deps = ["FileIO", "IndirectArrays", "JpegTurbo", "LazyModules", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
+git-tree-sha1 = "d9a03ffc2f6650bd4c831b285637929d99a4efb5"
 uuid = "82e4d734-157c-48bb-816b-45c225c6df19"
-version = "0.6.1"
+version = "0.6.5"
 
 [[deps.ImageShow]]
 deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
-git-tree-sha1 = "d0ac64c9bee0aed6fdbb2bc0e5dfa9a3a78e3acc"
+git-tree-sha1 = "b563cf9ae75a635592fc73d3eb78b86220e55bd8"
 uuid = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
-version = "0.3.3"
+version = "0.3.6"
 
 [[deps.Imath_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1650,10 +1891,9 @@ uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
 version = "0.1.2"
 
 [[deps.IniFile]]
-deps = ["Test"]
-git-tree-sha1 = "098e4d2c533924c921f9f9847274f2ad89e018b8"
+git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
-version = "0.5.0"
+version = "0.5.1"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -1661,9 +1901,9 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "a7254c0acd8e62f1ac75ad24d5db43f5f19f3c65"
+git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.2"
+version = "0.1.7"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
@@ -1688,9 +1928,9 @@ version = "1.4.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
-git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
+git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.21.2"
+version = "0.21.3"
 
 [[deps.JpegTurbo]]
 deps = ["CEnum", "FileIO", "ImageCore", "JpegTurbo_jll", "TOML"]
@@ -1703,12 +1943,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "2.1.2+0"
-
-[[deps.Juno]]
-deps = ["Base64", "Logging", "Media", "Profile"]
-git-tree-sha1 = "07cb43290a840908a771552911a6274bc6c072c7"
-uuid = "e5e0dc1b-0480-54bc-9374-aad01c23163d"
-version = "0.8.4"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1735,9 +1969,14 @@ version = "1.3.0"
 
 [[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
-git-tree-sha1 = "a8f4f279b6fa3c3c4f1adadd78a621b13a506bce"
+git-tree-sha1 = "46a39b9c58749eefb5f2dc1178cb8fab5332b1ab"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.9"
+version = "0.15.15"
+
+[[deps.LazyModules]]
+git-tree-sha1 = "a560dd966b386ac9ae60bdd3a3d3a326062d3c3e"
+uuid = "8cdb02fc-e678-4876-92c5-9defec4f444e"
+version = "0.3.1"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -1797,17 +2036,11 @@ git-tree-sha1 = "9c30530bf0effd46e15e0fdcf2b8636e78cbbd73"
 uuid = "4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
 version = "2.35.0+0"
 
-[[deps.Librsvg_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pango_jll", "Pkg", "gdk_pixbuf_jll"]
-git-tree-sha1 = "25d5e6b4eb3558613ace1c67d6a871420bfca527"
-uuid = "925c91fb-5dd6-59dd-8e8c-345e74382d89"
-version = "2.52.4+0"
-
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "Pkg", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "c9551dd26e31ab17b86cbd00c2ede019c08758eb"
+git-tree-sha1 = "3eb79b0ca5764d4799c06699573fd8f533259713"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.3.0+1"
+version = "4.4.0+0"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1821,18 +2054,12 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "e5718a00af0ab9756305a0392832c8952c7426c1"
+git-tree-sha1 = "09e4b894ce6a976c354a69041a04748180d43637"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.6"
+version = "0.3.15"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
-
-[[deps.Luxor]]
-deps = ["Base64", "Cairo", "Colors", "Dates", "FFMPEG", "FileIO", "Juno", "LaTeXStrings", "Random", "Requires", "Rsvg"]
-git-tree-sha1 = "81a4fd2c618ba952feec85e4236f36c7a5660393"
-uuid = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
-version = "3.0.0"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -1865,12 +2092,6 @@ git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
 version = "0.3.1"
 
-[[deps.Media]]
-deps = ["MacroTools", "Test"]
-git-tree-sha1 = "75a54abd10709c01f1b86b84ec225d26e840ed58"
-uuid = "e89f7d12-3494-54d1-8411-f7d8b9ae1f27"
-version = "0.5.0"
-
 [[deps.Missings]]
 deps = ["DataAPI"]
 git-tree-sha1 = "bf210ce90b6c9eed32d25dbcae1ebc565df2687f"
@@ -1891,9 +2112,9 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "b086b7ea07f8e38cf122f5016af580881ac914fe"
+git-tree-sha1 = "737a5957f387b17e74d4ad2f440eb330b39a62c5"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "0.3.7"
+version = "1.0.0"
 
 [[deps.Netpbm]]
 deps = ["FileIO", "ImageCore"]
@@ -1907,9 +2128,9 @@ version = "1.2.0"
 
 [[deps.OffsetArrays]]
 deps = ["Adapt"]
-git-tree-sha1 = "043017e0bdeff61cfbb7afeb558ab29536bbb5ed"
+git-tree-sha1 = "b4975062de00106132d0b01b5962c09f7db7d880"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.10.8"
+version = "1.12.5"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1941,9 +2162,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "648107615c15d4e09f7eca16307bc821c1f718d8"
+git-tree-sha1 = "ab05aa4cc89736e95915b01e7279e61b1bfe33b8"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.13+0"
+version = "1.1.14+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1970,9 +2191,9 @@ version = "8.44.0+0"
 
 [[deps.PNGFiles]]
 deps = ["Base64", "CEnum", "ImageCore", "IndirectArrays", "OffsetArrays", "libpng_jll"]
-git-tree-sha1 = "eb4dbb8139f6125471aa3da98fb70f02dc58e49c"
+git-tree-sha1 = "e925a64b8585aa9f4e3047b8d2cdc3f0e79fd4e4"
 uuid = "f57f5aa1-a3ce-4bc8-8ab9-96f992907883"
-version = "0.3.14"
+version = "0.3.16"
 
 [[deps.PaddedViews]]
 deps = ["OffsetArrays"]
@@ -1980,17 +2201,11 @@ git-tree-sha1 = "03a7a85b76381a3d04c7a1656039197e70eda03d"
 uuid = "5432bcbf-9aad-5242-b902-cca2824c8663"
 version = "0.5.11"
 
-[[deps.Pango_jll]]
-deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "FriBidi_jll", "Glib_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "3a121dfbba67c94a5bec9dde613c3d0cbcf3a12b"
-uuid = "36c8627f-9965-5494-a995-c6b170f724f3"
-version = "1.50.3+0"
-
 [[deps.Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "13468f237353112a01b2d6b32f3d0f80219944aa"
+git-tree-sha1 = "1285416549ccfcdf0c50d4997a94331e88d68413"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.2.2"
+version = "2.3.1"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2017,41 +2232,37 @@ version = "2.0.1"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "6f1b25e8ea06279b5689263cc538f51331d7ca17"
+git-tree-sha1 = "bb16469fd5224100e422f0b027d26c5a25de1200"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.1.3"
+version = "1.2.0"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "eb1432ec2b781f70ce2126c277d120554605669a"
+git-tree-sha1 = "d16070abde61120e01b4f30f6f398496582301d6"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.25.8"
+version = "1.25.12"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "8979e9802b4ac3d58c503a20f2824ad67f9074dd"
+git-tree-sha1 = "8d1f54886b9037091edf146b517989fc4a09efec"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.34"
+version = "0.7.39"
 
 [[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "2cf929d64681236a2e074ffafb8d568733d2e6af"
+git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.2.3"
+version = "1.3.0"
 
 [[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
-[[deps.Profile]]
-deps = ["Printf"]
-uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
-
 [[deps.ProgressMeter]]
 deps = ["Distributed", "Printf"]
-git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+git-tree-sha1 = "d7a7aef8f8f2d537104f170139553b14dfe39fe9"
 uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
-version = "1.7.1"
+version = "1.7.2"
 
 [[deps.QOI]]
 deps = ["ColorTypes", "FileIO", "FixedPointNumbers"]
@@ -2086,9 +2297,9 @@ version = "1.2.1"
 
 [[deps.RecipesPipeline]]
 deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase"]
-git-tree-sha1 = "37c1631cb3cc36a535105e6d5557864c82cd8c2b"
+git-tree-sha1 = "dc1e451e15d90347a7decc4221842a022b011714"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.5.0"
+version = "0.5.2"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
@@ -2107,12 +2318,6 @@ git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
 
-[[deps.Rsvg]]
-deps = ["Cairo", "Glib_jll", "Librsvg_jll"]
-git-tree-sha1 = "3d3dc66eb46568fb3a5259034bfc752a0eb0c686"
-uuid = "c4c386cf-5103-5370-be45-f3a111cca3b8"
-version = "1.0.0"
-
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
@@ -2125,10 +2330,6 @@ version = "1.1.0"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
-
-[[deps.SharedArrays]]
-deps = ["Distributed", "Mmap", "Random", "Serialization"]
-uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 
 [[deps.Showoff]]
 deps = ["Dates", "Grisu"]
@@ -2157,9 +2358,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "8d0c8e3d0ff211d9ff4a0c2307d876c99d10bdf1"
+git-tree-sha1 = "a9e798cae4867e3a41cae2dd9eb60c047f1212db"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.1.2"
+version = "2.1.6"
 
 [[deps.StackViews]]
 deps = ["OffsetArrays"]
@@ -2169,30 +2370,31 @@ version = "0.1.1"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "a635a9333989a094bddc9f940c04c549cd66afcf"
+git-tree-sha1 = "383a578bdf6e6721f480e749d503ebc8405a0b22"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.3.4"
+version = "1.4.6"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[deps.StatsAPI]]
-git-tree-sha1 = "d88665adc9bcf45903013af0982e2fd05ae3d0a6"
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "2c11d7290036fe7aac9038ff312d3b3a2a5bf89e"
 uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.2.0"
+version = "1.4.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "51383f2d367eb3b444c961d485c565e4c0cf4ba0"
+git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.14"
+version = "0.33.16"
 
 [[deps.StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
-git-tree-sha1 = "d21f2c564b21a202f4677c0fba5b5ee431058544"
+git-tree-sha1 = "9abba8f8fb8458e9adf07c8a2377a070674a24f1"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
-version = "0.6.4"
+version = "0.6.8"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -2206,10 +2408,10 @@ uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 version = "1.0.1"
 
 [[deps.Tables]]
-deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "bb1064c9a84c52e277f1096cf41434b675cd368b"
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "OrderedCollections", "TableTraits", "Test"]
+git-tree-sha1 = "5ce79ce186cc678bbb5c5681ca3379d1ddae11a1"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.6.1"
+version = "1.7.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
@@ -2228,9 +2430,14 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TiffImages]]
 deps = ["ColorTypes", "DataStructures", "DocStringExtensions", "FileIO", "FixedPointNumbers", "IndirectArrays", "Inflate", "OffsetArrays", "PkgVersion", "ProgressMeter", "UUIDs"]
-git-tree-sha1 = "991d34bbff0d9125d93ba15887d6594e8e84b305"
+git-tree-sha1 = "f90022b44b7bf97952756a6b6737d1a0024a3233"
 uuid = "731e570b-9d59-4bfa-96dc-6df516fadf69"
-version = "0.5.3"
+version = "0.5.5"
+
+[[deps.Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
 
 [[deps.URIs]]
 git-tree-sha1 = "97bbe755a53fe859669cd907f2d96aee8d2c1355"
@@ -2263,15 +2470,15 @@ version = "1.19.0+0"
 
 [[deps.Wayland_protocols_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "66d72dc6fcc86352f01676e8f0f698562e60510f"
+git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
-version = "1.23.0+0"
+version = "1.25.0+0"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "1acf5bdf07aa0907e0a37d3718bb88d4b687b74a"
+git-tree-sha1 = "58443b63fb7e465a8a7210828c91c08b92132dff"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.9.12+0"
+version = "2.9.14+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
@@ -2416,12 +2623,6 @@ git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
 version = "1.5.2+0"
 
-[[deps.gdk_pixbuf_jll]]
-deps = ["Artifacts", "Glib_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Xorg_libX11_jll", "libpng_jll"]
-git-tree-sha1 = "c23323cd30d60941f8c68419a70905d9bdd92808"
-uuid = "da03df04-f53b-5353-a52f-6a8b0620ced0"
-version = "2.42.6+1"
-
 [[deps.libass_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
 git-tree-sha1 = "5982a94fcba20f02f42ace44b9894ee2b140fe47"
@@ -2487,28 +2688,41 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─5504aec1-ecb0-41af-ba19-aaa583870875
+# ╠═5504aec1-ecb0-41af-ba19-aaa583870875
 # ╟─cb5b4180-7e05-11ec-3b82-cd8631fc57ba
 # ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
-# ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
+# ╠═b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 # ╟─a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-# ╠═0c2bf16a-92b9-4021-a5f0-ac2334fb986a
+# ╟─0c2bf16a-92b9-4021-a5f0-ac2334fb986a
 # ╟─3de20f99-af1c-413a-b8f4-dc2d259ece3a
 # ╟─8d0ad71b-34ca-407c-bd09-3fa191122c70
 # ╟─2fdeb1e8-5811-4dcb-881a-5e857889f6ca
 # ╟─9648cc3d-3e45-4dee-b245-1865b31f3c4c
+# ╠═4fb5808d-c406-4586-98b2-42f1b2911bf8
+# ╠═d7cf6b88-4111-4f36-9cc9-ba4e7a4d7688
+# ╠═9205b10a-fcfb-4fa9-88d4-e7d4a8b3e5c3
+# ╠═9a3f3a66-40f1-4eb3-ac3e-5c243a60642d
+# ╠═905e16f4-d98b-461c-8c91-c484f8529eb7
 # ╟─ae8bd2b8-f1a2-4ec4-a688-36be1d74b22f
 # ╟─a01b7bc9-ed73-42a1-af62-40cad8a403a8
+# ╟─b0dca955-16c4-4cd3-8090-02d577624ab6
 # ╟─d5551789-6389-4a4e-be19-2399ece4236b
 # ╟─d553f6c0-364d-4b8c-ba9f-dec14261be06
+# ╟─d81b7910-a720-4233-8d7d-0c34a0369dfb
 # ╟─520539c0-479e-4168-8667-668ef2077a18
 # ╟─fb2795d8-63e4-4d30-bb77-b1e30d59b185
+# ╟─5f76850e-e45e-4765-b91b-e90dcbb737cb
 # ╟─59abb2ae-9614-4ffe-bb2c-c2646629e509
+# ╟─6d78aefc-b2bd-4a50-a1a3-27346d67637b
 # ╟─77cd7684-b0ee-4cb7-a0f7-be9a4cbb3b58
+# ╟─c0e65fa8-2bfc-4d72-9f0f-c1c4e5418370
+# ╟─2bc2ed20-197a-46f5-ac39-ec2a9e3557e8
 # ╠═3c0a921b-c8cc-4e8b-b0a6-3eb5d339fa63
 # ╟─3a417947-eb23-4247-9e79-af925733aabf
 # ╟─aa13c9ca-4b07-4a64-a073-65ea7e0e6c99
+# ╟─576fb1a5-9c1e-46dd-82b9-33563b5cda26
+# ╟─8329c9df-888b-4210-8a1d-c3a206be0a45
 # ╠═af88ebfb-e6bf-4fa0-85c7-79fe09705509
 # ╟─0d1fd69e-9290-43dd-b79d-e78a8aab65b0
 # ╟─7a1eb229-da44-40e0-8365-640a5ce88569
@@ -2516,6 +2730,8 @@ version = "0.9.1+5"
 # ╠═ae6fbc53-26d9-4980-b755-9d2278badfc3
 # ╠═a9873638-7338-414e-8f30-054ba220114d
 # ╠═2b9984b3-b38e-498b-9a05-3df4f56c525e
+# ╠═356a6388-9778-4892-97ce-77ebff7429eb
+# ╠═cc0a9986-b370-4243-9611-4dd21e246c6a
 # ╟─8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
 # ╠═19adef74-4e28-4aab-9f05-92bcfde1bf73
 # ╠═e4df508d-9f85-41a1-8cae-45d1505784b9
@@ -2537,21 +2753,36 @@ version = "0.9.1+5"
 # ╠═b49cf4b8-f690-4768-b27d-0104b0619317
 # ╟─78f0d566-903a-4018-b3e4-b1748e60c10c
 # ╠═a5d67212-6356-4caf-966e-14b0a851b00e
+# ╟─d0f9a0c9-f58d-48fe-81b0-539c14134969
+# ╠═1d01ecdd-6bed-46e7-acbe-684d9806fd40
+# ╠═421dea52-181f-453b-818d-2407f66a1f0b
+# ╠═a83552bd-f6bf-47f2-827b-8b17676c9e24
+# ╠═63ac2822-a157-4090-a165-849c15f1217d
+# ╠═88b473fe-b7bf-4111-a30a-02a8d9c9e32c
+# ╠═51d948b7-1b9d-449d-b885-c1235e0b3097
+# ╠═9f0c9b8f-301e-4d9f-b305-8a6ea39e84fd
+# ╠═fc73f681-c70b-41bd-af89-722ad033d55a
+# ╠═5c8b26f6-a5c3-4e15-a671-27d2b9b26205
+# ╠═3d2bd49e-aef4-4795-8ea5-b5975d011087
+# ╠═d31061b4-93a9-4e35-90d2-2977c70e8d05
+# ╠═115539ad-8b9c-4b38-8b23-b8064164ddc2
 # ╟─f3838d6f-0b17-48fe-b90a-0053f7ce74dc
+# ╟─ad2961bc-cf04-4206-a86f-1307416a3fe2
 # ╠═dc5e390f-ece4-4e27-9b25-023a731cc633
 # ╠═eec8c31c-5324-44a4-8e55-3fed81d9dbd8
-# ╟─f130d717-bedc-4ebd-bba5-3908d54c07bc
-# ╠═4fd22565-7443-4f10-baf3-a2881651a2be
-# ╠═556f68f3-481b-4660-b5bd-f1a643676ee2
-# ╠═05c341eb-3db3-42bd-ae08-05f8aa370cb7
 # ╟─ba787e69-7f86-4f41-87f5-b20d9e8831c6
 # ╠═144114a0-20f1-4fee-8d7b-331274442bfb
 # ╠═8ead573c-e4a3-41e7-9d5e-8494f53ca6e4
 # ╠═2efcc362-ebb1-41d7-a899-7854efa215ca
 # ╠═f190b01d-9268-4c44-ae01-cc17f927704e
 # ╠═45ced395-a8a2-465b-9552-186806b0e6e1
-# ╠═2cf6c3c0-0406-49d8-b53b-56983d290188
-# ╠═55fdee4a-3860-4a88-9790-bcfba7ee35fb
+# ╟─f130d717-bedc-4ebd-bba5-3908d54c07bc
+# ╠═4fd22565-7443-4f10-baf3-a2881651a2be
+# ╠═556f68f3-481b-4660-b5bd-f1a643676ee2
+# ╠═05c341eb-3db3-42bd-ae08-05f8aa370cb7
+# ╟─2cf6c3c0-0406-49d8-b53b-56983d290188
+# ╟─55fdee4a-3860-4a88-9790-bcfba7ee35fb
+# ╟─28d718bd-610a-4257-91dc-7148e3fe45df
 # ╟─2d3abfe1-8cda-49f8-b5b1-b8b602626d92
 # ╠═b86955b4-9a9f-47c7-bec4-9069fbbd4061
 # ╟─346bba70-2209-4d07-8c02-63a74e8c622d
@@ -2576,13 +2807,15 @@ version = "0.9.1+5"
 # ╟─75e91ef3-8893-48fc-a297-e54aa6b6c671
 # ╟─1de74de8-36c5-467f-a749-4cefd0b2acdc
 # ╟─877ef381-df6c-4a5b-bf99-88f8afba0995
+# ╟─3a8ef338-38a4-4954-862c-6ce50e80f2fe
 # ╟─2d036e2e-6850-46d8-bbb5-21856403ecc8
 # ╠═b5449b8e-3000-48dc-a788-1d357569a5a9
 # ╟─7ad20af1-a7d6-4092-b982-fad27d6e51ea
 # ╟─ba3404b3-956e-4ca8-93aa-070897bdaa9a
 # ╟─2633b604-7476-48d0-8cdc-05645ea0ed57
+# ╠═41ac05e6-b5a6-4546-9a21-e6694571f672
 # ╟─3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
-# ╠═d50ef757-c687-4695-a4f3-2740a646ccd8
+# ╟─d50ef757-c687-4695-a4f3-2740a646ccd8
 # ╟─b802bd1c-c590-499c-990f-596159fea135
 # ╠═0872e2b8-386a-40a4-b2cb-48f564c921d8
 # ╟─a3611641-256e-49e8-9e2e-c78b9efc21ce

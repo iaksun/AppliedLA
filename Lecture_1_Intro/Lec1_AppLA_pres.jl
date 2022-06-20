@@ -662,6 +662,12 @@ Let us first read and assign the table to a `variable`:
 # ╔═╡ c970ab26-9699-4d88-97bf-accd8705a4a0
 df_house = DataFrame(XLSX.readtable("house_data.xlsx", "Sheet1")...)
 
+# ╔═╡ 5e58e35f-9ac6-4e0f-b619-86cd6b511629
+ones(1000)' * df_house.price
+
+# ╔═╡ 25c06b3a-25ae-4247-9d36-775728f351c6
+sum(df_house.price)
+
 # ╔═╡ 7926881c-f1b3-4b5e-8aa9-97443d16b903
 md"""#
 
@@ -2660,9 +2666,9 @@ version = "0.9.1+5"
 # ╔═╡ Cell order:
 # ╠═fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
 # ╟─be0e4aa9-3c2c-4d71-914e-5c0c2a3797ca
-# ╟─f7c985b3-731b-4c56-afdb-4c67f47d9c94
-# ╟─b4b7ed3f-43f4-479a-9913-519706c02a2f
-# ╟─a272d501-5f4f-4f65-9f0d-8e7397935646
+# ╠═f7c985b3-731b-4c56-afdb-4c67f47d9c94
+# ╠═b4b7ed3f-43f4-479a-9913-519706c02a2f
+# ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
 # ╟─b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
 # ╟─e4e67907-bab7-4775-bc4d-1072de1faad0
@@ -2674,8 +2680,8 @@ version = "0.9.1+5"
 # ╟─5af9b4df-93ac-468b-a23d-a47121cade0a
 # ╟─f002d8e5-821a-485c-8a13-0c198935c955
 # ╟─4d88b926-9543-11ea-293a-1379b1b5ae64
-# ╟─90d44a05-15c2-4a4c-b665-0ded387a6a8d
-# ╟─3e1dba04-ee47-4439-a6fa-71a4bf7ea32a
+# ╠═90d44a05-15c2-4a4c-b665-0ded387a6a8d
+# ╠═3e1dba04-ee47-4439-a6fa-71a4bf7ea32a
 # ╟─b956d523-8f52-4b9b-8885-6c77b9e64c7a
 # ╟─f48a0e46-ef4d-4b40-9702-4155ba681df2
 # ╟─8fab1792-a13c-470a-83eb-f8d67887e32e
@@ -2695,7 +2701,7 @@ version = "0.9.1+5"
 # ╟─1417c2e3-2749-4fac-b008-520f89d23503
 # ╟─c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 # ╟─70f17fd5-c54d-4888-b745-9ac48bf7efb9
-# ╟─001b6077-9659-472c-8975-192465264100
+# ╠═001b6077-9659-472c-8975-192465264100
 # ╟─93134e1f-4cec-4f05-8f18-6428a26afaf8
 # ╟─d8a2533f-e241-4d1d-a939-8006b555daef
 # ╟─93625590-1e00-42f9-9ff0-a17d1eb2a286
@@ -2711,6 +2717,8 @@ version = "0.9.1+5"
 # ╟─a2a0aa9d-c6a7-4b72-8f77-5dcd1123732d
 # ╠═cec35ba2-6ec0-49a6-abbc-f4cc7ab68cb7
 # ╠═c970ab26-9699-4d88-97bf-accd8705a4a0
+# ╠═5e58e35f-9ac6-4e0f-b619-86cd6b511629
+# ╠═25c06b3a-25ae-4247-9d36-775728f351c6
 # ╟─7926881c-f1b3-4b5e-8aa9-97443d16b903
 # ╠═1c939645-80f1-4fe8-a497-62b7f22b833c
 # ╟─a8d3d0e1-59af-48ed-8bf9-984422cb2ee1
