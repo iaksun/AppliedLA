@@ -35,6 +35,9 @@ end
 # ╔═╡ 0ffd3791-8b90-43b9-8144-66d740596303
 using LinearAlgebra
 
+# ╔═╡ 3fb613a7-4ca5-4691-b66d-229547693bd3
+using Statistics
+
 # ╔═╡ fbbedfd3-264b-4dd5-84f9-67c9f674b3f6
 html"""<button onclick="present()">present</button>"""
 
@@ -49,7 +52,7 @@ _When running this notebook for the first time, this could take a little longer,
 PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ b8171bbb-d3f4-4236-9d77-3ccffd6d4613
-md"""# Applied Linear Algebra for Everyone (August 02, 2022)
+md"""# Applied Linear Algebra for Everyone (Fall 2022)
 **M. İrşadi Aksun**\
 **Electrical and Electronics Engineering**\
 **e-mail: iaksun@ku.edu.tr**
@@ -58,12 +61,12 @@ md"""# Applied Linear Algebra for Everyone (August 02, 2022)
 
 #### Recommended Materials:
 
-##### 1. ``\;\;`` William Gilbert Strang from MIT, 
-* **inspiring lectures on _Linear Algebra_, talks on the importance of Linear Algebra for everyone, all available on YouTube;**
+#### 1. ``\;\;`` William Gilbert Strang from MIT, 
+* **Lectures on _Linear Algebra_, all available on YouTube;**
 
 * **book titled _Linear Algebra for Everyone_**
 
-##### 2. ``\;\;`` Stephen P. Boyd from Stanford University, 
+#### 2. ``\;\;`` Stephen P. Boyd from Stanford University, 
 
 * **lectures on _Introduction to Applied Linear Algebra_ on YouTube;**
 
@@ -71,7 +74,7 @@ md"""# Applied Linear Algebra for Everyone (August 02, 2022)
 
 * **textbook _Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares_ available online.**
 
-##### 3. ``\;\;`` Grant Sanderson from 3Blue1Brown, 
+#### 3. ``\;\;`` Grant Sanderson from 3Blue1Brown, 
 
 * **Linear Algebra lectures with exeptional visualizations on YouTube** 
 ---
@@ -94,8 +97,43 @@ md"# _Disclaimer – On-Line Teaching_
 ---
 "
 
+# ╔═╡ d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
+md"# Inspiration
+
+#### A few pioneers 
+##### $\qquad - \;$ have been teaching similar courses (mostly available online)
+##### $\qquad - \;$ written excellent books 
+##### on the fundamentals, applications and importance of LA.
+
+\
+
+#### Here are the names of a few who have inspired me:
+
+#### $\it \color{red} Prof. \;William \;Gilbert \;Strang\;$ from MIT
+##### $\qquad -\;$ inspiring lectures and books on Linear Algebra 
+##### $\qquad -\;$ talks on the importance of Linear Algebra for everyone  
+
+\
+
+#### $\it \color{red} Prof. \;Stephen \;P. \;Boyd\;$ from Stanford University 
+##### $\qquad -\;$ lectures on _Introduction to Applied Linear Algebra_  
+##### $\qquad -\;$ [course materials on the webpage] (https://stanford.edu/class/engr108) 
+##### $\qquad -\;$ [textbook] (https://web.stanford.edu/~boyd/vmls/) available online 
+##### $\qquad -\;$ [Julia Language Companion] (https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf) 
+
+\
+
+#### $\it \color{red} Prof. A. Edelman, D. P. Sanders, C. E. Leiserson\;$ from MIT 
+##### $\qquad -\;$ lectures on _Introduction to Computational Thinking_ 
+##### $\qquad \;\;\;\;$ delivered online on the Pluto notebook 
+##### $\qquad -\;$ videos of lectures, homeworks, cheatsheets 
+##### $\qquad \;\;\;\;$ all available on the [webpage of the course] (https://computationalthinking.mit.edu/Spring21/)
+
+---
+"
+
 # ╔═╡ 40ddf96c-cbfd-42c0-9f1f-a05fb0f550cf
-md"""# Motivation
+md"""# Motivation - 1
 
 #### Traditionally, Linear Algebra has been 
 
@@ -135,119 +173,423 @@ $\qquad \Large \bullet \;\;data \;is \;everywhere:$
 
 $\qquad \Large \bullet \;\;LA \;helps \;decipher \;the \;underlying \;story \;of \;data$ 
 
-\
-
-#### Therefore,
-
-\
-
- $\bf \Large \color{red} Everyone \;needs \;to \;understand \;Linear \;Algebra$
-
 ---
 """
 
 # ╔═╡ e4e67907-bab7-4775-bc4d-1072de1faad0
-md"# Motivation
+md"# Motivation - 2
 
-* **Linear Algebra** has been a topic for math-savvy students and taught only in Science and Engineering programs since its foundation in 1600's.
+#### Therefore, it is only natural that 
 
+\
 
-* However, **in today's world, data is everywhere** and methods from Linear Algebra help decipher the underlying story of data in every field. 
+##### $\qquad \bullet \Large \;\;$ the processed data by the methods of linear algebra 
+##### $\quad \qquad \Large\;$ would make sense to those trained in the field.
 
+\
 
-* **Social sciences, administrative sciences, medicine, law, in addition to engineering and sciences, have all been inundated with data and data-centric approaches**.
+#### Consequently, those who are trained in any field 
+\
 
+##### $\qquad \bullet \Large \;\;$ need to understand the tools and working principles
+\
 
-* Therefore, **it is only natural that the processed data by the methods of linear algebra would make sense to the people trained in the specific field** of the data much better.
+#### in order to make sense out of the processed data.
 
+\
 
-* Consequently, those who are trained in any field, that is **everyone, need to understand the tools**, as well as their working principles, in order to work on and make sense out of the pre-processed and processed data. Hence
+#### ⇒ Hence, we can claim that
 
-#### Applied Linear Algebra for Everyone 
+\
+
+$\qquad \bf \Large \color{red} everyone \;needs \;to \;understand \;Linear \;Algebra$
+
 ---
 "
 
 # ╔═╡ 5f6a7a63-dbda-45c1-8505-84e2861f9c60
-md"# Goal and Requirements
+md"# Goal
 
-**The main goal of this course** is to help students, professionals and researchers in any field to be literate in data manipulations using the tools from Linear Algebra. 
+#### is to help 
+##### $\bf \large \qquad \color{red} \;\;students, \;professionals \;and \;researchers$
+##### in any field to be literate in data manipulations using the tools from
+##### $\bf \large \qquad \qquad \qquad \color{red} \;\;Linear \;\;Algebra$ 
 
-Hence, the students would **gain a good understanding of the basic ideas**, as well as an **_appreciation for how they are used in many applications_**, including
-  
-  - data fitting,
-  - classification,
-  - clustering,
-  - Markov model,
-  - Principle Component Analysis (PCA),
-  - machine learning (neural net and gradient descent),
-  - image processing,
-  - Linear programming,
-  - ...
+\
+
+#### Hence, students would 
+##### $\qquad -\;\;$ gain good understanding of the basic ideas, 
+##### $\qquad -\;\;$ build intuition for where, when and how to use the methods,
+##### $\qquad -\;\;$ practice many practical applications, including
+
+##### $\qquad \qquad \circ\;\;$ data fitting,
+##### $\qquad \qquad \circ\;\;$ classification,
+##### $\qquad \qquad \circ\;\;$ clustering,
+##### $\qquad \qquad \circ\;\;$ Markov model,
+##### $\qquad \qquad \circ\;\;$ Principle Component Analysis (PCA),
+##### $\qquad \qquad \circ\;\;$ machine learning (neural net and gradient descent),
+##### $\qquad \qquad \circ\;\;$ image processing,
+##### $\qquad \qquad \circ\;\;$ Linear programming,
+##### $\qquad \qquad \circ\;\;$ ...
 
 ---
 "
 
 # ╔═╡ 112c4c4f-7990-4336-ad37-5fa6b0874024
-md"""#
+md"""# Requirements
 
-**Applied Linear Algebra for Everyone** has been prepared (still ongoing) with the following **mindset and expectations**:. 
+#### _Applied Linear Algebra for Everyone_ has been prepared with the following mindset and expectations: 
+
+##### $1. \;\;$ Hands-on and practical applications; 
+##### $\qquad \qquad -\;$ _Julia_ programming language
+
+##### $2. \;\;$ Interactive teaching environment;
+##### $\qquad \qquad -\;$ _Pluto_ notebook
+
+##### $3. \;\;$ No math prerequisites,
+##### $\qquad \qquad -\;$ enough _motivation_ and _perseverance_ would suffice
+##### $\qquad \qquad -\;$ emphasis will be on _concepts_ and _intuitions_
+
+##### $4. \;\;$ Little math foundations, with
+##### $\qquad \qquad -\;$ brief intros and a few handworked simple examples, and
+##### $\qquad \qquad -\;$ many applications with step-by-step coding
+
+##### $5. \;\;$ Lecture notebooks on _Pluto_ will include
+##### $\qquad \qquad -\;$ markdown texts and necessary equations (not many)
+##### $\qquad \qquad -\;$ single or a few lines of code
+
+##### $6. \;\;$ Lecture notebooks on _Pluto_ will
+##### $\qquad \qquad -\;$ be shared with the students before lectures 
 
 
-* it **uses the Julia programming language on the Pluto notebook** as the teaching and application environment; 
 
+!!! note \" For the sake of clarity \"
 
-* it **does not require any prerequisite** to follow and learn the materials, just enough motivation and perseverance would suffice; 
-
-
-* the lecture notebooks on Pluto will **include single line codes (occasionally a few lines would be needed)**, markdown texts and necessary equations (not many); 
-
-
-* it mainly **emphasizes the concepts and intuitions with many examples and applications** rather than math foundations of the methods;
-
-
-* **for curious and math oriented people, and for some who are willing to invest a little more**, there will be brief intros and a few handworked examples of some methods that are considered to be important and fundamental for the understanding and building intuitions of the concepts.
-
-!!! note
-
-	It is important to note that this course covers less mathematics than a typical course on applied linear algebra.
-
-	This course and Math 107 cover complementary topics in applied linear algebra:
-
-	- the course will be on a few linear algebra concepts, and many applications; However,
-	- the focus of Math 107 is on concepts and basic theory of the algorithms.
+	##### This course covers less mathematics than a typical LA course and 
+	##### it is complementary to Math 107
 
 ---
 """
 
-# ╔═╡ d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
-md"# Inspiration
+# ╔═╡ 569afdce-c00f-49ae-8438-4eff7c93b715
+md"""# Some Facts
+### Calculus 
+##### $\qquad \bullet \;\;$ came earlier – thanks to Newton and Liebniz
 
-A few pioneers have been teaching similar courses (mostly available online) and written excellent books on the fundamentals, applications and importance of Linear Algebra.
+##### $\qquad \bullet \;\;$ is more complex but comes first in education too!
 
-Here I would like to name a few who have inspired me to embark on this project:
+##### $\qquad \bullet \;\;$ deals with one or two dimensions
 
-* First and foremost, **_Prof. William Gilbert Strang_** from MIT,
-  - inspiring lectures on Linear Algebra, talks on the importance of Linear Algebra for everyone, all available on YouTube;  
-  - book titled `Linear Algebra for Everyone`, and 
-  - assessment of linear algebra to be simpler and more accessible than Calculus. 
+##### $\qquad \bullet \;\;$ is language of Physics
+
+\
+
+### Linear Algebra (LA)
+##### $\qquad \bullet \;\;$ is simpler and deals with flat things 
+
+##### $\qquad \bullet \;\;$ nothing bends 
+
+##### $\qquad \bullet \;\;$ can easily go to many dimensions
+
+##### $\qquad \bullet \;\;$ “_The scope of science, engineering and management (and life) is now so much wider, and LA has moved into a center place_”[^1]
+
+\
+
+[^1] _Linear Algebra and Its Applications_ (5th Edition), Gilbert Strang
+
+---
+"""
+
+# ╔═╡ 1990eeb0-0677-4433-ab1e-153d3e89415b
+md"""# What is Linear Algebra?
+
+ $\bullet \;{\rm \bf \large \;Linear \;Algebra \;(LA)} \bf \;is$
+
+ $\qquad \bf \;the \;branch \;of \;mathematics \;concerning {\color{red} \;linear \;equations}$ 
+
+$\Large a_1 x_1+a_2 x_2+…+a_n x_n =b$
+ $\qquad \bf \;\;where \; {\it b} \;and \;the \;coefficients {\it \;a_1, ..., a_n} \;are \;real \;or \;complex \;numbers,$
+$\qquad \bf \;\;usually \;known, \;and \;{\it x_1, ..., x_n} \;are \;the \;unknown \;variables$
+
+\
+
+ $\bullet \;\;{\rm \bf \large Example}$	
+
+##### $\;\;\;$ Here is a simple system of 2 linear equations with 2 unknowns:
+
+>$\large x + 2 y = 3 \qquad \qquad \qquad x_1 + 2 x_2 = 3$
+>$\large 4 x + 5 y = 6 \qquad \qquad \qquad 4 x_1 + 5 x_2 = 6$
+
+---
+"""
+
+# ╔═╡ 65ce7b59-eae9-40b0-b583-77723902f332
+md"""# Why is Linear Algebra important?
+
+#### $\color{red} \bf Linear \;Algebra \;is \;the \;Mathematics \;of \;Data$
 
 
-*  **_Prof. Stephen P. Boyd_** from Stanford University, 
-  - lectures on _Introduction to Applied Linear Algebra_ on youtube;  
-  - the [course materials on the webpage] (https://stanford.edu/class/engr108); 
-  - textbook [`Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares`] (https://web.stanford.edu/~boyd/vmls/) available online, 
-  - [`Julia Language Companion`] (https://web.stanford.edu/~boyd/vmls/vmls-julia-companion.pdf) and lecture slides. 
+#### Linear Algebra 
+
+##### $\qquad -\;$ looks for patterns,
+
+##### $\qquad -\;$ finds the important pieces of data
+
+##### $\qquad -\;$ is the fundamental part of AI, ML, DL and ANN
+
+##### Data comes in rectangular forms: $\color{red} \bf \;Arrays, \;Vectors \;and \;Matrices$
 
 
-*  **_Profs. Alan Edelman, David P. Sanders & Charles E. Leiserson_** from MIT, 
-  - lectures on _Introduction to Computational Thinking_, delivered online on the Pluto notebook, 
-  - videos of lectures, homeworks, cheatsheets, all are available on the [webpage of the course] (https://computationalthinking.mit.edu/Spring21/).
+##### Matrix notation allows you to concisely describe operations on data
+
+---
+"""
+
+# ╔═╡ 5af9b4df-93ac-468b-a23d-a47121cade0a
+md"""# Lecture - 0: Set-up
+
+#### Throughout the course, I am going to use 
+#### $\qquad \qquad\;\; \color{red} Julia$ programing language on
+#### $\qquad \qquad\;\;\color{red} Pluto$ notebook
+#### as the teaching environment.
+\
+
+#### Before getting started, 
+##### $\qquad \bullet \;\;$ Julia programing language and 
+##### $\qquad \bullet \;\;$ Pluto notebook environment
+##### will be installed and briefed.
+
+---
+"""
+
+# ╔═╡ 2777db69-da30-4852-b2a4-670fb8604a52
+md"""
+## 0.1. Why Julia?
+
+#### $\bullet \;\;$ _Julia_ was launched as an open-source programing language in 2012 by a group at MIT. 
+
+\
+
+#### $\bullet \;\;$ It was built for scientific and numerical computation with the speed and ease of learning:
+
+##### $\qquad \bullet \;\;$ speed is comparable to ``C`` and ``Fortran`` 
+
+##### $\qquad \bullet \;\;$ ease of learning comparable to ``Python``, ``Matlab``, ``R``
+
+\
+
+#### $\bullet \;\;$  Started and still being developed as a tool for efficient and fast computations required  
+
+##### $\qquad \bullet \;\;$ in data science problems 
+##### $\qquad \bullet \;\;$ in implementations of machine learning algorithms 
+##### $\qquad \bullet \;\;$ in all sorts of numerical computations in different fields
+
+---
+"""
+
+
+# ╔═╡ e385d837-5d6f-4025-94ee-214eee72d008
+md"""#
+### Benchmark Julia
+"""
+
+# ╔═╡ f002d8e5-821a-485c-8a13-0c198935c955
+load("benchmark.png")
+
+# ╔═╡ d72f679b-777f-48d6-9a08-40aa693c008f
+md"""
+---"""
+
+# ╔═╡ 4d88b926-9543-11ea-293a-1379b1b5ae64
+md"""# 
+### Install Julia
+	
+#### $\;\bullet\;\;$ Go to _The Julia Programming Language_ [website]		(https://julialang.org/)
+\
+
+#### $\;\bullet\;\;$ Download the current stable release for your computer
+\
+
+#### $\;\bullet\;\;$  Once downloaded and opened in ``REPL^\dagger`` environment,
+##### $\qquad -\;\;$  it is done,
+##### $\qquad -\;\;$ perform a few simple algebraic computations to verfy 
+##### $\qquad \;\;\;\;$ its proper set-up
+
+\
+
+###### † REPL is the abreviation of Read–Eval–Print-Loop
+"""
+
+# ╔═╡ 90d44a05-15c2-4a4c-b665-0ded387a6a8d
+# repl.png is in the same folder as Pluto_LA.jl, so no need for the complete path
+repl = load("repl.png")
+
+# ╔═╡ ca8ab926-c213-4914-9a5f-993356cd1b25
+md"""
+---"""
+
+# ╔═╡ b956d523-8f52-4b9b-8885-6c77b9e64c7a
+md"""## 0.2. Pluto Notebook
+
+#### _Pluto_ is 
+##### $\qquad - \;\;$ a programming environment for _Julia_, 
+##### $\qquad - \;\;$ designed to be _interactive_ and helpful,
+##### $\qquad - \;\;$ somewhat similar to _Jupyter_ notebook.
+ 
+
+!!! note \"Notebook vs IDE\"
+	##### _Notebooks_ supports computer codes, text elements and images.
+	##### _IDE$^\dagger$_ is for writting and debugging programs
+
+\
+
+###### $^\dagger$ IDE: Integrated Development Environments
+
+---
+"""
+
+# ╔═╡ f48a0e46-ef4d-4b40-9702-4155ba681df2
+md"""#
+### Set up Pluto environment
+
+#### _Pluto_ is a package that runs on Julia
+
+##### $\; 1.\;\;$ Switch to _Package_ platform by typing right square bracket ]
+
+##### $\; 2.\;\;$ type _add Pluto_ to install Pluto on your system.
+
+!!! note
+	##### This step is done only once when you are installing Pluto package
+
+##### $\; 3.\;\;$ type back space (←) to get bact to the `REPL` environment, 
+
+##### $\qquad -\;\;$ type and enter _import Pluto_, and
+##### $\qquad -\;\;$ type and enter _Pluto.run()_
+
+#### to start Pluto Environment, as shown below.
+
+!!! note \" Using Pluto Notebook \"
+	##### _import Pluto_ and _Pluto.run()_ have to be implemented everytime
+
+---
+"""
+
+# ╔═╡ 8fab1792-a13c-470a-83eb-f8d67887e32e
+md"""#
+### User Interface
+#### $\;\bullet \;$ Pluto Notebook opens in your default browser
+"""
+
+# ╔═╡ 755b31d0-c2fb-4687-84c8-bc6cdf2cd34b
+pluto_browser = load("pluto_browser.png");
+
+# ╔═╡ ceeec4ab-737c-4d92-a9c5-db8c823892a4
+md"""
+##### ⇒ _Slider_ and _RangeSlider_ types are in the `PlutoUI.jl` package.
+
+$(@bind pluto_rows RangeSlider(1:size(pluto_browser)[1]))
+"""
+
+# ╔═╡ 84de5da7-e014-448b-9ad9-ef86d4cee3d3
+pluto_browser[pluto_rows,:]
+
+# ╔═╡ 657cf33d-5d62-43cb-8117-fd92d046d4de
+md"""
+---"""
+
+# ╔═╡ dfe8d392-e180-459f-9633-316dfe99ea93
+md"#
+### Pluto interface
+
+!!! note 
+
+	##### - Results appear above the cell in Pluto environment 
+	
+	##### - Hide and open the code cell by clicking the ``eye`` (👀) sign 
+
+#### $\;\; -\;\;$ _sample notebook_: study and learn notebook 
+#### $\;\; -\;\;$ _new notebook_: start writing your code
+#### $\;\; -\;\;$ _local file_: continue working on a project
+#### $\;\; -\;\;$ _recent session_: open from the list
 
 ---
 "
 
+# ╔═╡ a56c4db6-8d98-4c58-9862-97bfb57f430b
+pluto_browser[pluto_rows,:]
+
+# ╔═╡ 2a34aeb9-41b3-41ff-8f74-26b49aa1777d
+md"""
+---"""
+
+# ╔═╡ 1e9b21e4-078e-4d3d-8dc2-908181f81267
+md"""#
+### Interactivity
+
+#### When you update a value in one cell, 
+##### $\qquad -\;\;$ _Pluto_ checks all the cells, 
+##### $\qquad -\;\;$ find dependencies between cells and 
+##### $\qquad -\;\;$ implement the update on all dependent cells 
+
+\
+
+##### $\qquad$ Example-1:
+##### $\qquad\;\; -\;\;$ Assign values for ``a`` and ``b``, and calculate ``c=a/b``,
+##### $\qquad\;\; -\;\;$ change ``a`` or ``b`` as you wish and observe.
+"""
+
+# ╔═╡ 7e054d5e-badd-48e4-b9e2-5ed0aa85de26
+a, b = rand((1:5),1), rand((1:5),1)
+
+# ╔═╡ c912c3cf-cd26-4a1a-9189-3d762da321a7
+c = a/b
+
+# ╔═╡ 7db34f43-0777-4cc3-a070-8f53a68cdca3
+md"""
+##### $\qquad\;\; -\;\;$ Assign a new value for ``a`` in another cell, what happens?
+
+"""
+
+# ╔═╡ 170d9642-e88c-4c05-93d4-4252b879778e
+html"""
+<details>
+    <summary> <b><big> Answer </b></summary>	
+    <br> 
+    <p><b>  multiple definitions are not allowed on Pluto </b></p>
+</details>
+"""
+
+# ╔═╡ 1b6b35ab-c02a-4d40-8740-ca39c622260e
+md"""
+
+!!! caution 
+
+	##### This is not a Julia Programing requirement but it is of Pluto's interactive environment.
+"""
+
+# ╔═╡ 856da551-1a93-4baf-8ef6-5946c225f2cd
+md"""
+\
+
+##### $\qquad$ Example-2: 
+##### $\qquad$ Did you notice another example of _interactivity_ in previous slides?
+"""
+
+# ╔═╡ 4710b609-ec9c-4c15-94f6-00e9ec5c8eb5
+html"""
+<details>
+    <summary> <b><big> Answer </b></summary>	
+    <br> 
+    <p><b> See Pluto user interface </b></p>
+</details>
+"""
+
+# ╔═╡ 394bc307-b090-422b-aeb3-51bb420c6834
+md"""
+---"""
+
 # ╔═╡ 534234e3-e8a3-4d8d-a905-9dc6c59baf8d
-md"# Content of the course
+md"# Content
 
 > #### Lecture 1: Vectors 
 
@@ -281,222 +623,28 @@ md"# Lecture - 1: Vectors
 
 ### Content 
 
-> ##### 1.1. Installing Julia and Pluto
-
-> ##### 1.2. Brief Review of vectors
->> ##### 1.2.1. Vectors in physics (2D and 3D)
->> ##### 1.2.2. Vectors in general
+> ##### 1.1. Brief Review of vectors
+>> ##### 1.1.1. Vectors in physics (2D and 3D)
+>> ##### 1.1.2. Vectors in general
 >>> #####  Brief digression: Dataframes
->> ##### 1.2.3. Simple vector operations
+>> ##### 1.1.3. Simple vector operations
 >>> ##### Add, subtract and multiply
->> ##### 1.2.4. A few definitions
+>> ##### 1.1.4. A few definitions
 >>> ##### Length and distance
 >>> ##### Norm
 
->> ##### 1.3. Relevant applications
->>> ##### 1.3.1. Sum, Mean, RMS value
->>> ##### 1.3.2. De-meaned vector, Standart deviation
->>> ##### 1.3.3. Standardization
->>> ##### 1.3.4. Correlation coefficient
->>> ##### 1.3.5. Projection
+>> ##### 1.2. Relevant applications
+>>> ##### 1.2.1. Sum, Mean, RMS value
+>>> ##### 1.2.2. De-meaned vector, Standart deviation
+>>> ##### 1.2.3. Standardization
+>>> ##### 1.2.4. Correlation coefficient
+>>> ##### 1.2.5. Projection
 
 ---
-"
-
-# ╔═╡ 5af9b4df-93ac-468b-a23d-a47121cade0a
-md"# 1.1. Julia & Pluto
-
-
-* Throughout the course, we are going to use **_Julia_** programing language on **_Pluto_** notebook.
-
-
-* In the first lecture, I will go through the installation of Julia programing language and Pluto notebook environment, together with the basics of using Pluto notebook.
-
-
-### Why Julia?
-
-* **_Julia_** was launched as an open-source programing language in 2012 by a group at MIT. 
-
-
-* From the start, the **_Julia_** programming language was built for scientific and numerical computation with the speed comparable to ``C`` and ``Fortran`` and with the ease of learning comparable to ``Python``, ``Matlab``, ``R`` and other scripting languages. 
-
-
-* Its math-friendly syntax makes it easy for users of ``Matlab``, ``Mathematica``, ``Octave`` and ``R`` to adapt.
-
-
-* It started and is still being developed as a tool for efficient and fast computations required in data science problems and in implementations of machine learning algorithms, as well as in all sorts of numerical computations arisen in different fields.
-
-### Benchmark Julia
-"
-
-# ╔═╡ f002d8e5-821a-485c-8a13-0c198935c955
-load("benchmark.png")
-
-# ╔═╡ 4d88b926-9543-11ea-293a-1379b1b5ae64
-md"""# 
-### Download Julia
-	
- * Go to the offical **_The Julia Programming Language_** website 		**_julialang.org_** and download _the current stable release_ that is suitable for your computer.
-	
- * Once **_Julia_** is downloaded and opened in `REPL` (`R`ead–`E`val–`P`rint-`L`oop) environment, as shown below, perform a simple algebraic computation like ``2+5`` as a regular calculator just to verfy that it is properly downloaded:
-   
-"""
-
-# ╔═╡ 90d44a05-15c2-4a4c-b665-0ded387a6a8d
-# repl.png is in the same folder as Pluto_LA.jl, so no need for the complete path
-repl = load("repl.png")
-
-# ╔═╡ 3e1dba04-ee47-4439-a6fa-71a4bf7ea32a
-md""" 
-
-!!! note 
-
-	You can do any operation that you could in a **_julia_** code on the `REPL` environment
- 
-"""
-
-# ╔═╡ b956d523-8f52-4b9b-8885-6c77b9e64c7a
-md"""## 1.1.1. Pluto Notebook
-
-* **_Pluto_** is a programming environment for **_Julia_**, designed to be _interactive_ and _helpful_; somewhat similar to **_Jupyter_** notebook.
- 
-
-!!! note
-
-	**_Pluto_** notebook is an interctive environment and **changes while working on it**.
-
-!!! note \"Notebook vs IDE\"
-	* **Notebooks** are files which supports the use of computer codes and text elements and images.
-	* **Integrated Development Environments** (IDE) are software for building applications with the different tools for writing a program such as source code editor and code debugger.
-
-"""
-
-# ╔═╡ f48a0e46-ef4d-4b40-9702-4155ba681df2
-md"### Set up Pluto environment
-
-* **_Pluto_** is a package that runs on Julia:
-
-  + Switch to **Package** platform by typing right square bracket ``]``, then
-
-  + type **add Pluto** to install Pluto on your system.
-!!! note
-	This step is done only once when you are installing Pluto package.
-
-Then, type **back space** to get bact to the `REPL` environment, and type 
-+ **import Pluto** and
-+ **Pluto.run()**
-to start Pluto Environment, as shown below.
-
-!!! note 
-	These two steps have to be implemented everytime when you use **_Pluto_** notebook.
-"
-
-# ╔═╡ 8fab1792-a13c-470a-83eb-f8d67887e32e
-md"#
-### User Interface
-Note that the **Pluto Notebook** will open in your default browser as shown below:"
-
-# ╔═╡ 755b31d0-c2fb-4687-84c8-bc6cdf2cd34b
-pluto_browser = load("pluto_browser.png");
-
-# ╔═╡ ceeec4ab-737c-4d92-a9c5-db8c823892a4
-md"""
-##### The `Slider` and `RangeSlider` types are defined in the `PlutoUI.jl` package.
-"""
-
-# ╔═╡ ecc2af82-2446-4164-b605-d307cae3bdfd
-@bind pluto_rows RangeSlider(1:size(pluto_browser)[1])
-
-# ╔═╡ 84de5da7-e014-448b-9ad9-ef86d4cee3d3
-pluto_browser[pluto_rows,:]
-
-# ╔═╡ dfe8d392-e180-459f-9633-316dfe99ea93
-md"#
-
-You may wish to open
-* a **_sample notebook_** to study and learn notebook environment, or
-* a **_new notebook_** to start writing your code, or
-* a file from a local directory or a webpage.
-OR
-* one of the recent sessions again from the list of **_Recent sessions_**.
-
----
-"
-
-# ╔═╡ a56c4db6-8d98-4c58-9862-97bfb57f430b
-pluto_browser[pluto_rows,:]
-
-# ╔═╡ 1e9b21e4-078e-4d3d-8dc2-908181f81267
-md"#
-### Interactivity
-Since Julia is a scripting language where one can type an operation and see the result, I will give a few simple arithmetic operations below and introduce what we mean by _interactive_ environment:
-
-!!! note 
-
-	* Results appear above the cell in Pluto environment, different from other notebooks like **_Juypiter Notebook_**. 
-	
-	* You can hide the code cell by clicking the ``eye`` sign on the left of the cell, which allows user to present a ``clean`` page with results only.
-
-!!! important 
-
-	When you change a value in one cell, **_Pluto_** checks all the cells, find dependencies between cells and implement those cells to update the values. 
-
-"
-
-# ╔═╡ 4d970613-94f3-4918-964d-d62df499763a
-md"
-``Example-1:``
-* Assign values for ``a`` and ``b``, and calculate ``c=a/b``,
-* then, change ``a`` or ``b`` as you wish and observe.
-"
-
-# ╔═╡ 7e054d5e-badd-48e4-b9e2-5ed0aa85de26
-a = rand((1:5),1)
-
-# ╔═╡ b40e4488-9409-4a35-b979-f437a54a8276
-b = rand((1:5),1)
-
-# ╔═╡ c912c3cf-cd26-4a1a-9189-3d762da321a7
-c = a/b
-
-# ╔═╡ 856da551-1a93-4baf-8ef6-5946c225f2cd
-md" ``Example-2:`` Did you notice another example of **_interactivity_** before?"
-
-# ╔═╡ 7db34f43-0777-4cc3-a070-8f53a68cdca3
-md"
-* Try assigning a new value for ``a`` in another cell, for example type ``a = 5`` and see what happens.
-
-  `` $ \bf What \;do \;you \;think?$`` 
-"
-
-# ╔═╡ 1b6b35ab-c02a-4d40-8740-ca39c622260e
-md"
-* Pluto can not allow multiple definitions for the same variable; ``\bf WHY?``
-
-
-* While writing a code on Pluto, you need to be carefull not to assign new values to an existing variable.
-
-!!! caution 
-
-	This is not a Julia Programing requirement but it is of Pluto's interactive environment.
-"
-
-# ╔═╡ 1417c2e3-2749-4fac-b008-520f89d23503
-md"# 
-### Issues
-
-* Not being able to assign new values to already used variables may make the programing difficult for some.
-
-
-* Pluto may evaluate a lot of cells just to show you the results of your latest input.
-  + As a remedy `Disable cell` option has been introduced in the `Actions botton` seen on the right as a button with three dots on it.
-
-
-* 
 "
 
 # ╔═╡ c4dec3a3-6d20-4c09-85a8-f753cd3dc094
-md"# 1.2. Brief Review of Vectors
+md"## 1.1. Brief Review of Vectors
 
 "
 
@@ -510,80 +658,101 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/fNk_zzaMoSs" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ 93134e1f-4cec-4f05-8f18-6428a26afaf8
+# ╔═╡ 69add601-4db0-4ed9-8e33-f06b0153c938
 md"""
+---"""
 
-## 1.2.1. Why do we need vectors?
+# ╔═╡ a6535620-6ac8-4c80-93a6-148b6b75ff4f
+md"""#
 
-
-It is all about **defining a quantity uniquely** so that we can understand, comprehend and use them in our daily lives. Here are a few examples:
-
-* certain objects need **real numbers**, like 
-  - a person's weight and height, I am 75kg and 1.8m tall
-  - when shopping, you need to quantify the food like 1.5 kg of cheese, 2 kg of orange etc.
-  - when driving, the speed of a car may be about 65 km/h or 100 km/h
-  - your age may be defined as 21 or 21.5 years old
-  - ...
+### 1.1.1. Why do we need vectors?
 
 
-* Some others may be defined using only **integer numbers** like
-  - number of courses you take may be 5 or 6 
-  - a student's rank in the class, 1st, 10th, ..
-  - number of books you carry daily on average
-  - ...
+#### $\qquad \;\; \large \bf \color{red} To \;define \;a \;quantity \;uniquely$
+
+\
+
+#### Here are a few examples:
+
+##### $\qquad \bullet\;\;$ certain objects need $\color{red} \bf real \;numbers:$ 
+##### $\qquad \qquad \bullet\:\; a \;person's \;weight \;and \;height, \;like \;74.5\;kg \;and \;1.8 \;m,$
+##### $\qquad \qquad \bullet\:\; amount \;of \;food, \;like \;1.5 \;kg \;of \;cheese, \;2.5 \;kg \;of \;orange \;etc.,$
+##### $\qquad \qquad \bullet\:\; when \;shopping, \;amount \;of \;money \;you \;need,$ 
+##### $\qquad \qquad \bullet\:\; when \;driving, \;the \;speed \;of \;car \;like \;65 \;km/h \;or \;100 \;km/h,$
+##### $\qquad \qquad \bullet\:\; your \;age, \;like \;21 \;or \;21.5 \;years \;old,$
+##### $\qquad \qquad \bullet\:\; ...$
 
 
-* Some others may be defined using **Boolean data type** like 
-  - rain, snow and other weather conditions usually defined by "YES" or "NO", 
-  - pass or fail is like '1:Pass' or '0:Fail'
-  - having a hearth deases is '1:YES' or '0:NO'
-  - ...
+##### $\qquad \bullet\;\;$ Some others may be defined using only $\color{red} \bf \;integer \;numbers:$
+##### $\qquad \qquad \bullet\:\; number \;of \;courses \;you \;take, \;maybe \;5 \;or \;6,$ 
+##### $\qquad \qquad \bullet\:\; a \;student's \;rank \;in \;the \;class, 1^{st}, 10^{th},$
+##### $\qquad \qquad \bullet\:\; number \;of \;books \;you \;have \;read, \;maybe \;10 \;or \;25,$
+##### $\qquad \qquad \bullet\:\; ...$
+
+---
+"""
+
+# ╔═╡ 6e4d8535-050a-483e-89d7-22c8378fc458
+md"""#
+### 1.1.1. Why do we need vectors (cont'd)?
+
+##### $\qquad \bullet\;\;$ Some others may be defined using only $\color{red} \bf Boolean \;data \;type:$
+##### $\qquad \qquad \bullet\:\; rain, \;snow \;and \;other \;weather \;conditions: \; 'YES' \;or \; 'NO',$ 
+##### $\qquad \qquad \bullet\:\; pass \;or \;fail: \;'1:Pass' \;or \;'0:Fail',$
+##### $\qquad \qquad \bullet\:\; having \;a \;hearth \;deases: \;'1:YES' \;or \;'0:NO',$
+##### $\qquad \qquad \bullet\:\; ...$
 
 
-* Meanwhile, some others like displacement, velocity, force may **need more than one number** for their unique definitions, like
-  - for a velocity of a car, we need its speed as well as its direction
-  - your location on the campus, we need more than a distance from the student center
-  - if you are pushing an object with a force, we need not only its magnitude but also its direction 
-  - price of a house is defined by many parameters, like square meter, number of rooms and bathrooms, location, etc..
+##### $\qquad \bullet\;\;$ Some others may need $\color{red} \bf more \;than \;one \;number:$
+##### $\qquad \qquad \bullet\:\; velocity \;of \;a \;car: \;need \;its \;speed \;and \;direction,$
+##### $\qquad \qquad \bullet\:\; location \;on \;campus: need \;more \;than \;a \;distance,$
+##### $\qquad \qquad \bullet\:\; force: need \;its \;magnitude \;and \;its \;direction,$ 
+##### $\qquad \qquad \bullet\:\; price \;of \;a \;house: \;defined \;by \;many \;parameters,$
+##### $\qquad \qquad \;\;\; like \;square \;meter, \;number \;of \;rooms \;and \;bathrooms, \;etc..$
+\
+\
 
 
-!!! note
-	When we need more than one number to define a quantity, we usually use vector (also called as array) notation.
+$\large \bf \color{red} \Rightarrow When \;we \;need \;more \;than \;one \;number \;to \;define \;a \;quantity,$ 
+$\large \bf \color{red} \quad we \;usually \;use \;vector \;(array) \;notation.$
 
-**Vectors in freshmen physics:** _Velocity_ (`` \bf v``), _Accelaration_ (`` \bf a``), _Force_ (`` \bf F``), etc..
-For example:
+---
+"""
+
+# ╔═╡ 46321d63-6b36-4af8-95cb-13ca7ca5faf0
+md"""#
+### 1.1.2. Vectors in Physics (2D)
+
+##### Velocity (`` \bf v``) 
+
 ```math
 {\bf v} = 3 {\it i} + 4 {\it j} = (3,4) \;\; meter/sec {\rm \;\; in\;2D\;space,\;or}
 ``` 
+
+#####  Force (`` \bf F``) 
+
 ```math
 {\bf F} = 10 {\it i} + 20 {\it j} + 30 {\it k} = (10, 20, 30) \;\; Newton {\rm \;\; in\;3D\;space.}
 ``` 
-where $i$, $j$ and $k$ are the unit vectors in $x$, $y$ and $z$ directions, respectively.
-"""
+##### where $i$, $j$ and $k$ are the unit vectors in $x$, $y$ and $z$ directions, respectively.
 
-# ╔═╡ d8a2533f-e241-4d1d-a939-8006b555daef
-md" 
 
-!!! note 
+!!! julia
 
-	In a programing language, we define vectors as ordered arrays like
+	##### In a programing language, we define vectors as ordered arrays like
 	```math
-	{\text v} = [3,4]
+	\large {\bf v} = [3,4]
 	``` ```math
-	{\text F} = [10,20,30]
+	\large {\bf F} = [10,20,30]
 	```
-	where ${\bf v}$ and ${\bf F}$ are column arrays in **_Julia_**.
-"
-
-# ╔═╡ 93625590-1e00-42f9-9ff0-a17d1eb2a286
-md"#
-### Examples
+	##### where ${\bf v}$ and ${\bf F}$ are column arrays in _Julia_.
 
 ##### Let us draw 2-vectors on the cartasian coordinate
+\
+``{\color{blue} \large {\bf v_1} = [v_{11},v_{12}] \rm  \;is \;the \;blue \;vector,} \;and\;``
+``{\color{red} \large {\bf v_2} = [v_{21},v_{22}] \rm  \;is \;the \;red \;vector}:``
 
-``v_1 = [v_{11},v_{12}] \rm {\color{blue} \;is \;the \;blue \;vector}, \;and``
-``v_2 = [v_{21},v_{22}] \rm {\color{red} \;is \;the \;red \;vector}:``
-"
+"""
 
 # ╔═╡ ff2f7d91-2c71-4cf4-a8dc-75f18650088b
 begin
@@ -610,13 +779,15 @@ begin
 end
 
 # ╔═╡ 025a7287-b093-48a4-980c-f5174fc00f30
-md"#
+md"""#
+
+### 1.1.2. Vectors in Physics (3D)
 
 ##### Let us draw 3-vectors on the cartasian coordinate
 
 ``{\color{blue} {\bf v_3} = [v_{31},v_{32},v_{33}] \rm \;is \;the \;blue \;vector}, \;and\;``
 ``{\color{red} {\bf v_4}= [v_{41},v_{42},v_{43}] \rm \;is \;the \;red \;vector}:``
-" 
+""" 
 
 # ╔═╡ 4f0f0340-8cc2-4820-99a0-94b7e00b50ec
 begin
@@ -628,14 +799,14 @@ end
 # ╔═╡ c9d0d206-08d7-40a9-a520-eae2c24bc477
 begin
 	
-	x2_vals = [0 0 1 1; v3[1] v4[1] v3[1]+1 v4[1]+1]
-	y2_vals = [0 0 1 1; v3[2] v4[2] v3[2]+1 v4[2]+1]
-	z2_vals = [0 0 1 1; v3[3] v4[3] v3[3]+1 v4[3]+1]
+	x2_vals = [0 0 0 0 0 1 1; v3[1] v4[1] 0 0 2 v3[1]+1 v4[1]+1]
+	y2_vals = [0 0 0 0 0 1 1; v3[2] v4[2] 0 2 0 v3[2]+1 v4[2]+1]
+	z2_vals = [0 0 0 0 0 1 1; v3[3] v4[3] 2 0 0 v3[3]+1 v4[3]+1]
 
 	# After importing LaTeXStrings package, L stands for Latex in the following expressions; L"v_1"
-	plot(x2_vals, y2_vals, z2_vals, lw = 2, color = [:blue :red :blue :red],    	
-	legend = :none, xlims = (-2, 2), ylims = (-2, 2), zlims = (-2, 2),
-	arrow = 2, 
+	plot(x2_vals, y2_vals, z2_vals, lw = 2, color = [:blue :red :black :black :black :blue :red],
+	line = [:solid :solid :dot :dot :dot :solid :solid], arrow = true,
+	legend = :none, xlims = (-2, 2), ylims = (-2, 2), zlims = (-2, 2), 
      xticks = -2:1:2, yticks = -2:1:2, zticks = -2:1:2,
 	 xlabel = L"x", ylabel = L"y", zlabel = L"z")
 #     framestyle = :origin)
@@ -650,50 +821,60 @@ md"
 "
 
 # ╔═╡ 4154d786-0a91-4c05-a159-5afc2b820fec
-md""" 
-## 1.2.2. Vectors in general
-* Quantities in physics are represented by ``3`` numbers, at most, to define them uniquely.
+md"""# 
+### 1.1.3. Vectors in general
 
+##### $\qquad \bullet\;\;$ Quantities in physics are represented by ``3`` numbers, at most, 
+##### $\qquad \quad \;$ to define them uniquely.
 
-* Quantities in general problems can be defined uniquely by more than ``3`` numbers.
+\
 
-  + In most Linear Algebra applications, especially in Data Science applications, one encounters quantities that have 1000's of defining components.
-  + Usually represented by ``n`` dimensional vectors (referred to as _arrays_) where ``n`` is the number of independent components to uniquely identify the quantity. 
+##### $\qquad \bullet\;\;$ Quantities in general problems can be defined uniquely by 
+##### $\qquad \quad \;$ more than ``3`` numbers. Think about
 
-#### Quantities with n independent components?
+##### $\qquad \quad \; - \;$ unique identification of a house
+##### $\qquad \quad \; - \;$ unique identification of a human face
+##### $\qquad \quad \; - \;$ unique identification of an automobile
+##### $\qquad \quad \; - \;$ unique identification of a student
+##### $\qquad \quad \; - \;$ many more ...
 
+---
 """
 
 # ╔═╡ d7ef1697-b832-4038-9d9f-512a74094fca
-md"#
+md"""
 
-#### Example:
+## 1.2. A practical example: House market
 
-`House` is a quantity to be defined by many independent components (referred to as properties, atributes or features) like, 
-* `location`, 
-* `sq meter`,
-* `price`,
-* `number of rooms`,
-* `number of bedrooms`,
-* `number of bathrooms`,
-* `view`,
-* `year built`,
-* ...
-  
-Therefore, each house can be defined by many attributes that constitute the components of the array. 
+#### House is a quantity to be uniquely defined by many $\color{red} \bf  independent  \;components:$
 
-!!! note
-	Attributes are not necessarily numerical, could be alphanumeric (=string)
-"
+##### $\qquad \qquad \color{red} \bullet\; \bf location$ 
+##### $\qquad \qquad \color{red} \bullet\; \bf sq \;meter$
+##### $\qquad \qquad \color{red} \bullet\; \bf price$
+##### $\qquad \qquad \color{red} \bullet\; \bf number \;of \;rooms$
+##### $\qquad \qquad \color{red} \bullet\; \bf number \;of \;bedrooms$
+##### $\qquad \qquad \color{red} \bullet\; \bf number \;of \;bathrooms$
+##### $\qquad \qquad \color{red} \bullet\; \bf view$
+##### $\qquad \qquad \color{red} \bullet\; \bf year \;built$
+##### $\qquad \qquad \color{red} \bullet\; \bf ...$
+
+#### Therefore, each house is represented by an array (vector) with independent components as the entries.
+
+
+!!! terminology
+	###### Each componenet is referred to as $\color{red} \bf properties, \;atributes \;or \;features.$ 
+	###### Attributes are not necessarily numerical, could be alphanumeric (=string).
+---
+"""
 
 # ╔═╡ 4f30b1ac-195a-45dd-9cc8-aad4cbea0904
-md"# 
-### A brief digression: DataFrame package
+md"""# 
+### 1.2.1. Intro to House dataset 
 
-The following data set is taken from the website
-[kaggle.com] (https://www.kaggle.com/shivachandel/kc-house-data), which contains house sale prices for King County in USA, including Seattle.
+##### The following data set is taken from the website [kaggle.com] (https://www.kaggle.com/shivachandel/kc-house-data), which contains house sale prices for King County in USA, including Seattle.
 
-* The dataset consisted of 21 variables and 21613 observations:
+##### $\bullet\;\;$ The dataset consists of 21 variables and 21613 observations: 
+
   - **id** : A notation for a house
   - **date** : Date house was sold
   - **price** : Price is prediction target
@@ -715,21 +896,19 @@ The following data set is taken from the website
   - **long** : Longitude coordinate
   - **sqft_living15** : Living room area in 2015(implies-- some renovations) This might or might not have affected the lotsize area
   - **sqft_lot15** : lotSize area in 2015(implies-- some renovations) (the size of the land that your property is on)
-"
+
+---
+"""
 
 # ╔═╡ a2a0aa9d-c6a7-4b72-8f77-5dcd1123732d
 md"""#
-#### Read, store and manipulate the table 
+### 1.2.2. Read, store and manipulate
 
-Let us first read and assign the table to a `variable`: 
-
-**To read and store**
-* need to **_know the format of the table_**; CSV, XLSX, etc..
-* need to **_import the necessary packages_**; CSV, XLSX, DataFrames
+!!! julia
+	##### To read and store a data set, you first 
+	##### $\bf 1.\;\;$ need to know the format of the table; CSV, XLSX, etc..
+	##### $\bf 2.\;\;$ need to import the necessary packages; CSV, XLSX, DataFrames
 """
-
-# ╔═╡ c970ab26-9699-4d88-97bf-accd8705a4a0
-df_house = DataFrame(XLSX.readtable("house_data.xlsx", "Sheet1")...)
 
 # ╔═╡ 7581aea1-9ee0-4cdd-ae58-c395152bef03
 df_houseCSV = CSV.read("kc_house_data.csv", DataFrame); 
@@ -737,81 +916,100 @@ df_houseCSV = CSV.read("kc_house_data.csv", DataFrame);
 # ╔═╡ 4db5a423-ae86-4b41-97e9-6b04b5bfab2a
 describe(df_houseCSV)
 
-# ╔═╡ 5e58e35f-9ac6-4e0f-b619-86cd6b511629
-ones(1000)' * df_house.price
+# ╔═╡ 4487ebe1-6267-4b5e-a239-271ccd83b672
+df_house = df_houseCSV[:,3:end];
 
-# ╔═╡ 156885f1-c473-4345-86b8-a4c7abf79596
-ones(size(df_houseCSV)[1])' * df_houseCSV.price
+# ╔═╡ b244b31e-2ab7-4956-97b7-0d591937c6d1
+names(df_house)
+
+# ╔═╡ 5d751584-072d-4f8f-bfe0-a37be49fa811
+size(df_house)
 
 # ╔═╡ 25c06b3a-25ae-4247-9d36-775728f351c6
 sum(df_house.price)
 
-# ╔═╡ 59f3c9cb-633a-49a1-aea8-06072663ee9a
-sum(df_houseCSV.price)
+# ╔═╡ 2195e693-d4eb-410f-a1db-8186c46b069f
+md"""
+---"""
+
+# ╔═╡ 8aa82d94-3671-45be-ad00-1172f77d9b8b
+md"""#
+
+### 1.2.3. Comments
+
+#### ⇒ Dataset stored into a name $\color{red} \bf df\_house$
+
+#### ⇒ Dataframes are like tables in Excel
+
+\
+
+!!! dataframes 
+
+	##### A $\color{red} \bf DataFrame$ is a data structure that organizes data into a 2-dimensional table of rows and columns, much like a spreadsheet.
+
+\
+
+#### ⇒ To manipulate the data
+##### $\qquad \bullet \;$  know the tools you are using: $\color{red} \bf DataFrames$ package
+
+##### $\qquad \bullet \;$ learn $\color{red} \bf matrix \;and \;vector \;operations$
+
+
+!!! conclusion \" Vectors \"
+	
+	##### $\bullet \;\;$ Each row of the table corresponds to a specific house, 
+	##### $\bullet \;\;$ Each house has 19 entries, as the vectors in 19 dimensional space. 
+
+"""
+
+# ╔═╡ a41ee517-20b2-40d4-b816-f27bea70ebf2
+df_house[1:2,1:5];
+
+# ╔═╡ 3bdb5820-c773-4b08-b012-73f21844ad2c
+df_house.price[1:5];
+
+# ╔═╡ 4ad42ae8-2e49-4576-8917-86dc128f972e
+df_house.bedrooms[1:5];
+
+# ╔═╡ 2f45765a-a762-4965-8ba9-640568fb3e17
+md"""
+---
+"""
 
 # ╔═╡ 7926881c-f1b3-4b5e-8aa9-97443d16b903
 md"""#
 
-We have now stored the housing data set into `df_house` as a DataFrame file.
+### 1.2.4. Few _DataFrames_ instructions
 
-
-**To manipulate the data**
-* need to **know the tools you are using**, the `DataFrames` package in this case,
-* need to **understand matrix and vector operations**
-
-Let us review a few of `DataFrames` instructions to work on the data.
-
-For slicing:
-* `first(df_house,n)` → $n$ is the number of lines starting from the 1st
-* `last(df_house,n)` → $n$ is the number of lines before and including the last line
-* `df_house[row_1:row_n,col_1:col_m]` → Selects the rows between `row_1` and `row_2`, and the columns from `col_1` to `col_2`
-* `names(df_house)` → gives the titles of the columns if they are included in the. table
-* `df_house.name` → gives you an access to the columns with their names
-* `size(df_house)` → gives you the size of the table as (number of rows,number of columns).
+##### $\qquad -\;\;$ `first(df_house,n)` → lists $n$ lines from the 1st line
+##### $\qquad -\;\;$ `last(df_house,n)` → lists $n$ lines before the last line
+##### $\qquad -\;\;$ `df_house[r_1:r_n,c_1:c_m]` → selects the rows between 
+##### $\qquad \;\;\;\;\;$ `r_1` and `r_n`, and the columns from `c_1` to `c_m`
+##### $\qquad -\;\;$ `names(df_house)` → gives the titles of the columns
+##### $\qquad -\;\;$ `df_house.name` → gives access to the columns with their names
+##### $\qquad -\;\;$ `size(df_house)` → gives you the size of the table
 """
 
 # ╔═╡ 1c939645-80f1-4fe8-a497-62b7f22b833c
 df_house_first = first(df_house,2)
 
-# ╔═╡ a8d3d0e1-59af-48ed-8bf9-984422cb2ee1
-md"""#"""
-
 # ╔═╡ cfb7c432-059b-4f25-8f03-33749c77f76a
 df_house_slice = df_house[1:2,1:5]
-
-# ╔═╡ bab3a996-d530-4346-9d7a-35c1f98bd4ff
-md" 
-**Slicing**: Here is the first five rows and columns of the data set: 
-"
-
-# ╔═╡ a74b56e5-3a2b-40e3-8e9b-ddf44ef3548c
-names(df_house)
 
 # ╔═╡ ee5d1450-fea6-4bf1-aaa4-905c1fe40ce8
 df_house.price[1:5]
 
-# ╔═╡ 9c8fbd1b-454a-4ee9-aaa8-8a2deddbb6d1
-df_house.bedrooms[1:5]
-
-# ╔═╡ 0e2b2370-85ad-4eb4-98b1-0452933634bf
-size(df_house)
-
-# ╔═╡ d0657740-b31d-4efe-be23-dbfd356ac744
-md" 
-
-!!! conclusion
-	Each row of the table corresponds to a specific house and every one of them has 19 entries, as the vectors in 19 Dimensional space. 
-
-#### End of Digression
-"
+# ╔═╡ c59931ce-7cba-4a87-8ba6-7ad13f1e1712
+md"""
+---
+"""
 
 # ╔═╡ 2cb76c55-488d-4b81-9ae3-dbec88f12deb
 md"
-## 1.2.3. Simple vector operations
+## 1.3. Simple vector operations
 
-### Creating and adding two random vectors
 
-Let us first create a random 5-vector (this is a notation to tell you that each vector consists of 5 elements and it is in 5 Dimensional space)
+### 1.3.1. Addition & Subtraction
 
 "
 
@@ -828,7 +1026,8 @@ v5 + v6  # Adds the corresponding elements in each vector
 v5 - v6  # Subtract the corresponding elements of v6 from the elements of v5
 
 # ╔═╡ 2f789cee-c839-4199-8495-93f21be66c3c
-md" Vector addition is commutatlive, that is $v_5 + v_6 = v_6 + v_5$
+md" #### Vector addition/subtraction is commutative
+#### ${\bf v}_5 \pm {\bf v}_6 = {\bf v}_6 \pm {\bf v}_5$
 "
 
 # ╔═╡ 6fb72be7-d743-4509-88a5-b3a44f67634d
@@ -838,19 +1037,25 @@ md" Vector addition is commutatlive, that is $v_5 + v_6 = v_6 + v_5$
 (v5+v6) .== (v6+v5)
 
 # ╔═╡ 75b87a28-3744-4f07-94d4-4d8827329f8c
-md"
+md"""
 !!! note \"Vector Addition\"
-	**_Two vectors of the same size can be added_** by adding the corresponding elements, to form another vector of the same size, called the sum of the vectors.
-"
+	##### $\;\Rightarrow \;\;$ Vectors must be of the same size 
+	##### $\;\Rightarrow \;\;$ Add/subtract the corresponding entries
+	##### $\qquad$ the result is the sum/difference of the vectors.
+
+---
+"""
 
 # ╔═╡ 9162c574-1b3d-4660-8369-2cc16f545f44
 md"#
 
-### Visualizing vector addition (in 2D)
-
- $\color{blue} {\bf u_1}=(x_1, y_1)$ $\color{blue} is \; the \;blue \;vector$, \
- $\color{red} {\bf u_2}=(x_2, y_2)$ $\color{red} is \; the \;red \;vector$, \
- $\color{green} {\bf u_1 + u_2} =(x_1+x_2, y_1+y_2)$ $\color{green} is \;the \;green \;vector$, .
+#### Visualizing vector addition (in 2D)
+\
+ $\color{blue} \large {\bf u}_1=(x_1, y_1) \;is \; the \;blue \;vector$ \
+\
+ $\color{red} \large {\bf u_2}=(x_2, y_2) \;is \; the \;red \;vector$ \
+\
+ $\color{green} \large {\bf u_1 + u_2} =(x_1+x_2, y_1+y_2) \;is \;the \;green \;vector$
 "
 
 # ╔═╡ 20be3bc6-16ec-4709-a8d8-7b22d8b95379
@@ -858,8 +1063,7 @@ x1=rand(-3:1:3); y1=rand(-3:1:3); x2=rand(-3:1:3); y2=rand(-3:1:3);
 
 # ╔═╡ 2647fcc9-9d4f-43a6-9712-210bcbf9be3f
 md""" 
- 	``{\bf u_1}`` =( $x1 , $y1 )  ``\qquad {\bf u_2}`` =( $x2 , $y2 ) 
-  ``\;\; \Rightarrow \;\; {\bf u_1} + {\bf u_2}`` = ( $(x1 + x2) , $(y1 + y2)  )
+##### 	``\qquad {\bf u_1}`` =( $x1 , $y1 )  ``\qquad {\bf u_2}`` =( $x2 , $y2 ) ``\;\; \Rightarrow \;\; {\bf u_1} + {\bf u_2}`` = ( $(x1 + x2) , $(y1 + y2)  )
 
 """
 
@@ -879,25 +1083,63 @@ begin
      framestyle = :zerolines) #try framestyle = :origin
 end
 
-# ╔═╡ cded91d4-baf0-46c2-a341-872202a8472c
-md" 
-**Vector substraction** is nothing but scalar multiplication of a vector and adding to another. For example, let us say we would like to subtract ${\bf u_3}=(x_3,y_3)$ from ${\bf u_4}=(x_4,y_4)$, then
-
-${\bf u_3} + (-1) {\bf u_4}=(x_3,y_3) + (-1) (x_4,y_4) = (x_3-x_4,y_3-y_4)$
-
----
-"
+# ╔═╡ 3ce8188e-0287-454e-9802-309c9e6bb775
+md"""
+---"""
 
 # ╔═╡ b15ae47f-1905-47af-9831-7c4c9dfcd147
-md"#
-### Examples
+md"""#
+### $\color{red} \bf Applications$
 
-* **Displacements:** When vectors $\bf a$ and $\bf b$ represent displacements, the sum $\bf a + b$ is the net displacement found by first displacing by $\bf a$, then displacing by $\bf b$.
+##### An n-vector may represent n quantities or values in an application
 
+##### $\qquad \bf - \;\;$ In some cases the values are similar in nature
 
-* **Displacements between two points:** If the vectors $\bf p$ and $\bf q$ represent the positions of two points in 2-D or 3-D space, then $\bf p − q$ is the displacement vector from $\bf q$ to $\bf p$. 
+##### $\qquad \bf - \;\;$ in others, the entries of the vector are quite different 
+"""
 
-"
+# ╔═╡ 589510ff-40a9-4144-b6ec-07cde545119e
+x_house1 = Array(df_house[1,:]) # 1st row of the house dataset
+
+# ╔═╡ 15108468-f48a-44bb-89e6-934edc2394fd
+x_prices = Array(df_house[:,1]) # 3rd xolumn of the house dataset, prices
+
+# ╔═╡ d6d4ed77-8056-4986-9d6f-126a8b6405c0
+md"""
+##### $\Rightarrow\;$ Entries of House 1 are of different types; 
+##### $\qquad \qquad - \;\;$ Float, Integer or String ⇒ Type is ANY
+##### $\qquad \qquad - \;\;$ Each entry is a feature of houses; hence different
+##### $\qquad \qquad - \;\;$ Size is 19; there are 19 features 
+
+##### $\Rightarrow\;$ Entries of House Prices are similar;
+##### $\qquad \qquad - \;\;$ Dollars (\$) ⇒ Float
+##### $\qquad \qquad - \;\;$ Size 21613, there are as many houses 
+
+---
+"""
+
+# ╔═╡ 6e4a1eef-a584-46c5-8c12-4fd2f4f171d4
+md"""#
+
+### $\bf 1. \;\;$ Displacement
+
+##### Let vectors $\bf a$ and $\bf b$ represent displacements, then
+
+##### $\qquad \bullet \;\;$ $\bf a + b$ is the net displacement
+##### $\qquad \bullet \;\;$ $\bf a + b = b + a$ 
+
+"""
+
+# ╔═╡ e370ba4a-a59b-4175-87ef-10f4235c57b6
+load("displacement.png")
+
+# ╔═╡ b517f782-5337-4789-b990-df875c0b76d4
+md"""
+
+##### Let $\bf p$ and $\bf q$ represent the positions of two points, then
+##### $\qquad \bullet \;\;$ $\bf p - q$ is the displacement vector from $\bf q$ to $\bf p$.
+
+"""
 
 # ╔═╡ 445f969a-2d87-42c3-893a-8c5db4f37c48
 begin
@@ -921,29 +1163,82 @@ begin
      framestyle = :zerolines) #try framestyle = :origin
 end
 
+# ╔═╡ fca1e4a3-7b68-4ccc-b0e2-ad0646d147df
+md"""
+---"""
+
 # ╔═╡ a5efcaed-1e2e-4c6d-b96a-a362bb93c792
-md"
-* **Feature differences:** If $\bf f$ and $\bf g$ are n-vectors that give n feature values for two items, the difference vector $\bf d = f − g$ gives the difference in feature values for the two objects. For example, $d_7 = 0$ means that the two objects have the same value for feature 7;
+md"""#
 
+### 2. Feature differences
 
-* **Time series:** If $\bf a$ and $\bf b$ represent time series of the same quantity, such as daily profit at two different stores, then $\bf a + b$ represents a time series which is the total daily profit at the two stores. 
----
-"
+#### $\bf f$ and $\bf g$ are n-vectors with n feature values,
+##### $\qquad \bullet \;\;$ Ex: $\color{red} {\bf f} =House-1$ and $\color{blue} {\bf g}=House-2$ with 19 features
+
+#### $\bf d = f − g\;\;$ is the difference (distance) of the two objects. 
+
+##### $\qquad \bullet \;\;$  Ex: ${\color{red} \bf f} - {\color{blue} \bf g} \Rightarrow d_2=d_7=d_8=d_9=d_{10} = 0$ 
+
+##### $\;\;\; \color{red} House-1$ and $\color{blue} House-2$ have same values for features 2, 7, 8, 9, 10
+
+"""
+
+# ╔═╡ 37619c57-da42-4b27-9f06-4fbd592c7909
+Array(df_house[1,:]) - Array(df_house[2,:])
+
+# ╔═╡ 20d88709-f24d-46fe-91dc-c34332d7e9f8
+df_house[1:2,:]
+
+# ╔═╡ c4e53a46-2edb-418e-8d2f-ad84655e7bb9
+md"""
+---"""
+
+# ╔═╡ 3c580317-8f9e-4b14-bff9-3580df388124
+md"""#
+
+### Example
+
+#### Find the most similar house to House - 1
+
+##### $\qquad -$ Need to define the distance between each house
+##### $\qquad \quad\;\; \rightarrow {\rm \bf distance = d =} \|{\color{red} \bf f} - {\color{blue} \bf g} \| = \sqrt{d_1^2 + \dots + d_{19}^2}$
+
+\
+
+##### $\qquad -$ Make sure that entries of the dataset are all numbers
+##### $\qquad \quad\;\; \rightarrow$ delete columns with _string type_
+##### $\qquad \quad\;\; \rightarrow$ delete or do something with rows with _missing_ value
+
+\
+
+##### $\qquad -$ Find two houses with "_minimum distance_"
+"""
+
+# ╔═╡ 856e9d85-70b0-4ec8-9a7d-8840edad0545
+df_house[[1, 681],:]
+
+# ╔═╡ e4d71d85-3e45-4d2c-a343-3af0aa7e3187
+Array(df_house[1,:]) - Array(df_house[681,:])
+
+# ╔═╡ 601e3395-53cd-4cd5-a03f-6918df72d6ac
+md"""
+---"""
 
 # ╔═╡ f7f08d7b-d8a2-4b13-82d5-9b56202a04fc
-md"#
+md"""#
 
-### Scalar-vector multiplication
+### 1.3.2. Scalar-vector multiplication
 
-For a given vector $\bf v$ = [$v_1, v_2, v_3, v_4, v_5$] and a scalar $c$, 
+#### For a given vector $\bf v$ = [$v_1, v_2, v_3, v_4, v_5$] and a scalar $c$, 
 
- $c \bf v$ = [$c v_1, c v_2, c v_3, c v_4, c v_5$].
+#### $\qquad \qquad c \bf v$ = [$c v_1, c v_2, c v_3, c v_4, c v_5$]
 
-That is, the scalar multiplies all the entries of the vector.
-!!! note
-	Scalar multiplication distributes over vector addition: 
-	$c({\bf v_1 + v_2}) = (c{\bf v_1} + c{\bf v_2})$ 
-"
+!!! note \" Scalar-Vector Multiplication \"
+	##### 1. Scalar multiplies all the entries of the vector
+	##### 2. Scalar multiplication distributes over vector addition: 
+	##### $\qquad \qquad c({\bf v_1 + v_2}) = (c{\bf v_1} + c{\bf v_2})$
+    
+"""
 
 # ╔═╡ a0e8a024-68b1-488d-83c5-7da9f2f6ddec
 v11 = [1, 2, 3]
@@ -957,61 +1252,86 @@ v11+v22
 # ╔═╡ beb9f6c0-9480-4e3f-9a4a-82be4203918f
 2*(v11+v22) == 2*v11+2*v22
 
+# ╔═╡ e5f06f00-bfeb-47a4-ab2e-14b083588b5e
+md"""
+---"""
+
 # ╔═╡ 7bf33c3b-9fb8-4e4a-950d-6c0377fbde8f
-md"#
+md"""#
 
-### Vector multiplication - dot product
+### 1.3.3. Vector multiplication
 
-Let $\bf v$ = [$v_1, v_2, v_3$] and $\bf w$ = [$w_1, w_2, w_3$] be two 3-vectors, then we can define two different multiplications  
+#### Let $\bf v$ = [$v_1, \dots , v_n$] and $\bf w$ = [$w_1, \dots , w_n$] be two n-vectors, 
 
-* **Dot product**:
-```math 
-{\bf v} ⋅ {\bf w} = \|{\bf v}\| \;\|{\bf w}\| \;cos\theta = \sum_{\rm i=1:3}{v_i w_i} \;→ \;\; scalar.
-```
+#### then, we can define two different multiplications:  
 
-where $\|\;\|$ is used for the length (≡ `norm`) of the vector, $\theta$ is the angle between the two vectors. 
+\
 
-The dot product (also called **inner product**) of two n-vectors $\bf a$ and $\bf b$ is also defined as the product of the transpose of one with the other as
+### 1. Dot product
 
-```math 
-{\bf a}^T {\bf b} = \begin{bmatrix} a_1 & a_2 & \dots & a_n \end{bmatrix} \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix} = a_1 b_1 + a_2 b_2 + \dots + a_n b_n = \sum_{\rm i=1:n}{a_i b_i}
-```
-⇒ Notice that the summation expression is the sum of the elementwise product of both vectors.
+#### $\qquad {\bf v} ⋅ {\bf w} = \|{\bf v}\| \;\|{\bf w}\| \;cos\theta = \sum_{\rm i=1:n}{v_i w_i} \;→ \;\; scalar$
 
-!!! note
-	Dot Products are generally used in the definition of **_lengths_** of vectors and **_projections_** of vectors onto other vectors or planes.
-  
-"
+##### $\qquad \;\;\rightarrow \|\;\|:$ Length (≡ `norm`) of the vector 
+##### $\qquad \;\;\rightarrow \theta:$ Angle between the two vectors 
+
+\
+
+#### The dot product (also called inner product) is also defined as
+ 
+##### $\qquad {\bf v}^T {\bf w} = \begin{bmatrix} v_1 & v_2 & \dots & v_n \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \\ \vdots \\ w_n \end{bmatrix} = v_1 w_1 + v_2 w_2 + \dots + v_n w_n$
+
+
+!!! note \" Dot Product is\"
+	##### $\qquad$ possible only if both vectors are of the same size
+	##### $\qquad$ the sum of the elementwise product of both vectors
+	##### $\qquad$ generally used in the definitions of
+	##### $\qquad \;\; -$ lenghts of vectors
+	##### $\qquad \;\; -$ projections of vectors onto another
+	##### $\qquad$ zero when the two vectors are parallel
+ 
+"""
+
+# ╔═╡ 1d8351d5-6cd0-4384-8b3a-8d335ed94a3d
+v_dot, w_dot = rand(-3:3, 3), rand(-3:3, 3)
+
+# ╔═╡ 4d61e9da-b892-4129-ae9c-9b4d703c20d3
+dot(v_dot,w_dot), v_dot' * w_dot # dot product definitions
+
+# ╔═╡ e66a5c7b-269f-4994-b785-eae7eaec9199
+norm(v_dot) == sqrt(v_dot' * v_dot) # length of v by two definitions
+
+# ╔═╡ 75b79172-04e6-4d69-8e35-0bedf1ee07a9
+md"""
+---"""
 
 # ╔═╡ 88de33cf-7cc3-4b17-9d8b-23a7971dbb65
-md"#
+md"""#
 
 #### Examples[^1]:
 
-* **Unit vector:** ${\bf e^T_i a} = a_i$. The inner product of $\bf a$ vector with the **$i^{th}$ standard unit vector** gives (or ‘picks out’) the $i^{th}$ element $\bf a$.
-```math
-{\bf e_1} = \begin{bmatrix} 1 \\ \vdots \\ 0 \\ 0 \\ 0 \\ \vdots \\ 0 \end{bmatrix}
-\begin{matrix}  1^{st} entry \\ \vdots \\ (i-1)^{st} entry \\ i^{th} entry \\ (i-1)^{st} entry \\ \vdots \\ n^{th} entry  \end{matrix}; \;\; \cdots \;\; 
-{\bf e_i} = \begin{bmatrix} 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}
-\begin{matrix}  1^{st} entry \\ \vdots \\ (i-1)^{st} entry \\ i^{th} entry \\ (i-1)^{st} entry \\ \vdots \\ n^{th} entry  \end{matrix}; \;\; \cdots \;\;
-{\bf e_n} = \begin{bmatrix} 0 \\ \vdots \\ 0 \\ 0 \\ 0 \\ \vdots \\ 1 \end{bmatrix}
-\begin{matrix}  1^{st} entry \\ \vdots \\ (i-1)^{st} entry \\ i^{th} entry \\ (i-1)^{st} entry \\ \vdots \\ n^{th} entry  \end{matrix}
-```
+#### $\qquad \color {red} \bullet \;\;Sum: \;{\bf 1}^T {\bf a} = a_1 + \dots + a_n$ 
+
+##### $\qquad \;\;\rightarrow$ The inner product of a vector with the vector of ones 
 
 
-* **Sum:** ${\bf 1}^T {\bf a} = a_1 + \dots + a_n$. The inner product of a vector with the vector of ones gives the sum of the elements of the vector.
+#### $\qquad \color {red} \bullet \;\;Average: \;({\bf 1}/n)^T {\bf a}=(a_1+···+a_n)/n$ 
+
+##### $\qquad \;\;\rightarrow$  The innerproduct of an n-vector with the vector ${\bf 1}/n$
 
 
-* **Average:** $({\bf 1}/n)^T {\bf a}=(a_1+···+a_n)/n$. The innerproduct of an n-vector with the vector $1/n$ gives the average or mean of the elements of the vector. The average of the entries of a vector is denoted by `avg(x)`. The Greek letter μ is a traditional symbol used to denote the average or mean.
+#### $\qquad \color {red} \bullet \;\; Sum \;of \;squares: \;{\bf a}^T {\bf a} = a^2_1 +···+a^2_n$ 
+
+##### $\qquad \;\;\rightarrow$   The inner product of a vector with itself
 
 
-* **Sum of squares:** ${\bf a}^T {\bf a} = a^2_1 +···+a^2_n$. The inner product of a vector with itself gives the sum of the squares of the elements of the vector.
+#### $\qquad \color {red} \bullet \;\; Selective \;sum: \;{\bf b}^T {\bf a}$ 
+##### $\qquad \;\;\rightarrow$ Let $\bf b$ be a vector all of whose entries are either 0 or 1 
+##### $\qquad \;\;\rightarrow$ $\color{red} {\bf b}^T \bf a$ is the sum of the elements in $\bf a$ for which $b_i =1$
+\
 
-
-* **Selective sum:** Let $\bf b$ be a vector all of whose entries are either 0 or 1. Then ${\bf b}^T \bf a$ is the sum of the elements in $\bf a$ for which $b_i =1$.
 
 [^1] Stephen Boyd, Lieven Vandenberghe, _Introduction to Applied Linear Algebra: Vectors, Matrices, and Least Squares_, Cambridge University Press, 2018.
-"
+"""
 
 
 # ╔═╡ b6167c3f-331a-4fc0-bf83-e34a0c63e0a5
@@ -1035,42 +1355,82 @@ a1_ss = [1 1 hcat(zeros(6)...) 1 1] * a_ex
 # ╔═╡ 8163e5c4-c227-4db6-a802-9012f3cfcd47
 unit_vector(i,n) = [zeros(i-1); 1 ; zeros(n-i)]
 
-# ╔═╡ 818beb80-8247-4741-bd30-2e551a9eae07
-length(a_ex)# size(a_ex) gives tuple
+# ╔═╡ da88a15a-f992-444d-8874-07af7b4eeaaf
+md"""
+---"""
 
-# ╔═╡ aeae9c75-3922-42ca-8078-3b0fc272b930
-unit_vector(5,length(a_ex))' * a_ex
+# ╔═╡ c3d684f7-8978-4cc6-b65d-59e6da94cef3
+md"""# 
+#### $\qquad \color {red} \bullet \;\;Projection$
+
+##### $\qquad \;\;\rightarrow$ Dot product of two vectors $\bf v$ = ($v_1, v_2, v_3$) and $\bf w$ = ($w_1, w_2, w_3$)
+```math
+\large {\bf v} \cdot {\bf w} = v_1 w_1 + v_2 w_2 + v_3 w_3 \equiv \|{\bf v}\| \|{\bf w}\| \;cos\theta 
+```
+
+##### $\qquad \;\;\rightarrow$ If $\|{\bf w}\|=1$, then from the definition
+```math 
+\large {\bf v} ⋅ {\bf w} = \|{\bf v}\| \;cos\theta
+```
+
+##### $\qquad \;\;\rightarrow$ Hence, the projection of $\bf v$ onto $\bf w$ is represented as
+
+```math
+\large 	Proj_{\bf w} \bf v = (\bf v \cdot \bf w) \bf w
+```
+"""
+
+# ╔═╡ f05fda42-ae5d-404a-8e71-25f6f338362a
+begin
+	vv1 = rand(-3:0.5:3,2) # Vector v
+	ww1 = rand(-3:0.5:3,2) # Vector w
+	mag_ww1=norm(ww1) # magnitude of w
+	ww1_n = ww1/mag_ww1 # unit vector w
+	proj_wv = dot(vv1,ww1_n)*ww1_n # Projection of v on unit vector w
+end
+
+# ╔═╡ 4d2db045-e798-421b-8b76-74271176031a
+begin
+
+	x3_vals = [0 0 ; vv1[1] ww1_n[1] ]
+	y3_vals = [0 0 ; vv1[2] ww1_n[2] ]
+
+	# After importing LaTeXStrings package, L stands for Latex in the following expressions; L"v_1"
+	plot(x3_vals, y3_vals, arrow = true, aspect_ratio = :equal, color = [:blue :red],
+     legend = :none, xlims = (-3, 3), ylims = (-3, 3),
+	 annotations = [(vv1[1], vv1[2]+0.2, Plots.text(L"v", color="blue")),
+		 			(ww1_n[1], ww1_n[2]+0.2, Plots.text(L"w", color="red"))],
+     xticks = -3:1:3, yticks = -3:1:3,
+     framestyle = :origin)
+	plot!([-3*ww1[1], 3*ww1[1]],[-3*ww1[2], 3*ww1[2]], color=:red,linestyle=:dash)
+	plot!([vv1[1] 0; proj_wv[1] proj_wv[1]], [vv1[2] 0; proj_wv[2] proj_wv[2]], arrow = true, color=:blue, linestyle=[:dash :dash],
+	annotations = [(proj_wv[1]-0.2, proj_wv[2]-0.2, Plots.text(L"^{proj_w \mathbf{v}}", color="blue")), ((vv1[1]+proj_wv[1])/2-0.5, (vv1[2]+proj_wv[2])/2, Plots.text(L"^{||\mathbf{v \times w}||}", color="blue"))])
+end
+
+# ╔═╡ fe2d5334-df6b-4943-86cb-27c53f061d81
+md"""
+---"""
 
 # ╔═╡ 5b9c7938-1b43-40ef-accc-fd72f79a8e83
-md"#
+md"""#
 
-### Vector multiplication - cross product  
+### 2. Cross product  
 
-* **Cross product** (_may skip it for now_):
-```math 
-{\bf v} × {\bf w} = {\bf z} =
-\begin{vmatrix} 
-i & j & k \\
-v_1 & v_2 & v_3 \\
-w_1 & w_2 & w_3 \\
-\end{vmatrix}
-\;→ \;\; {\bf z} \; ⟂ \;to \;{\bf v} \;and \;{\bf w}.
-```  
-```math
-\|{\bf z}\|= \|{\bf v}\|\;\|{\bf w}\|\;sin\theta
-```
-where $|\;\;\;|$ denotes `determinant` of the matrix inside the bars, and $\theta$, as before, is the angle between the two vectors. 
+##### $\qquad \qquad \;\;{\bf v} × {\bf w} = {\bf z} = \begin{vmatrix} i & j & k \\ v_1 & v_2 & v_3 \\ w_1 & w_2 & w_3 \\ \end{vmatrix} \;→ \;\; {\bf z} \; ⟂  \;{\bf v} \;and \;{\bf w}$
 
-!!! note
-	Cross Products are used in Physics extensively, but not much in Data 	Sciences. 
+\
 
-A few applications may include the following: it may be used
-	
-* to find a perpendicular (= orthogonal) vector to the vectors $\bf v$ and $\bf w$, as the resulting vector $\bf z$ is always perpendicular to both of the vectors involved in the product;
+##### $\qquad \qquad \qquad \qquad \qquad \|{\bf z}\|= \|{\bf v}\|\;\|{\bf w}\|\;sin\theta$
 
+##### $\qquad \qquad \rightarrow \; |\;\;\;|$ denotes `determinant` of the matrix inside the bars, and 
+##### $\qquad \qquad \rightarrow \; \theta$ is the angle between the two vectors. 
 
-* to find an error when a point is projected on a line (example will be given below.)
-"
+!!! note \" Cross Products \"
+	##### $- \;$ are used in Physics extensively, not much in Data Sciences
+	##### $- \;$ result perpendicular (orthogonal) vector to the vectors $\bf v$ and $\bf w$
+	##### $- \;$ give an error when a point is projected on a line
+
+"""
 
 # ╔═╡ 22aa7b58-7537-4dc2-94d0-85b7b2337683
 v_cross = rand(-3:3, 3)
@@ -1084,25 +1444,41 @@ cross(v_cross, w_cross)
 # ╔═╡ 7e955cf3-4d95-4560-aa3c-87bcc470f440
 cross([1,0,0],[0,1,0]) # cross product of x and y vectors
 
+# ╔═╡ 68aefb97-1813-49a0-9c3e-3f3e1329b020
+md"""
+---"""
+
 # ╔═╡ 0e03a31f-b062-4fa0-aacb-4d9b4ece185d
-md" 
-## 1.2.4. A few definitions 
-### Length of a vector
-###### What is the length (magnitude) of a vector?
+md""" 
+## 1.4. A few definitions 
+### 1.4.1. Length of a vector
 
-Let us denote the vector by $\bf v$ = ($v_1, v_2, v_3$), then the magnitude of the vector can be written as
-```math
-length = \sqrt{v_1^2 + v_2^2 + v_3^2} 
-```
-There are several ways to calculate the length of a vector of any size:
-1. `sqrt`($\bf v$' $\bf v$), where ' refers to the transpose of the vector;
-2. implement the definition given above;
-3. `norm`($\bf v$, $\bf v$) (mathematicall $\|\bf v\|$), where `norm` is the term used for the length of a vector;
-4. `sqrt``dot`($\bf v$, $\bf v$), where `sqrt` and `dot` are the instructions to perform the square-root and the dot product operations in _Julia_ programin language.
+##### For an n-vector $\bf v$ = ($v_1, \dots, v_n$), 
+##### $\qquad -$ Magnitude, 
+##### $\qquad -$ Length, 
+##### $\qquad -$ Distance from the origin 
 
-!!! note 
-	Don't use `length` to find the length of a vector. `length` instruction gives the dimension (size) of the vector, which is 3 for the vector $\bf v$.
-"
+##### refer to the same thing, the length of the vector, and calculated as
+
+##### $\qquad \qquad length = \| {\bf v} \| = \sqrt{v_1^2 + \dots + v_n^2}$ 
+
+\
+
+##### There are several ways to calculate the length of a vector of any size:
+
+##### $\qquad$ a. $\;\sqrt{{\bf v}^T \bf v}$; "T" refers to the transpose of the vector;
+
+##### $\qquad$ b. $\;$ implement the definition given above;
+
+##### $\qquad$ c. $\;$ `norm`($\bf v$) (= $\|\bf v\|$); `norm` is used for the length of a vector;
+
+##### $\qquad$ d. $\;\sqrt{{\bf v} \cdot \bf v}$
+
+!!! note \" length in Julia \"
+	##### $-\;\;$ Don't use `length` to find the length of a vector 
+	##### $-\;\;$ `length` gives the dimension (size) of the vector
+
+"""
 
 # ╔═╡ a342cf0f-7867-4cc3-8d19-32304a05c1af
 vv = rand(-5:5,3)
@@ -1128,53 +1504,106 @@ length(vv) # gives the dimension of the vector
 # ╔═╡ 48d3d9a6-bf9e-450c-a1e8-66dbf95cfbd1
 size(vv) # gives the dimension as the number of rows and columns
 
+# ╔═╡ 12c1bb63-0dd2-4635-8970-5e2db19f282f
+md"""
+---"""
+
 # ╔═╡ de011089-7cb7-40ce-bb51-a0dc81b74f5e
 md"""# 
-### Norm and Distance
+### 1.4.2. Norm
 
-##### Norm of a vector is simply a measure of its magnitude
+#### Norm of a vector
+##### $\qquad -\;$ is simply a measure of its magnitude (length)
+##### $\qquad -\;$ is defined by many different ways
+##### $\qquad -\;$ is commonly denoted by $\| \cdot \|$ (or $|\cdot|$)
 
+\
 
-* There are many different definitions of `Norm` for vectors and matrices and it is denoted by $\| \cdot \|$.
-
-
-* The most common definition is known as `Euclidean Norm`, with general designation of $\| \cdot \|_2$. Since it is usually a default norm in most applicatons, the subscript '2' is usually omitted.
-  - For 2-vector ${\bf x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$: $\qquad \|x\|= \sqrt{x_1^2 + x_2^2}$
-   - For $n$-vector $\bf x$: $\qquad \qquad \|x\| = \sqrt{x_1^2 + x_2^2+\cdots+x_n^2}$
-
-
-* The Euclidean norm can also be expressed as the squareroot of the inner product of the vector with itself:  $\|x\| = \sqrt{x^T x}$.
-
-
-* Two other common vector norms for n-vectors are the 1-norm $\| \cdot \|_1$ and the $\infty$-norm $\| \cdot \|_{\infty}$, defined as
-$\|x\|_1 = |x_1| + \dots + |x_n|, \qquad \|x\|_\infty = max\{|x_1|, \dots , |x_n|\}$
+#### The most common definition is _Euclidean Norm_ 
+##### $\qquad -\;$ general designation $\| \cdot \|_2$
+##### $\qquad -\;$ default norm in most applicatons 
+##### $\qquad -\;$ the subscript '2' is usually omitted
+##### $\qquad -\;$ For 2-vector ${\bf x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$: $\qquad \|{\bf x}\|= \sqrt{x_1^2 + x_2^2}$
+##### $\qquad -\;$ For $n$-vector $\bf x$: $\qquad \qquad \|{\bf x}\| = \sqrt{x_1^2 + x_2^2+\cdots+x_n^2}$
 
 
-*  1-norm and the $\infty$-norm are the sum and the maximum of the absolute values of the entries in the vector, respectively. 
+#### Two other common vector norms for n-vectors are 
+##### $\qquad -\;$ 1-norm: $\| {\bf x} \|_1= |x_1| + \dots + |x_n|$
+##### $\qquad -\;$ $\infty$-norm: $\| {\bf x} \|_{\infty}= max\{|x_1|, \dots , |x_n|\}$
 
 """
 
 # ╔═╡ 6e1ec991-a125-484e-b1c5-a23ac7ee36d7
-a_lecture = rand((-3:3), 5)
+a_norm = rand((-3:3), 5)
 
 # ╔═╡ 30676169-e350-4a54-8daf-577c9dbfe28f
-norm(a_lecture,2), norm(a_lecture,1), norm(a_lecture,Inf)
+norm(a_norm,2), norm(a_norm,1), norm(a_norm,Inf)
+
+# ╔═╡ dee68a99-f62a-433c-8463-52a7355f69ff
+md"""
+---"""
 
 # ╔═╡ 8fa6a139-6cac-4428-b2d2-c2e7058b9906
+md"""# 
+### 1.4.3. Distances
+
+##### It is defined by the length between two vectors $\bf a$ and $\bf b$  
+
+##### $\qquad \qquad \text{dist}(\bf a, b)= \| a - b \|$
+
+\
+
+##### $\;\; \bullet \;$ Feature distance:
+
+##### $\qquad -\;\;$ let $\bf x$ and $\bf y$ represent vectors of n features of two objects, 
+##### $\qquad -\;\;$ $\bf \| x - y \|$ is called the feature distance, 
+##### $\qquad -\;\;$ gives a measure of how different the objects are
+
+\
+
+##### $\;\; \bullet \;$ Nearest neighbor:
+
+##### $\qquad -\;\;$ let $\bf z_1, \dots , z_m$ be a collection of m n-vectors, 
+##### $\qquad -\;\;$ let $\bf x$ is another n-vector. 
+##### $\qquad -\;\;$ $\bf z_j$ is the nearest neighbor of $\bf x$ if
+##### $\qquad \qquad \bf \|x - z_j\| \le \|x - z_i\|\qquad for \; i=1,\dots,m$
+
+\
+
+##### $\;\; \bullet \;$ Document dissimilarity:
+##### $\qquad -\;\;$ $\bf x$ and $\bf y$ are two n-vectors 
+##### $\qquad -\;\;$ they are the word occurrences for two documents
+##### $\qquad -\;\;$ $\bf \|x - y\|$ represents a measure of the dissimilarity
+
+---
+"""
+
+# ╔═╡ 2ff215cc-3001-4f8b-8dbf-bfc04df32f06
 md"""#
+### Examples
 
-**`Euclidean distance`** is the distance between two vectors $\bf a$ and $\bf b$, defined as the norm of their difference:
+#### Let us revisit the housing data
 
-$\text{dist}(\bf a, b)= \| a - b \|$
+#### $\;\; 1.\;$ Prepare the data
+##### $\qquad -\;\;$ _describe_ the dataframe "df_house"
+##### $\qquad -\;\;$ _dropmissing_ the rows with "missing" entries
 
-* **Feature distance:** If $\bf x$ and $\bf y$ represent vectors of n features of two objects, the quantity $\bf \| a - b \|$ is called the feature distance, and gives a measure of how different the objects are (in terms of their feature values).
+\
 
+#### $\;\; 2.\;$ Find the distance between House-1 and House-2
+##### $\qquad -\;\;$ $\bf h_1$ and $\bf h_2$ are 19-vectors of the first two rows
 
-* **Nearest neighbor:** Suppose $\bf z_1, \dots , z_m$ is a collection of m n-vectors, and that $\bf x$ is another n-vector. $\bf z_j$ is the nearest neighbor of $\bf x$ (among $\bf z_1, \dots , z_m$) if
-$\|x - z_j\| \le \|x - z_i\|\qquad for \; i=1,\dots,m$
+\
 
+#### $\;\; 3.\;$ Find the "closest" house in the dataset to House-1
+##### $\qquad -\;\;$ find minimum of ${\bf \|h_1 - h_j\|}\;$ for j=1:21613
 
-* **Document dissimilarity:** Suppose n-vectors $\bf x$ and $\bf y$ represent the histograms of word occurrences for two documents. Then $\|x - y\|$ represents a measure of the dissimilarity of the two documents.
+---
+"""
+
+# ╔═╡ b4304f3f-9cec-44f6-a996-ddb9ffd95cbf
+md"""#
+#### 1. Prepare the data
 """
 
 # ╔═╡ 44cd3b69-8f9b-4a05-bf7a-8523586c7ab7
@@ -1184,29 +1613,70 @@ describe(df_house)
 dfn = dropmissing(df_house)
 
 # ╔═╡ 9d66764d-363a-472e-a508-6ac9ce9937c9
-minimum(df_house.price)
+minimum(dfn.price)
 
 # ╔═╡ 59d533ed-1893-41b7-af92-b483b01a6d8b
-A_dfhouse = Matrix(dfn)
+A_dfhouse = Matrix(dfn); # Convert the dataframe to matrix with float
 
 # ╔═╡ 52cf8f04-5640-4c6a-8f80-733f6e509719
 minimum(A_dfhouse[:,1])
 
+# ╔═╡ 56bda6a6-7351-45e9-a536-30604d97e646
+md"""
+---"""
+
+# ╔═╡ b9afe8bc-cc3e-456b-9d37-15f22597f56a
+md"""#
+#### 2. Find the distance between House-1 and House-2
+"""
+
+# ╔═╡ aa0c558b-ba25-4f7e-be62-76c065b8b350
+h_1 = Array(dfn[1,:]) # convert the dataframe row to an array of float
+
+# ╔═╡ c8e3e398-8c66-41e7-bfd7-39614e313605
+ h_2 = Array(dfn[2,:]) # convert the dataframe row to an array of float
+
+# ╔═╡ 9fe73054-b360-49ce-a556-253eeb58847d
+norm(h_1 - h_2) # norm gives the distance between h_1 and h_2
+
+# ╔═╡ c580792f-c078-41c8-8475-e899ac080a16
+md"""
+##### Definition of Euclidian distance:
+##### $dist = \sqrt{(h_1[1]-h_2[1])^2 + (h_1[2]-h_2[2])^2+\cdots+(h_1[19]-h_2[19])^2}$
+"""
+
+# ╔═╡ fbaa2376-f6f2-4991-97ec-0d434ed8e33e
+sqrt(sum(((h_1 - h_2)[i])^2 for i = 1:19)) # using definition of L2 norm
+
+# ╔═╡ c47ebf3e-8847-4649-9a55-67a7e310fc86
+sqrt(sum((h_1 - h_2).^2)) # using definition of L2 norm
+
+# ╔═╡ f41ed78e-7852-41ff-8980-f3de1cc2af08
+md"""
+---"""
+
+# ╔═╡ 77fcad65-81df-434e-9d6f-6ff1e461fe46
+md"""#
+#### 3. Find the "closest" house to House-1
+##### $\qquad -\;\;$ Use the built-in function "_findmin_"
+"""
+
 # ╔═╡ 6e710fa9-4701-4a30-977d-3241a9ed06f0
-findmin([norm(A_dfhouse[1,:] - A_dfhouse[j,:]) for j = 2:998])
+findmin([norm(A_dfhouse[1,:] - A_dfhouse[j,:]) for j = 2:21613]) # [2]+1
 
 # ╔═╡ 42c4ae51-1977-4a8e-abf2-8e90e0358098
 md"""
 !!! note \"Note on `findmin( )` and `minimum( )`\"
-	* **findmin( )** is an inbuilt function in julia which is used to return the minimum element of the specified collection along with its index. If there are multiple minimal elements are present in the collection, then the first one will be returned.
-	* **minimum( )** just brings the minimum of an array, either a column of a dataframe or matrix, not its index.
+	##### ``\; -\;`` "_findmin_(``\bf x`` )" returns the minimum element and its index of ``\bf x``
+	
+	##### ``\; -\;`` "_minimum_(``\bf x``)" just brings the minimum value of ``\bf x``
 """
 
 # ╔═╡ 3436f687-fed3-40fd-8307-4e58f983b6ab
 begin
 	min_df = norm(A_dfhouse[1,:] - A_dfhouse[2,:])
 	j_min = 2
-	for j in 3:998
+	for j in 3:21613
 		min_dfnew = norm(A_dfhouse[1,:] - A_dfhouse[j,:])
 		if min_dfnew < min_df
 			min_df = min_dfnew
@@ -1217,30 +1687,33 @@ begin
 end		
 
 # ╔═╡ ba9b12d8-22a0-4a80-8742-7e56e426bc73
-dfn[[1, 679],:]
+dfn[[1, 3529],:]
 
-# ╔═╡ f8580018-5f2e-4a36-801e-6e9547902590
-minimum(df_house.price)
+# ╔═╡ dab92a0d-7a3a-429e-ae5b-97a03c04a740
+md"""
+---"""
 
 # ╔═╡ fd38fe61-fddb-40b2-bf3b-da7bd3fb81c0
 md"""# 
-### Orthogonal and orthonormal vectors
+### 1.4.4. Orthogonal/orthonormal vectors
 
-##### Orthogonal ⇒ perpendicular
+#### Orthogonal ⇒ perpendicular
 
-##### Orthonormal ⇒ perpendicular and normalized
+##### $\qquad$ If ${\bf v}_1$ and ${\bf v}_2$ are orthogonal, then
+##### $\qquad \qquad \qquad {\bf v}_1 \cdot {\bf v}_2 = {\bf v}_1' {\bf v}_2 = 0$
 
-* **Orthogonal vectors:** If ${\bf v}_1$ and ${\bf v}_2$ are orthogonal, then
-${\bf v}_1 \cdot {\bf v}_2 = {\bf v}_1' {\bf v}_2 = 0$
+\
 
+#### Orthonormal ⇒ perpendicular and normalized
 
-* **Orthonormal vectors:** If ${\bf v}_1$ and ${\bf v}_2$ are orthonormal, then
-${\bf v}_1 \cdot {\bf v}_2 = 0, \;\;{\rm and } \;\; \| {\bf v}_1 \| = \| {\bf v}_2 \| = 1$
+##### $\qquad$ If ${\bf v}_1$ and ${\bf v}_2$ are orthonormal, then
+
+##### $\qquad \qquad \qquad {\bf v}_1 \cdot {\bf v}_2 = 0, \;\;{\rm and } \;\; \| {\bf v}_1 \| = \| {\bf v}_2 \| = 1$
 
 """
 
 # ╔═╡ e8eac4d6-9bcc-440d-a7c5-e4d51f7d0bd8
-v1_og = rand((-2:2),2)
+v1_og = rand((-2:2),3)
 
 # ╔═╡ 7cf7f75a-4590-4ad0-afae-ba61f50c98b0
 v1_on = v1_og/norm(v1_og)
@@ -1248,12 +1721,16 @@ v1_on = v1_og/norm(v1_og)
 # ╔═╡ c626105c-f3fb-4ef1-a908-98ac07eedf1c
 nullspace(v1_og')
 
+# ╔═╡ 06ea4491-e3cf-44d5-b3c0-f41e7b272445
+md"""
+---"""
+
 # ╔═╡ 35a01f9e-06e3-45a4-ab08-f16102b7819b
-md"""# 1.3. Relevant applications
+md"""## 1.5. Relevant applications
 
-### Sum and Average of an array
+### 1.5.1. Sum and Average
 
-Dot product can also be used to sum up the entries of an array
+#### Dot product can be used to sum up the entries of an array
  
 """
 
@@ -1267,13 +1744,15 @@ ww_1 = ones(5)
 dot(vv_1, ww_1)
 
 # ╔═╡ cd686799-ef18-43a1-946f-f79a3eb1327c
-md"So, let us remember the table we have worked in the context of `DataFrames`, and find the average price of an house sold in that neighborhood and in that time frame: We need to 
-1. **find the names of the columns** in the table: `names(df_house)`
-2. **find the number of rows** of the table: `size(df_house)[1]`
-3. **form an array** that is composed of `1`s only, with the size of the number of rows: `ones(size(df_house)[1])`
-4. **sum up the entries of the column** for _price_: `dot(ones(size(df_house)[1]), df_house.price)`
-5. **divide it by the number of entries** in the array: /`size(df_house)[1]` 
-"
+md"""
+#### Let us find the average price of the houses sold 
+#### $\;\;$ 1. find the names of the columns in the table
+#### $\;\;$ 2. find the number of rows of the table
+#### $\;\;$ 3. form an array that is composed of `1`s only
+#### $\;\;$ 4. sum up the entries of the column for _price_ 
+#### $\;\;$ 5. divide it by the number of entries in the array
+
+"""
 
 # ╔═╡ e1daa7b0-1f65-4263-a5b5-f9f7f79375d2
 names(df_house) # 1.
@@ -1293,16 +1772,18 @@ sum(df_house.price)
 # ╔═╡ af21ae80-d242-46aa-ab9f-0ed21f7b1284
 dot(ones(size(df_house)[1]), df_house.price)/size(df_house)[1] # 5.
 
+# ╔═╡ 6fdeefd9-9029-478e-8141-ec0f7f688b44
+md"""
+---"""
+
 # ╔═╡ da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
 md"""# 
-### Root-Mean-Square Value (rms)
+### 1.5.2. Root-Mean-Square Value (rms)
 
-${\bf{\text rms}(x)} = \sqrt{\frac{x_1^2 + \dots + x_n^2}{n}} = \frac{\|{\bf x}\|}{\sqrt{n}}$
+#### $\qquad \qquad {\bf{\text rms}(x)} = \sqrt{\frac{x_1^2 + \dots + x_n^2}{n}} = \frac{\|{\bf x}\|}{\sqrt{n}}$
 
-* The RMS value of a vector $\bf x$ is useful when comparing norms of vectors with different dimensions.
+#####  RMS value is useful for vectors with different dimensions
 
-
-* **RMS prediction error:** Suppose that the n-vector $\bf y$ represents a time series of some quantity, for example, hourly temperature at some location, and $\hat{\bf y}$ is another n-vector that represents an estimate or prediction of the same time series, based on other information. The difference $\bf y - \hat{\bf y}$ is called the prediction error, and its RMS value ${\bf{\text rms}(\bf y - \hat{\bf y})}$ is called the RMS prediction error. If this value is small (say, compared to ${\bf{\text rms}(y)}$) the prediction is good.
 """
 
 # ╔═╡ a445b2f7-1468-4916-b062-80585b441abb
@@ -1311,13 +1792,18 @@ norm(ones(16)) # norm of n-vector 1 = 1/sqrt(n)
 # ╔═╡ e361943a-7ac7-43cb-8dd3-269130c01419
 norm(ones(16))/sqrt(16) # RMS value is 1; a typical value of the vector
 
+# ╔═╡ aa6ce50f-0832-485b-99dc-e2bb636e717d
+md"""
+---"""
+
 # ╔═╡ 8a8d9a85-aabb-4fbf-916c-7f7723f462d7
 md"""#
-### Demeaning a vector
+### 1.5.3. Demeaning a vector
 
-* For any vector $\bf x$, the vector $\tilde{\bf x} = {\bf x} − avg(\bf x)1$ is called the associated **de-meaned vector**, obtained by subtracting from each entry of $\bf x$ the mean value of the entries.
+#### For any vector $\bf x$, the associated de-meaned vector is 
+##### $\qquad \qquad \tilde{\bf x} = {\bf x} − avg(\bf x)1$ 
 
-  The de-meaned vector is useful for understanding how the entries of a vector deviate from their mean value.
+##### obtained subtracting the mean value of the vector from each entry 
 
 """
 
@@ -1325,9 +1811,9 @@ md"""#
 p_mean = let
 	μ_liv = ones(size(df_house)[1]) * sum(df_house.sqft_living)/size(df_house)[1]
 	μ_pr = ones(size(df_house)[1]) .* sum(df_house.price)/size(df_house)[1]
-	scatter(df_house.sqft_living, df_house.price)
-	plot!(df_house.sqft_living, μ_pr, color = :red)
-	plot!(μ_liv, df_house.price, color = :red)
+	scatter(df_house.sqft_living, df_house.price, xlabel = "Sqft_living", ylabel = "Price", label = "Price vs sqft" )
+	plot!(df_house.sqft_living, μ_pr, color = :red, label = "mean_price")
+	plot!(μ_liv, df_house.price, color = :purple, label = "mean_sqft", legend = :topleft)
 end
 
 # ╔═╡ 53ab6b9d-9835-4ab0-8711-c43fe76c9ac0
@@ -1337,68 +1823,115 @@ dmean_living = df_house.sqft_living .- sum(df_house.sqft_living)/size(df_house)[
 dmean_price = df_house.price .- sum(df_house.price)/size(df_house)[1]
 
 # ╔═╡ 8052ad94-2fcd-4184-aa82-9715d5f16d7b
-scatter(dmean_living, dmean_price)
+begin
+	scatter(dmean_living, dmean_price, xlabel = "De-meaned Sqft_living", ylabel = "De-meaned Price", label = false )
+	plot!(dmean_living, zeros(size(dmean_living)[1]), color = :red, label = false)
+	plot!(zeros(size(dmean_price)[1]), dmean_price, color = :purple, label = false, legend = :topleft)
+end
+
+# ╔═╡ fe533105-3ae6-4972-b226-b60e9959d2b4
+md"""
+---"""
 
 # ╔═╡ 8cad4f8e-fcf7-4a4e-ad01-6762174204e3
 md"""#
 
-### Standart deviation
+### 1.5.4. Standart deviation
 
-##### The standard deviation is a measure of how spread out numbers are.
-\
+#### The standart deviation of an n-vector $\bf x$ is
+#### → a measure of how spread out the elements of $\bf x$ are
+#### → defined as the RMS value of the de-meaned vector of ${\bf x}$
 
-The **standard deviation** of an n-vector $\bf x$ is defined as the RMS value of the de-meaned vector ${\bf x} − avg(\bf x)1$, as given below.
+$\large std({\bf x}) = \sqrt{\frac{(x_1 -avg({\bf x}))^2 + \dots + (x_n -avg({\bf x}))^2}{n}}$
 
-  The standard deviation of a vector $\bf x$ tells us the typical amount by which its entries deviate from their average value.
-  
-$std({\bf x}) = \sqrt{\frac{(x_1 -avg({\bf x}))^2 + \dots + (x_n -avg({\bf x}))^2}{n}}$
+$\large std({\bf x}) = \frac{\|{\bf x} - ({\bf 1}^T {\bf x}/n) {\bf 1}\|}{\sqrt{n}}$
 
-$std({\bf x}) = \frac{\|{\bf x} - ({\bf 1}^T {\bf x}/n) {\bf 1}\|}{\sqrt{n}}$
+#### → The SD gives the typical amount by which its entries deviate from their average value.
 
-
-* Another slightly different definition of the standard deviation of a vector is widely used, in which the denominator $\sqrt{n}$ is replaced with $\sqrt{n − 1}$ (for n ≥ 2).
+#### → Another slightly different definition uses $\sqrt{n − 1}$ in the denominator.
 
 
-* In some applications the Greek letter σ (sigma) is traditionally used to denote standard deviation, while the mean is denoted μ (mu).
-$\mu = {\bf 1}^T {\bf x}/n, \qquad \sigma = \|{\bf x}- \mu {\bf 1} \| / \sqrt{n}$
+#### → The Greek letter σ (sigma) is traditionally used to denote standard deviation, while the mean is denoted μ (mu).
 
-* **Adding a constant to every entry of a vector does not change its standard deviation**:
-$std({\bf x}+a {\bf 1}) = std(\bf x)$
+$\large \mu = {\bf 1}^T {\bf x}/n, \qquad \sigma = \|{\bf x}- \mu {\bf 1} \| / \sqrt{n}$
 
-* **Multiplying a vector by a scalar multiplies the standard deviation by the absolute value of the scalar**:
-$std(a{\bf x}) = |a| std({\bf x})$.
+#### → Adding a constant to every entry does not change its standard deviation
+$\large std({\bf x}+a {\bf 1}) = std(\bf x)$
+
+#### → Multiplying a vector by a scalar multiplies the standard deviation by the absolute value of the scalar
+$\large std(a{\bf x}) = |a| std({\bf x})$.
 """
+
+# ╔═╡ 99e3f5cf-cabd-4cf3-b199-76d66b8adb7e
+mean(dfn.price)
+
+# ╔═╡ d08fa42f-3a91-4b7c-a583-25bfa2a0e337
+price_persqft = dfn.price ./ dfn.sqft_living
+
+# ╔═╡ 474d0f78-748d-4e0a-b250-815da5697c75
+minimum(price_persqft), maximum(price_persqft)
+
+# ╔═╡ afb0a53a-6bd5-4b3a-acb7-2d88887cb237
+mean_pricepersqfoot = mean(price_persqft) # $264 per square-foot living
+
+# ╔═╡ d7fa2568-3e93-451f-a873-da70346b534c
+mean_pricepersqfoot / size(dfn.price)[1]
+
+# ╔═╡ fbbf63a5-eca4-4785-85ac-950d2522f6d7
+size(dfn.price)
+
+# ╔═╡ 70a8809e-f3c1-4006-9c62-b957606afe71
+median(price_persqft)
+
+# ╔═╡ e1c98280-b0fc-464e-b56c-03af50d68ead
+begin
+	histogram(price_persqft, bins = 36, norm = true, legend = false)
+	vline!([mean_pricepersqfoot], color =:white, line =2) 
+	title!("Price/ft")
+end
+
+# ╔═╡ 45542432-e38e-42fc-81a5-fab7088f2458
+md"""
+---"""
 
 # ╔═╡ 8fc7ad49-27dc-4aad-9237-976e1e9cf37e
 md"""# 
-### Standardization
+### 1.5.5. Standardization
 
-##### What is it?
+#### $\qquad \bullet \;$ is used when features have large differences
 
-Instead of using the original vectors (features) directly, it is common to apply a scaling and offset to each original vector. **This is called standardizing or z-scoring the features.**
+#### $\qquad \bullet \;$ helps improve the quality of the data
 
-**Goal:** Across the data set, **the average value of a feature is near zero**, and the **standard deviation is around one**. 
+#### $\qquad \bullet \;$ enhances the comparison process 
 
-##### How to compute?
+#### $\qquad \bullet \;$ enables inter-feature analysis for improved insights
 
-* Remember the de-meaned version of a vector $\bf x$: Subtract the mean value from each entry of the vector:
-$\tilde{\bf x} = {\bf x} - avg({\bf x}){\bf 1}$
- 
-* Standardized version of $\bf x$ is nothing but dividing its de-meaned version by the standart deviation of $\bf x$:
-${\bf z}= \frac{\tilde {\bf x}}{std({\bf x})} = \frac{{\bf x} - avg({\bf x}){\bf 1}}{std({\bf x})}$
+\
 
-* Its entries are sometimes called the $z$-scores associated with the original entries of $\bf x$.
-#
+#### Instead of using the original vectors (features) directly, apply
+#### $\qquad -\;\;$ an offset (de-meaning) 
+$\large \tilde{\bf x} = {\bf x} - avg({\bf x}){\bf 1}$
+#### $\qquad -\;\;$ a scaling (unity standart deviation)
+$\large {\bf z}= \frac{\tilde {\bf x}}{std({\bf x})}= \frac{{\bf x} - avg({\bf x}){\bf 1}}{std({\bf x})}$
+#### to each original vector.
+
+\
+
+#### ⇒ This is called standardizing or z-scoring the features.
+
 """
 
 # ╔═╡ f1638480-d63e-418e-af69-1201e8e7137e
 avg(x) = ones(length(x))' * x / length(x)
 
-# ╔═╡ 2fdee5c7-ae1e-444e-b9da-129b0f167d49
-avg(df_house.price) # avg function defined in section 'standardization'
-
 # ╔═╡ f91f7995-cf8d-4719-80fa-6fe11a0c9dbd
 std(x) = norm(x - avg(x) * ones(length(x))) / sqrt(length(x))
+
+# ╔═╡ 84fe4221-ba21-43e8-b3c2-76b4d373d244
+std(dfn.price)
+
+# ╔═╡ c101febd-da89-4b7c-9026-15300a6eece6
+std(dfn.price ./ dfn.sqft_living)
 
 # ╔═╡ c6988b6d-876d-4ec4-8d89-3793e0b68b32
 begin
@@ -1415,51 +1948,64 @@ begin
 # Original vector x
 	scatter([1:n_st], x_st, xlabel = L"k", ylabel = L"x", markersize = 5)
 	plot!([1:n_st], [μ_st*ones(n_st), (μ_st + std(x_st))*ones(n_st), (μ_st - std(x_st))*ones(n_st)], line = :dash, color = :red)
-	p1_original = plot!([1:n_st], x_st, ylimit = (-4,4), legend=false, color=:green, yticks = [-4:1:4;])
+	p1_original = plot!([1:n_st], x_st, ylimit = (-4,4), legend=false, color=:green, yticks = [-4:1:4;], title = "Original")
 # de-meaned vector x
 	scatter([1:n_st], x_dm, xlabel = L"k", ylabel = L"\tilde{x}", markersize = 5)
 	plot!([1:n_st], [zeros(n_st), std(x_dm) *ones(n_st), -std(x_dm) *ones(n_st)], line = :dash, color = :red)
-	p1_demeaned = plot!([1:n_st], x_dm, ylimit = (-4,4), legend = false, color = :green, yticks = [-4:1:4;])
+	p1_demeaned = plot!([1:n_st], x_dm, ylimit = (-4,4), legend = false, color = :green, yticks = [-4:1:4;], title = "De-meaned")
 # standardized vector z
 	scatter([1:n_st], z_st, xlabel = L"k", ylabel = L"z", markersize = 5)
 	plot!([1:n_st], [zeros(n_st), std(z_st) *ones(n_st), -std(z_st) *ones(n_st)], line = :dash, color = :red)
-	p1_standardized = plot!([1:n_st], z_st, ylimit = (-4,4), legend = false, color = :green, yticks = [-4:1:4;])
+	p1_standardized = plot!([1:n_st], z_st, ylimit = (-4,4), legend = false, color = :green, yticks = [-4:1:4;], title = "Standardized")
 	plot(p1_original,p1_demeaned,p1_standardized, layout = (1,3) )
 end
 
+# ╔═╡ b122876e-ee78-47ed-822d-4019cf3b5125
+md"""
+---"""
+
 # ╔═╡ 624ea283-b640-4241-befc-73ca3c529111
 md"""# 
-### Correlation Coefficient
+### 1.5.6. Correlation Coefficient
 
-##### What is it?
-
-* `The correlation coefficient` is a statistical measure of the strength of the relationship between the relative movements of two variables.
+#### $\qquad \bullet \;$ is a measure of relationship between two variables
 
 
-* `The correlation coefficient` describes how one variable moves in relation to another. 
+#### $\qquad \bullet \;$ describes how one variable moves in relation to another 
 
 
-* `The values range between -1.0 and 1.0`. A calculated number greater than 1.0 or less than -1.0 means that there was an error in the correlation measurement.
+#### $\qquad \bullet \;$ ranges between -1.0 and 1.0
 
 
-* `A correlation of -1.0 shows a perfect negative correlation`, while a `correlation of 1.0 shows a perfect positive correlation`. `A correlation of 0.0 shows no linear relationship between the movement of the two variables`.
+#### $\qquad \bullet \;$ -1.0 shows a perfect negative correlation
 
+#### $\qquad \bullet \;$ 1.0 shows a perfect positive correlation
 
-##### How to compute?
+#### $\qquad \bullet \;$ 0.0 shows no linear relationship
 
-Suppose $\bf a$ and $\bf b$ are n-vectors, with associated de-meaned vectors
+\
 
-$\tilde{\bf a} = {\bf a} - avg({\bf a}) {\bf 1} \qquad \tilde{\bf b} = {\bf b} - avg(\bf b) 1$
+#### How to compute?
 
-their correlation coefficient is defiined as
+##### Suppose $\bf a$ and $\bf b$ are two n-vectors (features) 
 
-$\rho = \frac{\tilde{\bf a}^T \tilde{\bf b}}{\|\tilde{\bf a}\| \|\tilde{\bf b}\|}$ OR
+##### $\qquad -\;$ find the associated de-meaned vectors
 
-$Cor({\bf a, b})=\frac{\sum_{i=1}^{n}(a_i - \bar{\bf a}) (b_i - \bar{\bf b})}{\sqrt{\sum_{i=1}^{n}(a_i - \bar{\bf a})^2} \sqrt{\sum_{i=1}^{n}(b_i - \bar{\bf b})^2}}$
+$\large \tilde{\bf a} = {\bf a} - avg({\bf a}) {\bf 1} \qquad \tilde{\bf b} = {\bf b} - avg(\bf b) 1$
 
-where $\bar{\bf a}$ ($=avg(\bf a) = \mu_a$) and $\bar{\bf b}$ ($=avg(\bf b) = \mu_b$) are the mean values of ${\bf a}$ and ${\bf b}$, respectively.
+##### $\qquad -\;$ correlation coefficient is defined as
+
+$\large \rho = \frac{\tilde{\bf a}^T \tilde{\bf b}}{\|\tilde{\bf a}\| \|\tilde{\bf b}\|}$ ##### OR
+
+$\large Cor({\bf a, b})=\frac{\sum_{i=1}^{n}(a_i - \mu_a) (b_i - \mu_b)}{\sqrt{\sum_{i=1}^{n}(a_i - \mu_a)^2} \sqrt{\sum_{i=1}^{n}(b_i - \mu_b)^2}}$
+
+##### where $\mu_a =avg(\bf a)$ and $\mu_b =avg(\bf b)$ 
 
 """
+
+# ╔═╡ aec34b14-0c8e-4331-89f2-ed7d28bdd881
+md"""
+---"""
 
 # ╔═╡ 486368b5-a701-4eae-bace-b11885178e04
 md"#
@@ -1508,58 +2054,12 @@ end
 # ╔═╡ 585b27eb-1c5a-4f57-a14b-c2b8ac99d3b5
 ρ1,ρ2,ρ3
 
-# ╔═╡ c3d684f7-8978-4cc6-b65d-59e6da94cef3
-md"""# 
-### Projection
-##### How about taking the dot product of two different vectors?
-
-This is mostly used to find the projection of a vector onto another vector:
-
-Let us denote the two vectors by $\bf v$ = ($v_1, v_2, v_3$) and $\bf w$ = ($w_1, w_2, w_3$), then the dot product will result in
-```math
-{\bf v} \cdot {\bf w} = v_1 w_1 + v_2 w_2 + v_3 w_3 \equiv \|{\bf v}\| \|{\bf w}\| \;cos\theta 
-```
-
-Assuming that the magnitude of $\bf w$ is unity ($\|{\bf w}\|=1$), then from the definition, the magnitude of the projected vector $\bf v$ along the vector $\bf w$ is
-```math 
-{\bf v} ⋅ {\bf w} = \|{\bf v}\| \;cos\theta
-```
-Hence, the projection of $\bf v$ onto $\bf w$ is represented as
-
-```math
-	Proj_{\bf w} \bf v = (\bf v \cdot \bf w) \bf w
-```
-"""
-
-# ╔═╡ f05fda42-ae5d-404a-8e71-25f6f338362a
-begin
-	vv1 = rand(-3:0.5:3,2) # Vector v
-	ww1 = rand(-3:0.5:3,2) # Vector w
-	mag_ww1=norm(ww1) # magnitude of w
-	ww1_n = ww1/mag_ww1 # unit vector w
-	proj_wv = dot(vv1,ww1_n)*ww1_n # Projection of v on unit vector w
-end
-
-# ╔═╡ 4d2db045-e798-421b-8b76-74271176031a
-begin
-
-	x3_vals = [0 0 ; vv1[1] ww1_n[1] ]
-	y3_vals = [0 0 ; vv1[2] ww1_n[2] ]
-
-	# After importing LaTeXStrings package, L stands for Latex in the following expressions; L"v_1"
-	plot(x3_vals, y3_vals, arrow = true, aspect_ratio = :equal, color = [:blue :red],
-     legend = :none, xlims = (-3, 3), ylims = (-3, 3),
-	 annotations = [(vv1[1], vv1[2]+0.2, Plots.text(L"v", color="blue")),
-		 			(ww1_n[1], ww1_n[2]+0.2, Plots.text(L"w", color="red"))],
-     xticks = -3:1:3, yticks = -3:1:3,
-     framestyle = :origin)
-	plot!([-3*ww1[1], 3*ww1[1]],[-3*ww1[2], 3*ww1[2]], color=:red,linestyle=:dash)
-	plot!([vv1[1] 0; proj_wv[1] proj_wv[1]], [vv1[2] 0; proj_wv[2] proj_wv[2]], arrow = true, color=:blue, linestyle=[:dash :dash],
-	annotations = [(proj_wv[1]-0.2, proj_wv[2]-0.2, Plots.text(L"^{proj_w \mathbf{v}}", color="blue")), ((vv1[1]+proj_wv[1])/2-0.5, (vv1[2]+proj_wv[2])/2, Plots.text(L"^{||\mathbf{v \times w}||}", color="blue"))])
-end
+# ╔═╡ 2919d09f-bcd3-4dda-aa0d-abf9c41fc140
+md"""
+---"""
 
 # ╔═╡ 2af5f422-2680-4f35-923b-b7877fea65e7
-md"""# 1.4. Digression: Plots in Julia
+md"""# Brief Overview of Plots in Julia
 
 * Following examples have been taken from `Julia for Optimization and Learning` site [^1].
 
@@ -1656,6 +2156,7 @@ LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
@@ -1680,7 +2181,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.0-beta3"
 manifest_format = "2.0"
-project_hash = "d8a89766fc1cb05fa661dced9d1d1648e3348821"
+project_hash = "7e1d14b3b6053b9593125c579c2b7d9f7111c0da"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -2621,9 +3122,9 @@ version = "1.4.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
+git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.16"
+version = "0.33.21"
 
 [[deps.StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
@@ -2960,46 +3461,54 @@ version = "0.9.1+5"
 # ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
 # ╟─b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
-# ╠═40ddf96c-cbfd-42c0-9f1f-a05fb0f550cf
-# ╠═e4e67907-bab7-4775-bc4d-1072de1faad0
+# ╟─d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
+# ╟─40ddf96c-cbfd-42c0-9f1f-a05fb0f550cf
+# ╟─e4e67907-bab7-4775-bc4d-1072de1faad0
 # ╟─5f6a7a63-dbda-45c1-8505-84e2861f9c60
 # ╟─112c4c4f-7990-4336-ad37-5fa6b0874024
-# ╟─d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
-# ╟─534234e3-e8a3-4d8d-a905-9dc6c59baf8d
-# ╟─01797703-30fb-42e7-893a-faa5883fea10
+# ╟─569afdce-c00f-49ae-8438-4eff7c93b715
+# ╟─1990eeb0-0677-4433-ab1e-153d3e89415b
+# ╟─65ce7b59-eae9-40b0-b583-77723902f332
 # ╟─5af9b4df-93ac-468b-a23d-a47121cade0a
-# ╟─f002d8e5-821a-485c-8a13-0c198935c955
+# ╟─2777db69-da30-4852-b2a4-670fb8604a52
+# ╟─e385d837-5d6f-4025-94ee-214eee72d008
+# ╠═f002d8e5-821a-485c-8a13-0c198935c955
+# ╟─d72f679b-777f-48d6-9a08-40aa693c008f
 # ╟─4d88b926-9543-11ea-293a-1379b1b5ae64
-# ╠═90d44a05-15c2-4a4c-b665-0ded387a6a8d
-# ╠═3e1dba04-ee47-4439-a6fa-71a4bf7ea32a
+# ╟─90d44a05-15c2-4a4c-b665-0ded387a6a8d
+# ╟─ca8ab926-c213-4914-9a5f-993356cd1b25
 # ╟─b956d523-8f52-4b9b-8885-6c77b9e64c7a
 # ╟─f48a0e46-ef4d-4b40-9702-4155ba681df2
 # ╟─8fab1792-a13c-470a-83eb-f8d67887e32e
 # ╠═755b31d0-c2fb-4687-84c8-bc6cdf2cd34b
 # ╟─ceeec4ab-737c-4d92-a9c5-db8c823892a4
-# ╠═ecc2af82-2446-4164-b605-d307cae3bdfd
-# ╟─84de5da7-e014-448b-9ad9-ef86d4cee3d3
+# ╠═84de5da7-e014-448b-9ad9-ef86d4cee3d3
+# ╟─657cf33d-5d62-43cb-8117-fd92d046d4de
 # ╟─dfe8d392-e180-459f-9633-316dfe99ea93
 # ╟─a56c4db6-8d98-4c58-9862-97bfb57f430b
+# ╟─2a34aeb9-41b3-41ff-8f74-26b49aa1777d
 # ╟─1e9b21e4-078e-4d3d-8dc2-908181f81267
-# ╟─4d970613-94f3-4918-964d-d62df499763a
 # ╠═7e054d5e-badd-48e4-b9e2-5ed0aa85de26
-# ╠═b40e4488-9409-4a35-b979-f437a54a8276
 # ╠═c912c3cf-cd26-4a1a-9189-3d762da321a7
-# ╟─856da551-1a93-4baf-8ef6-5946c225f2cd
 # ╟─7db34f43-0777-4cc3-a070-8f53a68cdca3
+# ╟─170d9642-e88c-4c05-93d4-4252b879778e
 # ╟─1b6b35ab-c02a-4d40-8740-ca39c622260e
-# ╟─1417c2e3-2749-4fac-b008-520f89d23503
-# ╟─c4dec3a3-6d20-4c09-85a8-f753cd3dc094
+# ╟─856da551-1a93-4baf-8ef6-5946c225f2cd
+# ╟─4710b609-ec9c-4c15-94f6-00e9ec5c8eb5
+# ╟─394bc307-b090-422b-aeb3-51bb420c6834
+# ╟─534234e3-e8a3-4d8d-a905-9dc6c59baf8d
+# ╟─01797703-30fb-42e7-893a-faa5883fea10
+# ╠═c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 # ╟─70f17fd5-c54d-4888-b745-9ac48bf7efb9
 # ╟─001b6077-9659-472c-8975-192465264100
-# ╟─93134e1f-4cec-4f05-8f18-6428a26afaf8
-# ╟─d8a2533f-e241-4d1d-a939-8006b555daef
-# ╟─93625590-1e00-42f9-9ff0-a17d1eb2a286
-# ╠═ff2f7d91-2c71-4cf4-a8dc-75f18650088b
-# ╠═f6eef184-ae45-492e-8896-ae5e755a2b9e
+# ╟─69add601-4db0-4ed9-8e33-f06b0153c938
+# ╟─a6535620-6ac8-4c80-93a6-148b6b75ff4f
+# ╟─6e4d8535-050a-483e-89d7-22c8378fc458
+# ╟─46321d63-6b36-4af8-95cb-13ca7ca5faf0
+# ╟─ff2f7d91-2c71-4cf4-a8dc-75f18650088b
+# ╟─f6eef184-ae45-492e-8896-ae5e755a2b9e
 # ╟─025a7287-b093-48a4-980c-f5174fc00f30
-# ╠═4f0f0340-8cc2-4820-99a0-94b7e00b50ec
+# ╟─4f0f0340-8cc2-4820-99a0-94b7e00b50ec
 # ╟─c9d0d206-08d7-40a9-a520-eae2c24bc477
 # ╟─0a2597c4-4b63-45b5-b170-a8af7d066ead
 # ╟─4154d786-0a91-4c05-a159-5afc2b820fec
@@ -3007,23 +3516,23 @@ version = "0.9.1+5"
 # ╟─4f30b1ac-195a-45dd-9cc8-aad4cbea0904
 # ╟─a2a0aa9d-c6a7-4b72-8f77-5dcd1123732d
 # ╠═cec35ba2-6ec0-49a6-abbc-f4cc7ab68cb7
-# ╠═c970ab26-9699-4d88-97bf-accd8705a4a0
 # ╠═7581aea1-9ee0-4cdd-ae58-c395152bef03
-# ╠═4db5a423-ae86-4b41-97e9-6b04b5bfab2a
-# ╠═5e58e35f-9ac6-4e0f-b619-86cd6b511629
-# ╠═156885f1-c473-4345-86b8-a4c7abf79596
+# ╟─4db5a423-ae86-4b41-97e9-6b04b5bfab2a
+# ╠═b244b31e-2ab7-4956-97b7-0d591937c6d1
+# ╠═5d751584-072d-4f8f-bfe0-a37be49fa811
+# ╠═4487ebe1-6267-4b5e-a239-271ccd83b672
 # ╠═25c06b3a-25ae-4247-9d36-775728f351c6
-# ╠═59f3c9cb-633a-49a1-aea8-06072663ee9a
+# ╟─2195e693-d4eb-410f-a1db-8186c46b069f
+# ╟─8aa82d94-3671-45be-ad00-1172f77d9b8b
+# ╠═a41ee517-20b2-40d4-b816-f27bea70ebf2
+# ╠═3bdb5820-c773-4b08-b012-73f21844ad2c
+# ╠═4ad42ae8-2e49-4576-8917-86dc128f972e
+# ╟─2f45765a-a762-4965-8ba9-640568fb3e17
 # ╟─7926881c-f1b3-4b5e-8aa9-97443d16b903
 # ╠═1c939645-80f1-4fe8-a497-62b7f22b833c
-# ╟─a8d3d0e1-59af-48ed-8bf9-984422cb2ee1
 # ╠═cfb7c432-059b-4f25-8f03-33749c77f76a
-# ╟─bab3a996-d530-4346-9d7a-35c1f98bd4ff
-# ╠═a74b56e5-3a2b-40e3-8e9b-ddf44ef3548c
 # ╠═ee5d1450-fea6-4bf1-aaa4-905c1fe40ce8
-# ╠═9c8fbd1b-454a-4ee9-aaa8-8a2deddbb6d1
-# ╠═0e2b2370-85ad-4eb4-98b1-0452933634bf
-# ╟─d0657740-b31d-4efe-be23-dbfd356ac744
+# ╟─c59931ce-7cba-4a87-8ba6-7ad13f1e1712
 # ╟─2cb76c55-488d-4b81-9ae3-dbec88f12deb
 # ╠═ec05fea5-62be-4e72-bf06-ce4d03720e0a
 # ╠═5f6f9f8b-9b4a-4d80-b964-5e2c010e65fd
@@ -3036,17 +3545,36 @@ version = "0.9.1+5"
 # ╟─9162c574-1b3d-4660-8369-2cc16f545f44
 # ╠═20be3bc6-16ec-4709-a8d8-7b22d8b95379
 # ╟─2647fcc9-9d4f-43a6-9712-210bcbf9be3f
-# ╠═3cd4208b-4b1c-4d7c-afdb-e6d2addda3cb
-# ╟─cded91d4-baf0-46c2-a341-872202a8472c
+# ╟─3cd4208b-4b1c-4d7c-afdb-e6d2addda3cb
+# ╟─3ce8188e-0287-454e-9802-309c9e6bb775
 # ╟─b15ae47f-1905-47af-9831-7c4c9dfcd147
-# ╠═445f969a-2d87-42c3-893a-8c5db4f37c48
+# ╠═589510ff-40a9-4144-b6ec-07cde545119e
+# ╠═15108468-f48a-44bb-89e6-934edc2394fd
+# ╟─d6d4ed77-8056-4986-9d6f-126a8b6405c0
+# ╟─6e4a1eef-a584-46c5-8c12-4fd2f4f171d4
+# ╠═e370ba4a-a59b-4175-87ef-10f4235c57b6
+# ╟─b517f782-5337-4789-b990-df875c0b76d4
+# ╟─445f969a-2d87-42c3-893a-8c5db4f37c48
+# ╟─fca1e4a3-7b68-4ccc-b0e2-ad0646d147df
 # ╟─a5efcaed-1e2e-4c6d-b96a-a362bb93c792
+# ╠═37619c57-da42-4b27-9f06-4fbd592c7909
+# ╠═20d88709-f24d-46fe-91dc-c34332d7e9f8
+# ╟─c4e53a46-2edb-418e-8d2f-ad84655e7bb9
+# ╟─3c580317-8f9e-4b14-bff9-3580df388124
+# ╠═856e9d85-70b0-4ec8-9a7d-8840edad0545
+# ╠═e4d71d85-3e45-4d2c-a343-3af0aa7e3187
+# ╟─601e3395-53cd-4cd5-a03f-6918df72d6ac
 # ╟─f7f08d7b-d8a2-4b13-82d5-9b56202a04fc
 # ╠═a0e8a024-68b1-488d-83c5-7da9f2f6ddec
 # ╠═66334033-d75c-4322-b9b9-d9b0f6d8bcd4
 # ╠═122d9ff2-8a55-44fa-9726-df29ad94f27f
 # ╠═beb9f6c0-9480-4e3f-9a4a-82be4203918f
+# ╟─e5f06f00-bfeb-47a4-ab2e-14b083588b5e
 # ╟─7bf33c3b-9fb8-4e4a-950d-6c0377fbde8f
+# ╠═1d8351d5-6cd0-4384-8b3a-8d335ed94a3d
+# ╠═4d61e9da-b892-4129-ae9c-9b4d703c20d3
+# ╠═e66a5c7b-269f-4994-b785-eae7eaec9199
+# ╟─75b79172-04e6-4d69-8e35-0bedf1ee07a9
 # ╟─88de33cf-7cc3-4b17-9d8b-23a7971dbb65
 # ╠═b6167c3f-331a-4fc0-bf83-e34a0c63e0a5
 # ╠═67f0c700-44f2-4b31-ab82-c8bad5cb4dd2
@@ -3055,13 +3583,17 @@ version = "0.9.1+5"
 # ╠═d251cefe-1d55-4f60-b9b2-e7bfef596cae
 # ╠═08b8c340-543c-439e-9bec-c896ded4913e
 # ╠═8163e5c4-c227-4db6-a802-9012f3cfcd47
-# ╠═818beb80-8247-4741-bd30-2e551a9eae07
-# ╠═aeae9c75-3922-42ca-8078-3b0fc272b930
+# ╟─da88a15a-f992-444d-8874-07af7b4eeaaf
+# ╟─c3d684f7-8978-4cc6-b65d-59e6da94cef3
+# ╠═f05fda42-ae5d-404a-8e71-25f6f338362a
+# ╟─4d2db045-e798-421b-8b76-74271176031a
+# ╟─fe2d5334-df6b-4943-86cb-27c53f061d81
 # ╟─5b9c7938-1b43-40ef-accc-fd72f79a8e83
 # ╠═22aa7b58-7537-4dc2-94d0-85b7b2337683
 # ╠═f4c33f3a-d979-42d6-acd1-73117485cbf4
 # ╠═2eb20b7f-9371-4062-811b-0d0dee6ab49f
 # ╠═7e955cf3-4d95-4560-aa3c-87bcc470f440
+# ╟─68aefb97-1813-49a0-9c3e-3f3e1329b020
 # ╟─0e03a31f-b062-4fa0-aacb-4d9b4ece185d
 # ╠═a342cf0f-7867-4cc3-8d19-32304a05c1af
 # ╠═7776654d-8053-492e-8ec8-1b37106b9c77
@@ -3071,25 +3603,40 @@ version = "0.9.1+5"
 # ╠═ab38d1b0-3b47-430e-960d-525ed1894f0d
 # ╠═bfc0b5a2-66bc-4891-84fe-93794940a393
 # ╠═48d3d9a6-bf9e-450c-a1e8-66dbf95cfbd1
+# ╟─12c1bb63-0dd2-4635-8970-5e2db19f282f
 # ╟─de011089-7cb7-40ce-bb51-a0dc81b74f5e
 # ╠═6e1ec991-a125-484e-b1c5-a23ac7ee36d7
 # ╠═30676169-e350-4a54-8daf-577c9dbfe28f
+# ╟─dee68a99-f62a-433c-8463-52a7355f69ff
 # ╟─8fa6a139-6cac-4428-b2d2-c2e7058b9906
+# ╟─2ff215cc-3001-4f8b-8dbf-bfc04df32f06
+# ╟─b4304f3f-9cec-44f6-a996-ddb9ffd95cbf
 # ╠═44cd3b69-8f9b-4a05-bf7a-8523586c7ab7
 # ╠═207b0cfc-b332-46cc-b0b1-dd8ccbba91cd
 # ╠═9d66764d-363a-472e-a508-6ac9ce9937c9
 # ╠═59d533ed-1893-41b7-af92-b483b01a6d8b
 # ╠═52cf8f04-5640-4c6a-8f80-733f6e509719
+# ╟─56bda6a6-7351-45e9-a536-30604d97e646
+# ╟─b9afe8bc-cc3e-456b-9d37-15f22597f56a
+# ╠═aa0c558b-ba25-4f7e-be62-76c065b8b350
+# ╠═c8e3e398-8c66-41e7-bfd7-39614e313605
+# ╠═9fe73054-b360-49ce-a556-253eeb58847d
+# ╟─c580792f-c078-41c8-8475-e899ac080a16
+# ╠═fbaa2376-f6f2-4991-97ec-0d434ed8e33e
+# ╠═c47ebf3e-8847-4649-9a55-67a7e310fc86
+# ╟─f41ed78e-7852-41ff-8980-f3de1cc2af08
+# ╟─77fcad65-81df-434e-9d6f-6ff1e461fe46
 # ╠═6e710fa9-4701-4a30-977d-3241a9ed06f0
 # ╟─42c4ae51-1977-4a8e-abf2-8e90e0358098
 # ╠═3436f687-fed3-40fd-8307-4e58f983b6ab
 # ╠═ba9b12d8-22a0-4a80-8742-7e56e426bc73
-# ╠═f8580018-5f2e-4a36-801e-6e9547902590
+# ╟─dab92a0d-7a3a-429e-ae5b-97a03c04a740
 # ╟─fd38fe61-fddb-40b2-bf3b-da7bd3fb81c0
 # ╠═e8eac4d6-9bcc-440d-a7c5-e4d51f7d0bd8
 # ╠═7cf7f75a-4590-4ad0-afae-ba61f50c98b0
 # ╠═c626105c-f3fb-4ef1-a908-98ac07eedf1c
 # ╠═0ffd3791-8b90-43b9-8144-66d740596303
+# ╟─06ea4491-e3cf-44d5-b3c0-f41e7b272445
 # ╟─35a01f9e-06e3-45a4-ab08-f16102b7819b
 # ╠═b5cc6660-e52d-45fc-90de-c8a4b3c2d9ee
 # ╠═0f05f2ee-fe1a-4d85-abec-6a3531182fb9
@@ -3101,29 +3648,43 @@ version = "0.9.1+5"
 # ╠═ddac83ca-c67b-4a07-9990-e8d165630998
 # ╠═9152e5a8-3818-4cd6-ad6a-b741f843a24d
 # ╠═af21ae80-d242-46aa-ab9f-0ed21f7b1284
-# ╠═2fdee5c7-ae1e-444e-b9da-129b0f167d49
+# ╟─6fdeefd9-9029-478e-8141-ec0f7f688b44
 # ╟─da88ee62-2b88-4636-8a1b-0a5ec9d7d0c3
 # ╠═a445b2f7-1468-4916-b062-80585b441abb
 # ╠═e361943a-7ac7-43cb-8dd3-269130c01419
+# ╟─aa6ce50f-0832-485b-99dc-e2bb636e717d
 # ╟─8a8d9a85-aabb-4fbf-916c-7f7723f462d7
 # ╟─92a37af5-b98d-477c-b824-7a642d56a386
 # ╠═53ab6b9d-9835-4ab0-8711-c43fe76c9ac0
 # ╠═6b4f6269-b400-430f-921e-9d62a5bfd557
-# ╠═8052ad94-2fcd-4184-aa82-9715d5f16d7b
+# ╟─8052ad94-2fcd-4184-aa82-9715d5f16d7b
+# ╟─fe533105-3ae6-4972-b226-b60e9959d2b4
 # ╟─8cad4f8e-fcf7-4a4e-ad01-6762174204e3
+# ╠═3fb613a7-4ca5-4691-b66d-229547693bd3
+# ╠═99e3f5cf-cabd-4cf3-b199-76d66b8adb7e
+# ╠═84fe4221-ba21-43e8-b3c2-76b4d373d244
+# ╠═d08fa42f-3a91-4b7c-a583-25bfa2a0e337
+# ╠═474d0f78-748d-4e0a-b250-815da5697c75
+# ╠═afb0a53a-6bd5-4b3a-acb7-2d88887cb237
+# ╠═d7fa2568-3e93-451f-a873-da70346b534c
+# ╠═fbbf63a5-eca4-4785-85ac-950d2522f6d7
+# ╠═70a8809e-f3c1-4006-9c62-b957606afe71
+# ╠═c101febd-da89-4b7c-9026-15300a6eece6
+# ╠═e1c98280-b0fc-464e-b56c-03af50d68ead
+# ╟─45542432-e38e-42fc-81a5-fab7088f2458
 # ╟─8fc7ad49-27dc-4aad-9237-976e1e9cf37e
 # ╠═f1638480-d63e-418e-af69-1201e8e7137e
 # ╠═f91f7995-cf8d-4719-80fa-6fe11a0c9dbd
 # ╠═c6988b6d-876d-4ec4-8d89-3793e0b68b32
 # ╟─f6b8a949-98de-4cb1-ab08-fb1c6acde394
+# ╟─b122876e-ee78-47ed-822d-4019cf3b5125
 # ╟─624ea283-b640-4241-befc-73ca3c529111
+# ╟─aec34b14-0c8e-4331-89f2-ed7d28bdd881
 # ╟─486368b5-a701-4eae-bace-b11885178e04
 # ╠═74db1ecb-0ca8-4f56-8b28-84b2c21fc008
 # ╟─fec7f28f-aab3-491f-afaa-185eb4a3b278
 # ╠═585b27eb-1c5a-4f57-a14b-c2b8ac99d3b5
-# ╟─c3d684f7-8978-4cc6-b65d-59e6da94cef3
-# ╠═f05fda42-ae5d-404a-8e71-25f6f338362a
-# ╠═4d2db045-e798-421b-8b76-74271176031a
+# ╟─2919d09f-bcd3-4dda-aa0d-abf9c41fc140
 # ╟─2af5f422-2680-4f35-923b-b7877fea65e7
 # ╠═abf23f31-52f1-4cf0-8c1a-84b2e669d1e1
 # ╠═252ba498-3a0e-4a9a-8969-b1dcff74aef3
