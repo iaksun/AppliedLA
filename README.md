@@ -49,6 +49,8 @@ Here are the resources, in no particular order, that I have used and will be usi
 
 **Stephen Boyd and Lieven Vandenberghe**, _Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares_, 2018, Cambridge University Press (https://web.stanford.edu/~boyd/vmls/vmls.pdf).
 
+**Steven L. Brunton**, University of Waghington, Seattle, _Linear Algebra Lectures_ on YoutTube
+
 **Grant Sanderson from 3Blue1Brown**, _Linear Algebra Lectures_ with exceptional visualizations on YouTube 
 
 **Alan Edelman, David P. Sanders & Charles E. Leiserson**, _Introduction to Computational Thinking_, Pluto notebooks of lectures and homework, videos of lectures, cheatsheets and more (https://computationalthinking.mit.edu/Spring21/).
