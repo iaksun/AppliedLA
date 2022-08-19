@@ -110,18 +110,30 @@ md"# Lecture - 2: Matrices
 > ##### 2.1. Brief review of matrices
 >> ##### 2.1.1. Terminology
 >> ##### 2.1.2. Matrices for linear equations
-> ##### 1.1.3. Simple vector operations
->>> ##### Add, subtract and multiply
->> ##### 1.1.4. A few definitions
->>> ##### Length and distance
->>> ##### Norm
 
->> ##### 2.2. Matrix operations
->>> ##### 1.2.1. Sum, Mean, RMS value
->>> ##### 1.2.2. De-meaned vector, Standart deviation
->>> ##### 1.2.3. Standardization
->>> ##### 1.2.4. Correlation coefficient
->>> ##### 1.2.5. Projection
+> ##### 2.2. Linear Equations
+>> ##### 2.2.1. Linear & nonlinear equations
+>> ##### 2.2.2. Solution by ellimination
+>> ##### 2.2.3. No solution and many solutions
+>> ##### 2.2.4. Unique solution
+
+> ##### 2.3. Matrices in Julia
+>> ##### 2.3.1. Creating matrices
+>> ##### 2.3.2. Indexing
+>> ##### 2.3.3. Slicing and submatrices
+>> ##### 2.2.4. Special matrices
+
+> ##### 2.4. Matrix operations
+>> ##### 2.4.1. Matrix transpose
+>> ##### 2.4.2. Matrix-Scalar multiplication
+>> ##### 2.4.3. Matrix addition/subtraction
+>> ##### 2.4.4. Matrix-vector multiplication
+>> ##### 2.4.5. Matrix-Matrix multiplication
+>> ##### 2.4.6. Determinant
+>> ##### 2.4.7. Inverse
+
+> ##### 2.5. A Few Applications
+>> ##### 2.5.1. Markov processes
 
 ---
 "
@@ -499,7 +511,7 @@ md"
 # ╔═╡ c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
 md"# 2.3. Matrices in Julia
 
-### 1. Creating matrices from the entries
+## 2.3.1. Creating matrices from the entries
 "
 
 # ╔═╡ ae6fbc53-26d9-4980-b755-9d2278badfc3
@@ -521,7 +533,7 @@ A_77[:,2]
 
 # ╔═╡ 8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
 md"""#
-### 2. Indexing entries
+## 2.3.2. Indexing entries
 ##### $\qquad -\;$ Access the $(i,j)^{th}$ entry of a matrix A ⇒ A[i,j] 
 ##### $\qquad -\;$ Assign a new value to any entry ⇒ A[i,j] = "_value_"
 ##### $\qquad -\;$ Access an entry of a matrix using only one index:
@@ -557,7 +569,7 @@ b = [ -2.1; -3; 0 ] # A 3-vector or 3x1 matrix
 
 # ╔═╡ 19e9c605-fb39-450a-a4a2-edf617c72614
 md"#
-### 3. Slicing and Submatrices
+## 2.3.3. Slicing and Submatrices
 
 ##### $\qquad -\;$ Using column notation you can extract a submatrix
 "
@@ -592,7 +604,7 @@ rand((-3:3),2,3); #rand((k:step:l), m,n) generates an mxn matrix of random numbe
 # ╔═╡ d0f9a0c9-f58d-48fe-81b0-539c14134969
 md"""#
 
-### 4. Special Matrices
+## 2.3.4. Special Matrices
 
 ##### $\;\; -\;\;$ Zero matrix ($\bf 0$): A matrix with all entries are zero
 
@@ -1075,7 +1087,7 @@ md"""# 2.5. A Few Applications
 """
 
 # ╔═╡ 7ad20af1-a7d6-4092-b982-fad27d6e51ea
-md"## 2.4.1. Markov Processes 
+md"## 2.5.1. Markov Processes 
 
 ### Example 1: Page Rank[^1] 
 ##### Birth of Google's PageRank algorithm:
@@ -1382,7 +1394,7 @@ md"""
 
 # ╔═╡ ffe0fb93-50f4-4a1d-b73b-e24fb729d043
 md"""# 
-### - Eigenvalue - Eigenvector analysis
+### ★ Eigenvalue - Eigenvector analysis
 !!! note
 	##### $\;\; - \;\;$ Largest eigenvalue of the Markov matrix is expected to be '$1$' 
 	##### $\;\; - \;\;$ its corresponding eigenvector is the steady state
@@ -1580,7 +1592,7 @@ $\Large {\bf In \;steady \;state, \;it \;converges \;to \;the \;aborbing \;state
 # ╔═╡ ec0f0925-e565-47fe-814a-cb6bf8caaee3
 md"""#
 
-### 1. Working with absorbing states
+## ★ Working with absorbing states
 
 #### This is a brief overview for curious minds (not included) [^3]
 
@@ -3288,7 +3300,7 @@ version = "1.4.1+0"
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╠═b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 # ╟─a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-# ╟─4cdc2af4-872d-4672-87bb-330547d78bca
+# ╠═4cdc2af4-872d-4672-87bb-330547d78bca
 # ╟─c393ee0a-5e50-4c00-ad52-ef5851f7d531
 # ╟─044f12d3-35bf-4df0-9ef2-dde49db982f7
 # ╟─aa063ff2-1644-431e-b322-7135b4e9703f
@@ -3319,7 +3331,7 @@ version = "1.4.1+0"
 # ╟─dc6984d0-ed8a-4f77-a8df-7c9ebc20dc00
 # ╟─76913eb1-31d1-459d-a13a-7dc1ae183b59
 # ╟─b0dca955-16c4-4cd3-8090-02d577624ab6
-# ╟─c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
+# ╠═c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
 # ╠═ae6fbc53-26d9-4980-b755-9d2278badfc3
 # ╠═a9873638-7338-414e-8f30-054ba220114d
 # ╠═2b9984b3-b38e-498b-9a05-3df4f56c525e
@@ -3334,7 +3346,7 @@ version = "1.4.1+0"
 # ╠═c07dff77-c850-4f74-a5b6-18a1c7ecb176
 # ╠═f70af9cd-6a95-4d1e-af12-2dd8d52399dc
 # ╠═b198c118-34eb-478e-a2cd-c8e6c19aec93
-# ╠═19e9c605-fb39-450a-a4a2-edf617c72614
+# ╟─19e9c605-fb39-450a-a4a2-edf617c72614
 # ╠═060cb524-7c1d-422d-82ea-7263d829a0cb
 # ╠═856870ec-570a-4fe9-a602-128d8bbe2db0
 # ╠═c7c0a6ba-060b-48c5-82cb-af8845fab924
@@ -3406,7 +3418,7 @@ version = "1.4.1+0"
 # ╟─3a8ef338-38a4-4954-862c-6ce50e80f2fe
 # ╟─2d036e2e-6850-46d8-bbb5-21856403ecc8
 # ╠═b5449b8e-3000-48dc-a788-1d357569a5a9
-# ╟─7ad20af1-a7d6-4092-b982-fad27d6e51ea
+# ╠═7ad20af1-a7d6-4092-b982-fad27d6e51ea
 # ╟─ba3404b3-956e-4ca8-93aa-070897bdaa9a
 # ╟─55bbc51f-86ef-41ab-824c-0d5fe4241181
 # ╟─2633b604-7476-48d0-8cdc-05645ea0ed57
