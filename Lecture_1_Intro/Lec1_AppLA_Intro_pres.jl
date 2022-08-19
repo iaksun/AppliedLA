@@ -2179,7 +2179,7 @@ XLSX = "~0.7.8"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0-beta3"
+julia_version = "1.8.0"
 manifest_format = "2.0"
 project_hash = "7e1d14b3b6053b9593125c579c2b7d9f7111c0da"
 
@@ -2688,7 +2688,7 @@ version = "0.6.3"
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
-version = "7.81.0+0"
+version = "7.84.0+0"
 
 [[deps.LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
@@ -3381,7 +3381,7 @@ version = "0.9.4"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+1"
+version = "1.2.12+3"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -3398,7 +3398,7 @@ version = "0.15.1+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.0+0"
+version = "5.1.1+0"
 
 [[deps.libfdk_aac_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -3427,12 +3427,12 @@ version = "1.3.7+1"
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
-version = "1.41.0+1"
+version = "1.48.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
-version = "16.2.1+1"
+version = "17.4.0+0"
 
 [[deps.x264_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -3459,7 +3459,7 @@ version = "0.9.1+5"
 # ╠═f7c985b3-731b-4c56-afdb-4c67f47d9c94
 # ╠═b4b7ed3f-43f4-479a-9913-519706c02a2f
 # ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
-# ╟─b8171bbb-d3f4-4236-9d77-3ccffd6d4613
+# ╠═b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
 # ╟─d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
 # ╟─40ddf96c-cbfd-42c0-9f1f-a05fb0f550cf

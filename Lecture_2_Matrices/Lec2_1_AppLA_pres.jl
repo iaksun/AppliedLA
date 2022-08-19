@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.9
+# v0.19.11
 
 using Markdown
 using InteractiveUtils
@@ -24,11 +24,24 @@ begin
 	using LinearAlgebra
 end
 
+# ╔═╡ b5f2b6bf-899b-40f4-9d9f-20485f489870
+using Images, TestImages, OffsetArrays
+
 # ╔═╡ b5449b8e-3000-48dc-a788-1d357569a5a9
 using QuartzImageIO # required to load a gif file
 
+# ╔═╡ cab15114-3851-442c-8fb4-d03928dcb082
+using DataFrames
+
 # ╔═╡ 5504aec1-ecb0-41af-ba19-aaa583870875
 PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ 337dc12b-49d1-4128-8459-33b04dd8ccce
+# begin
+# 	using Pkg
+# 	Pkg.resolve()
+# 	Pkg.update()
+# end
 
 # ╔═╡ 98ddb325-2d12-44b5-90b6-61e7eb55bd68
 struct TwoColumn{A, B}
@@ -61,92 +74,223 @@ end
 html"<button onclick='present()'>present</button>"
 
 # ╔═╡ a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-md"""# Applied Linear Algebra for Everyone
-``M. \;İrşadi \;Aksun, \;\;September \;xx, \;2022`` 
+md"""# Applied Linear Algebra for Everyone (Fall 2022)
+**M. İrşadi Aksun**\
+**Electrical and Electronics Engineering**\
+**e-mail: iaksun@ku.edu.tr**
 
-``Electrical \;and \;Electronics \;Engineering``
+\
 
-`` {\bf e-mail}: iaksun@ku.edu.tr``
+#### Recommended Materials:
 
-``{\bf Tel}:\;1539``
+#### 1. ``\;\;`` William Gilbert Strang from MIT, 
+* **Lectures on _Linear Algebra_, all available on YouTube;**
 
-``Course \;webpage:xxxxxx``
+* **book titled _Linear Algebra for Everyone_**
 
-#### Reference Books:
-* Stephen P. Boyd and ... _Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares_
+#### 2. ``\;\;`` Stephen P. Boyd from Stanford University, 
 
+* **lectures on _Introduction to Applied Linear Algebra_ on YouTube;**
 
-* W. Gilbert Strang, _Linear Algebra for Everyone_
+* **the course materials on the webpage:  https://stanford.edu/class/engr108;** 
 
+* **textbook _Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares_ available online.**
+
+#### 3. ``\;\;`` Grant Sanderson from 3Blue1Brown, 
+
+* **Linear Algebra lectures with exeptional visualizations on YouTube** 
 ---
 """
 
-# ╔═╡ 0c2bf16a-92b9-4021-a5f0-ac2334fb986a
-md"""# Lecture - 2: _Matrices_
+# ╔═╡ 4cdc2af4-872d-4672-87bb-330547d78bca
+md"# Lecture - 2: Matrices
+
+### Content 
+
+> ##### 2.1. Brief review of matrices
+>> ##### 2.1.1. Terminology
+>> ##### 2.1.2. Matrices for linear equations
+> ##### 1.1.3. Simple vector operations
+>>> ##### Add, subtract and multiply
+>> ##### 1.1.4. A few definitions
+>>> ##### Length and distance
+>>> ##### Norm
+
+>> ##### 2.2. Matrix operations
+>>> ##### 1.2.1. Sum, Mean, RMS value
+>>> ##### 1.2.2. De-meaned vector, Standart deviation
+>>> ##### 1.2.3. Standardization
+>>> ##### 1.2.4. Correlation coefficient
+>>> ##### 1.2.5. Projection
+
+---
+"
+
+# ╔═╡ c393ee0a-5e50-4c00-ad52-ef5851f7d531
+md"""# 2.1 Brief review of matrices
 
 #### What is a matrix?
 
-* There is nothing to do with the movie of ``Matrix``, although with a little bit of imagination one can form a good analogy between the two. 
+##### $\qquad \rightarrow$ Nothing to do with the movie of ``Matrix`` 😎 
+##### $\qquad \rightarrow$ It is a rectangular formation of numbers 
 
-
-* Simply put, it is a rantangular formation of numbers such as
-${\bf A} = \begin{bmatrix} 2.1 & 4.2 & 1.5 & 0 \\ -1.5 & -3 & 2 & 1 \end{bmatrix}$
-
+\
 
 #### Why do we need them?
 
-* Remember your experience with the **Microsoft Excel tables**, full of numbers with 100s (most probably thousands or millions in today's datacenteric world) of rows and columns, where some simple manipulations can be performed easily, like
-  - **sorting** a table in decreasing or incresaing order based on a colomn
-  - **summing up or averaging** the numbers in a column or
-  - doing all sorts of **simple manipulations** on the numbers in the table.
+##### $\qquad \rightarrow$ Remember your experience with the Microsoft Excel tables:
+##### $\qquad \qquad -$ full of numbers with thousands of rows and columns, 
+##### $\qquad \qquad -$ some simple manipulations can be performed easily:
+##### $\qquad \qquad \qquad \bullet\;$  sorting a table
+##### $\qquad \qquad \qquad \bullet\;$  summing up or averaging the numbers in a column
+##### $\qquad \qquad \qquad \bullet\;$  simple manipulations on the numbers in the table
 
+\
 
-* However, it will be **very difficult to implement some more involved calculations** on the data. **The difficulty** is in the sense of
-  -  **ease of implementation** and/or combining the data with some programing languages
-  - **computational efficiency**
+##### $\qquad \rightarrow$ Very difficult to implement more involved calculations 
+##### $\qquad \qquad -$ The difficulty is in implementation and  efficiency
 
-
-* To be fair, note that one may write macros (small codes) on Excel to implement some more involved computations. 
-
-
-* Even then, it will be no match to implementing algorithms in a traditional computer language like Java, C, Python, R or **_Julia_**.
 
 !!! matrix \" Matrix Format is used \"
 
-	to store tables (from Excel or any other spreadsheet app) and databases in order for the datascience algorithms can be implemented with ease and efficiency.
+	##### $\qquad -\;$ to store tables for easy manipulations
+	##### $\qquad -\;$ to implement DS algorithms with ease and efficiency
 
 ---
-
 """
 
-# ╔═╡ 3de20f99-af1c-413a-b8f4-dc2d259ece3a
-md""" # 2.1. Linear Equations
-* **Linear Equations** lie at the heart of linear algebra and appear almost in every field, such as Engineering, Finance, Sciences, Social Sciences,…
+# ╔═╡ 044f12d3-35bf-4df0-9ef2-dde49db982f7
+md"""
+
+## 2.1.1. Terminology
+
+#### A matrix is a rectangular array of numbers, as in
+
+\
+
+##### ${\bf A} = \begin{bmatrix} 1 & 0.1 & 3 & -2.5 \\ 2.5 & 1.5 & 0 & 1.7 \\ 3 & -4.2 & 1 & 3 \end{bmatrix} \qquad OR \qquad {\bf A} = \begin{pmatrix} 1 & 0.1 & 3 & -2.5 \\ 2.5 & 1.5 & 0 & 1.7 \\ 3 & -4.2 & 1 & 3 \end{pmatrix}$
+
+##### $\qquad \rightarrow\;$ An important attribute of a matrix is its size or dimensions
+
+##### $\qquad \rightarrow\;$ The matrix above has 3 rows and 4 columns, so its size is 3 × 4.
 
 
-* Even as early as in junior high, we have all learned how to solve a few linear equations simulatanously.
+##### $\qquad \rightarrow\;$ $A_{ij}$ is the $(i,j)^{th}$ element of the matrix: $A_{23}=0$, $A_{32}=-4.2$ 
 
 
-* Here is a simple system of 2 equations with 2 unknowns:
+##### $\qquad \rightarrow\;$ A `square matrix` has equal number of rows and columns
+
+##### $\qquad \rightarrow\;$ A `tall matrix` has more rows than columns (m × n, where m > n)
+##### $\qquad \rightarrow\;$ A `wide matrix` has more columns than rows (m × n, where m < n).
+
+---
+"""
+
+# ╔═╡ aa063ff2-1644-431e-b322-7135b4e9703f
+md"""
+
+## 2.1.2. Matrices for linear equations
+
+#### In real life problems, we usually have 
+##### $\qquad \rightarrow\;$ many unknowns (thousands, millions), and 
+##### $\qquad \rightarrow\;$ generally more equations than unknowns
+
+
+#### Therefore, they need to be cast into Matrix forms
+
+##### $\qquad \rightarrow\;$ with $m$ rows and $n$ columns 
+##### $\qquad \rightarrow\;$ to work on with comparative ease and computational efficiency
+
+\
+
+##### $\qquad \qquad \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}$ 
+
+\
+
+##### $\qquad \qquad \qquad \qquad \qquad \bf A  x   =  b$
+
+#### $\Rightarrow$ No one can solve such a huge system by hand, or even by computer if not come up with smart algorithms.  
+
+#### $\Rightarrow$ Linear Algebra provides 
+##### $\qquad \rightarrow$ tools to work with matrices and vectors
+##### $\qquad \rightarrow$ smart algorithms for Big Data problems 
+
+---
+"""
+
+# ╔═╡ 125b5322-fd07-4e4b-bb81-6b7c41e4c60e
+md""" # 2.2. Linear Equations
+
+##### $\color{red} \bf Linear \;equations \;lie \;at \;the \;heart \;of \;linear \;algebra$, and appear almost in every field.
+
+\
+
+##### Even as early as in junior high, we all have learned how to solve a few linear equations simulatanously.
+
+##### Example:
 
 >$x + 2 y = 3  \qquad \qquad   x_1 + 2 x_2 = 3$
 >$4 x + 5 y = 6  \qquad \qquad    4 x_1 + 5 x_2 = 6$
 
-where $x$ and $y$ are unknowns (or use $x_1, x_2, \dots, x_n$ in cases of $n$ unknowns), and individual equations are **_linear_**. 
+##### $\qquad - \;\; x$ and $y$ are unknowns (or use $x_1, x_2$) 
+##### $\qquad - \;\;$ individual equations are linear 
 
-!!! note
-	We will be using $x_1$, $x_2$,...,$x_n$ notation from now on to help you detach from the terminology of Physics.
 
-The whole idea of **Linear Equations** and most part of **Linear Algebra** stem from the efforts of how to find a solution (or solutions) **_accurately_** and **_efficiently_** for such equations.
+!!! notation
+	##### $\qquad x_1$, $x_2$,...,$x_n$ are used for the sake of generality
 
-We all know how to solve this by **ellimination**. So, let us plot these two equations and see if there is a solution:
+##### The whole idea of Linear Equations and most part of Linear Algebra stem from the efforts of how to find 
+
+##### $\qquad \color{red} \Rightarrow \bf \; a \;solution \;(or \;solutions) \;accurately \;and \;efficiently.$
 
 ---
 """
 
+# ╔═╡ 54a9e4ab-f823-4e03-8083-f84ec2b8adba
+md"""
+##  2.2.1. Linear & nonlinear equations
+
+>  $\bf \large Non \;Linear:$ $\large f_1(x_1, x_2) = 4 x_1 - 5 x_2 + 2 {\color{red} x_1 x_2} \qquad    g_1(x_1,x_2) = 20 {\color{red} \sqrt{x_1}} + 2 {\color{red} x_2^2} - 20$
+>
+>  $\bf \large Linear:$ $\large \; f_2(x_1, x_2) = 4 x_1 - 10 x_2 -10  \qquad \quad  g_2(x_1,x_2) = 10 x_1 + 5 x_2 + 5$
+"""
+
+# ╔═╡ c2a59e8e-bbe2-44c2-8922-6ac7ad4b942b
+let
+	x1=range(0,stop=5,length=100)
+	x2=range(0,stop=5,length=100)
+	#f(x,y) = x*y-x-y+1
+	fnl(x1,x2) = 4x1 - 5x2 + 2 * x1 .* x2
+	fl(x1,x2) = 4x1 - 10x2 .- 10
+	gnl(x1,x2) = 20 * sqrt.(x1) + 2 * (x2.^2) .- 20
+	gl(x1,x2) = 10x1 + 5x2 .+ 15
+	fig1 = plot(x1,x2,fnl,st=:surface, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"f(x_1,x_2)", color=cgrad(:jet), colorbar = false)
+	plot!(x1,x2,fl,st=:surface, color=cgrad(:jet))
+	fig2 = plot(x1,x2,gnl,st=:surface, color=cgrad(:jet), colorbar = false, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"g(x_1,x_2)")
+	plot!(x1,x2,gl,st=:surface, color=cgrad(:jet))
+	plot(fig1,fig2, layout = (1,2))
+end
+
+# ╔═╡ 16c5d3e5-edbe-47cd-a5ab-b09ba4d27104
+md"""## 2.2.2. Solution by ellimination
+
+ $\large \qquad \quad \color{red} x_1 + 2 x_2 = 3 \qquad (1)$ $\;\;\qquad\large \color{blue} \qquad 4 x_1 + 5 x_2 = 6 \qquad (2)$
+
+#### Ellimination: 
+>  ##### $\color{red} 4 × (x_1 + 2 x_2 = 3) ⇒ 4 x_1 + 8 x_2 = 12 ⇒ 4 x_1 + 8 x_2 = 12$
+>  ##### $\color{blue} 4 x_1 + 5 x_2 = 6\;\;\;\;\; ⇒ 4 x_1 + 5 x_2 = \;\;6 ⇒ \quad\;\;\;\; -3 x_2 = -6$
+
+#### Back-substitution:
+>  ##### $\color{red} 4 x_1 + 8 × 2 = 12 ⇒ x_1 = -1$
+>  ##### $\color{blue} x_2 = -6/-3\;\;\; ⇒ x_2 = 2$
+
+#### ⇒ The approach is know as _Gaussian ellimination_
+
+"""
+
 # ╔═╡ 8d0ad71b-34ca-407c-bd09-3fa191122c70
 md"""# 
-$x_1 + 2 x_2 = 3 \qquad \qquad    4 x_1 + 5 x_2 = 6$
+$\large \;\; \color{red} x_1 + 2 x_2 = 3 \qquad (1) \qquad\large \color{blue} \qquad 4 x_1 + 5 x_2 = 6 \qquad (2)$
 """
 
 # ╔═╡ 2fdeb1e8-5811-4dcb-881a-5e857889f6ca
@@ -155,13 +299,13 @@ let # "Let ... end" allows the variables to be used only in the cell.
 	x_1 = range(-3,3,7)
 	x_21 = (3 .- x_1)/2;
 	x_22 = (6 .- 4x_1)/5;
-	plot(x_1, x_21, xlabel = L"x_1", label = L"x_1+ 2 x_2 =3", ylabel = L"x_2", frame = :origin, aspect_ratio = :equal)
-	plot!(x_1, x_22, label = L"4x_1+5x_2=6", fg_legend = false, annotations = [(-1.3,1.7,Plots.text(L"^{(-1,2)}"))])
+	plot(x_1, x_21, xlabel = L"x_1", label = L"x_1+ 2 x_2 =3", ylabel = L"x_2", frame = :origin, aspect_ratio = :equal, color = :red, l = 2)
+	plot!(x_1, x_22, label = L"4x_1+5x_2=6", fg_legend = false, annotations = [(-1.3,1.7,Plots.text(L"^{(-1,2)}"))], color = :blue, l = 2)
 	# `fg_legend = false` is to turn off the box around the legends
 end
 
 # ╔═╡ 9648cc3d-3e45-4dee-b245-1865b31f3c4c
-md" 
+md""" 
 !!! julia
 	**_range_** commend `range(-3.0, stop=3.0, length=7)` does not allocate but creates `start`, `stop` and `length`. `range` is refered to as ``lazy \;vector`` and used as `range(-3,3,7)` in this case.
 
@@ -170,8 +314,7 @@ md"
 	* `x = collect(-3:1:3)` start=-3, step=1, stop=3
 	can be used. Note the semicolon (`;`) in the first assignment, which refers to 	`vcat` (vertical concatenation) for the entries defined.
 
----
-"
+"""
 
 # ╔═╡ 4fb5808d-c406-4586-98b2-42f1b2911bf8
 range(-3,3,7)
@@ -188,87 +331,67 @@ collect(range(-3,3,7))
 # ╔═╡ 905e16f4-d98b-461c-8c91-c484f8529eb7
 collect(-3.0:1.0:3.0)
 
-# ╔═╡ ae8bd2b8-f1a2-4ec4-a688-36be1d74b22f
-md"""#
-### A brief digression: Linear, nonlinear equations
+# ╔═╡ 663d922d-7db3-4987-b68d-04e3b04dc436
+md"""
+---"""
 
-To make sure what ``\color{red} non \;linear \;equation`` means, here are two pairs of simple non-linear and linear equations:
+# ╔═╡ 96f83cf6-2627-467e-95e7-f0f6a59a56c1
+md"""## 2.2.3. No solution and many solutions
 
-> Non Linear:  $f_1(x_1, x_2) = 4 x_1 - 5 x_2 + 2 {\color{red} x_1 x_2} \qquad    g_1(x_1,x_2) = 20 {\color{red} \sqrt{x_1}} + 2 {\color{red} x_2^2} - 20$
->
-> Linear: $\quad\;\; f_2(x_1, x_2) = 4 x_1 - 10 x_2 -10  \qquad \qquad \;\;\;\;  g_2(x_1,x_2) = 10 x_1 + 5 x_2 + 5$
+##### Original problem: Solve for $x_1$ and $x_2$
 
-which do not define lines or planes, but curved geometries as shown below:
-"""
+$\large x_1 + 2 x_2 = 3 \qquad \qquad \qquad 4 x_1 + 5 x_2 = 6$
 
-# ╔═╡ a01b7bc9-ed73-42a1-af62-40cad8a403a8
-let
-	x=range(0,stop=5,length=100)
-	y=range(0,stop=5,length=100)
-	#f(x,y) = x*y-x-y+1
-	fnl(x,y) = 4x - 5y + 2 * x .* y
-	fl(x,y) = 4x - 10y .- 10
-	gnl(x,y) = 20 * sqrt.(x) + 2 * (y.^2) .- 20
-	gl(x,y) = 10x + 5y .+ 15
-	fig1 = plot(x,y,fnl,st=:surface, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"f(x,y)", color=cgrad(:jet), colorbar = false)
-	plot!(x,y,fl,st=:surface, color=cgrad(:jet))
-	fig2 = plot(x,y,gnl,st=:surface, color=cgrad(:jet), colorbar = false, xlabel = L"x_1", ylabel = L"x_2", zlabel = L"g(x,y)")
-	plot!(x,y,gl,st=:surface, color=cgrad(:jet))
-	plot(fig1,fig2, layout = (1,2))
-end
-
-# ╔═╡ b0dca955-16c4-4cd3-8090-02d577624ab6
-md"
----"
-
-# ╔═╡ d5551789-6389-4a4e-be19-2399ece4236b
-md"""## 2.1.1. Ellimination and back substitution
-
-* Note that **multiplying an equation by a constant and subtracting one from the other will not change the solution**.
-
-
-* **Ellimination:** Multiply the first equation by 4 and substract it from the second equation,
->  4 × ($x_1 + 2 x_2 = 3$) ⇒ $4 x_1 + 8 x_2 = 12$ ⇒ $4 x_1 + 8 x_2 = 12$\
-> $\;\;\;\;\;4 x_1 + 5 x_2 = 6$ ⇒ $4 x_1 + 5 x_2 = \;\;6$ ⇒ $\;\;\;\;\; -3 x_2 = -6$
-
-* **Back-substitution:** Starting from the second equation, solve for the unknowns,
->  $x_2 = -6/-3\;\;\;\;\;$ ⇒ $x_2 = 2$\
-> $4 x_1 + 8 × 2 = 12$ ⇒ $x_1 = -1$ 
-
-* This is know as **Gaussian ellimination** and is widely used to solve large systems of equations.
-
----
-"""
-
-# ╔═╡ d553f6c0-364d-4b8c-ba9f-dec14261be06
-md"""## 2.1.2. No solution and many solutions
-
-##### How do we have no solution or many solutions?
+##### Solution: $x_1=-1, x_2 = 2$
 \
-Let us modify the second equation as follows:
 
-${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
-${\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad  {\color{red} 2 x_1 + 4 x_2 = 6}$
+#### How do we have no solution or many solutions?
+
+\
+
+##### ⇒ Let us modify the second equation as follows:
+
+$\large {\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad \qquad {\color{red} x_1 + 2 x_2 = 3}$
+$\large {\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad \qquad {\color{red} 2 x_1 + 4 x_2 = 6}$
 
 ##### What do you notice?
 
-* Left-hand sides give the same information, so what?
-
-
-* Right-hand sides on the blue equations are not consistent, what does it mean?
-
-
-* Right-hand sides on the red equations are consistent, what does it mean? 
-
----
 """
 
-# ╔═╡ d81b7910-a720-4233-8d7d-0c34a0369dfb
+# ╔═╡ 2dbbf1c4-991f-49f6-a72a-d08f3dcdf62f
+html"""
+<details>
+    <summary> <b><big> 1. Left-hand sides ...</b></summary>	
+    <br> 
+    <p><b>  give the same information, so what? </b></p>
+</details>
+"""
+
+
+# ╔═╡ 6e1ce086-658f-42bf-8dac-e7979a45247e
+html"""
+<details>
+    <summary> <b><big> 2. Right-hand sides on the blue equations ...</summary>
+	<br>
+    <p><b> are not consistent. What does it mean? </b></p>
+</details>
+"""
+
+# ╔═╡ c2d02cb9-970d-4474-9f82-25a6a941ebfe
+html"""
+<details>
+    <summary><b><big> 3. Right-hand sides on the red equations ...</summary>
+	<br>
+    <p><b> are consistent. What does it mean? </b></p>
+</details>
+"""
+
+# ╔═╡ 2adaf391-6411-4151-b386-5c5c9fa8f905
 md"""#
 ##### Plot the equations
 """
 
-# ╔═╡ 520539c0-479e-4168-8667-668ef2077a18
+# ╔═╡ ac643e46-3174-4ad3-b838-19b8769c86ae
 let
 	#x =[-3:1:3;]; x = range(-3,3,7); x = collect(-3:1:3)
 	x_1 = range(-3,3,7)
@@ -284,14 +407,18 @@ let
 	# `fg_legend = :false` is to turn off the box around the legends
 end
 
-# ╔═╡ fb2795d8-63e4-4d30-bb77-b1e30d59b185
-md" 
-*  the ${\color{blue} blue \;equations}$ give conflicting information (${\color{blue} inconsistent, \;no \;solution}$), while 
-*  the ${\color{red} red \;equations}$ give the same information (${\color{red} consistent, \;infinitely \;many \;solutions}$).
-"
+# ╔═╡ c42dda51-2081-4e14-914e-490c21f736e6
+md""" 
+##### $\bullet \;{\color{blue} blue \;equations}$ give conflicting information
+##### $\qquad {\color{blue} inconsistent, \;no \;solution}$ 
+##### $\bullet \;{\color{red} red \;equations}$ give same information
+##### $\qquad {\color{red} consistent, \;infinitely \;many \;solutions}$
 
-# ╔═╡ 5f76850e-e45e-4765-b91b-e90dcbb737cb
-md"""
+---
+"""
+
+# ╔═╡ dcdb8afd-56c9-4a1d-84b1-536db820fe7a
+md"""#
 ##### What happens after the ellimination step
 
 ${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
@@ -303,189 +430,76 @@ ${\color{blue} 0 + 0 = -5} \qquad \qquad  {\color{red} 0 + 0 = 0}$
 
 ##### After ellimination,
 
-* **inconsistent equations result in contradiction**,
+##### ⇒ inconsistent equations result in contradiction,
 
 
-* **consistent but dependent equations result in $0 = 0$**.
+##### ⇒ consistent but dependent equations result in $0 = 0.
 
 ---
 """
 
-# ╔═╡ 59abb2ae-9614-4ffe-bb2c-c2646629e509
-md"""## 2.1.3. Unique Solution
+# ╔═╡ 3c8304eb-af5c-4bd9-a9e6-3af7196698a8
+md"""## 2.2.4. Unique Solution
 
 #### For uniqeness,
 
-* **there must be equal number of equations as the number of unknowns**, and
+##### $\qquad \bullet$ the number of equations $\color{red} \bf =$ the number of unknowns
 
 
-* **equations must be independent**.
+##### $\qquad \bullet$ equations must be $\color{red} \bf independent$
 
-
-#### For solutions,
-
-* it is simple to solve for unknowns in a set of 2 equations with 2 unknowns. 
-
-
-* Perhaps, for 3 equations and 3 unknown, it may still be tractible by hand, at least for some people.
-
-
-* However, in general, solutions are obtained by **_elimination_** and **_back-substitution_**, mostly by computers.
+#### Example:
 
 """
 
-# ╔═╡ 6d78aefc-b2bd-4a50-a1a3-27346d67637b
-md"""
-## 2.1.4. Examples
-
-#### 1. Unique solution:
-"""
-
-# ╔═╡ 77cd7684-b0ee-4cb7-a0f7-be9a4cbb3b58
+# ╔═╡ 290c1af6-fa87-4a56-8322-b299e2ea4cd4
 TwoColumn(
 	md""" 
 
-$x_1 - 2 x_2 + x_3 =0$ 
-$\qquad 2 x_2 - 8 x_3 = 8$ 
-$5 x_1 \qquad -5 x_3 = 10$
+$\large x_1 - 2 x_2 + x_3 =0$ 
+$\large \qquad 2 x_2 - 8 x_3 = 8$ 
+$\large 5 x_1 \qquad -5 x_3 = 10$
 """,
 	md""" #####  Matrix representation ($\bf A x = b$)
 \
- $\begin{bmatrix} 1 & -2 & 1 \\  0 & 2 & -8 \\ 5 & 0 & -5 \end{bmatrix} 
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 0 \\ 8 \\ 10 \end{bmatrix}$ $\Rightarrow \bf x = A^{-1} b$
+ $\large \begin{bmatrix} 1 & -2 & 1 \\  0 & 2 & -8 \\ 5 & 0 & -5 \end{bmatrix} 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 0 \\ 8 \\ 10 \end{bmatrix}$ 
+
+ $\large \Rightarrow \bf x = A^{-1} b$
 """		
 )
 
-# ╔═╡ c0e65fa8-2bfc-4d72-9f0f-c1c4e5418370
+# ╔═╡ fff0fef2-b182-4ff0-8191-022971fd4be3
 md"""
 ##### ⇒ Apply ellimination and back substitution:
 \
- $x_1 - 2 x_2 + x_3 =0 \qquad \qquad \;\; x_1 - 2 x_2 + x_3 =0 \qquad \qquad x_1 = 1$ 
- $\qquad 2 x_2 - 8 x_3 = 8  \qquad \qquad 0 x_1 +  x_2 -4 x_3 = 4 \qquad \qquad x_2 = 0 \color{red} \Uparrow_{(2)}$ 
- $5 x_1 \qquad -5 x_3 = 10  \quad \qquad \;\;0 x_1 + 0 x_2 + x_3 = -1 \quad \qquad x_3 = -1 \color{red} \Uparrow_{(1)}$
+ $\large x_1 - 2 x_2 + x_3 =0 \qquad \qquad \;\; x_1 - 2 x_2 + x_3 =0 \qquad \qquad x_1 = 1$ 
+ $\large \qquad 2 x_2 - 8 x_3 = 8  \qquad \qquad 0 x_1 + 2 x_2 -8 x_3 = 8 \qquad \qquad x_2 = 0 \color{red} \Uparrow_{(2)}$ 
+ $\large 5 x_1 \qquad -5 x_3 = 10  \quad \qquad \;\;0 x_1 + 0 x_2 + x_3 = -1 \quad \qquad x_3 = -1 \color{red} \Uparrow_{(1)}$
 
----
 """
 
-# ╔═╡ 2bc2ed20-197a-46f5-ac39-ec2a9e3557e8
+# ╔═╡ dc6984d0-ed8a-4f77-a8df-7c9ebc20dc00
 md"""
 ##### ⇒ Use Julia:
 """
 
-# ╔═╡ 3c0a921b-c8cc-4e8b-b0a6-3eb5d339fa63
-begin
-	A_33 = [1 -2 1; 0 2 -8; 5 0 -5] # Matrix A
-	b_3 = [0, 8, 10] # Column vector b
-	x_31 = A_33\b_3 # Solution for the unknown vector x
-	x_32 = inv(A_33) * b_3 # Solution with inverse of A
+# ╔═╡ 76913eb1-31d1-459d-a13a-7dc1ae183b59
+x_unique = let
+	A = [1 -2 1; 0 2 -8; 5 0 -5] # Matrix A
+	b = [0, 8, 10] # Column vector b
+	A\b # Solution for the unknown vector x
+#	x_32 = inv(A_33) * b_3 # Solution with inverse of A
 end
 
-# ╔═╡ 3a417947-eb23-4247-9e79-af925733aabf
-md"# 
-#### 2. No Solution or Many Solutions
-\
-Let us see what happens when we have no solution or many solutions, that is, at least one equation is dependent to the one of the others or the combination of others.
-
-For the sake of illustration, let us double the first equation and use it as the second one:
-* with different right hand side (_inconsistent_, **_no solution_**), or
-* with doubing the right-hand side (_consistent_ but **_inifinitely many solutions_**) as well. 
-"
-
-# ╔═╡ aa13c9ca-4b07-4a64-a073-65ea7e0e6c99
-TwoColumn(
-	md"""
- 
-$\color{red} x_1 - 2 x_2 + x_3 =0$ 
-$\color{red} 2 x_1 - 4 x_2 + 2 x_3 = 8$ 
-$5 x_1 \qquad -5 x_3 = 10$
-""",
-	md"""
-\
- $\begin{bmatrix} 1 & -2 & 1 \\  2 & -4 & 2 \\ 5 & 0 & -5 \end{bmatrix} 
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 0 \\ 8 \\ 10 \end{bmatrix}$
-"""		
-)
-
-# ╔═╡ 576fb1a5-9c1e-46dd-82b9-33563b5cda26
-md"""
-##### ⇒ Apply ellimination and back substitution:
-\
- $\;\;x_1 - 2 x_2 + x_3 =0 \qquad \qquad \;\; x_1 - 2 x_2 + x_3 =0$ 
- $2 x_1 - 4 x_2 + 2 x_3 = 8  \qquad \qquad 0 x_1 - 0 x_2 + 0 x_3 = 8 \qquad \qquad 0 = 8 \color{red} \Rightarrow \; \rm{Inconsistent}$ 
- $5 x_1 \qquad \;\; -5 x_3 = 10  \quad \qquad \;\;0 x_1 + 10 x_2 - 10 x_3 = 10$
-
----
-"""
-
-# ╔═╡ 8329c9df-888b-4210-8a1d-c3a206be0a45
-md"""
-##### ⇒ Use Julia:
-"""
-
-# ╔═╡ af88ebfb-e6bf-4fa0-85c7-79fe09705509
-let
-A = [1 -2 1; 2 -4 2; 5 0 -5] # Matrix A
-b = [0, 8, 10] # Column vector b
-# x_1 = A\b # Solution for the unknown vector x
-end
-
-# ╔═╡ 0d1fd69e-9290-43dd-b79d-e78a8aab65b0
-md""" # 2.2. Matrices
-
-A **matrix** is a rectangular array of numbers written between rectangular (or round) brackets, as in
-
-${\bf A} = \begin{bmatrix} 1 & 0.1 & 3 & -2.5 \\
-				2.5 & 1.5 & 0 & 1.7 \\
-				3 & -4.2 & 1 & 3 \end{bmatrix} \qquad OR \qquad
-	{\bf A} = \begin{pmatrix} 1 & 0.1 & 3 & -2.5 \\
-				2.5 & 1.5 & 0 & 1.7 \\
-				3 & -4.2 & 1 & 3 \end{pmatrix}$
-
-* An important attribute of a matrix is its size or dimensions, i.e., the numbers of rows and columns. The matrix above has 3 rows and 4 columns, so its size is 3 × 4.
-
-
-* The $i,j$ element of matrix $A$ is the value in the $i^{th}$ row and $j^{th}$ column, denoted by double subscripts: $A_{ij}$. For example, $A_{23}=0$, $A_{32}=-4.2$, $A_{13}=-2.5$ 
-
-
-* If $A$ is an m × n matrix, then the row index $i$ runs from 1 to m and the column index $j$ runs from 1 to n.
-  - A `square matrix` has an equal number of rows and columns (n × n),
-  - A `tall matrix` has more rows than columns (m × n, where m > n),
-  - A `wide matrix` has more columns than rows (m × n, where m < n).
-
-
-!!! note \"Throughout this course\" 
-	the salient features of matrices will be introduced (when and where needed) enough for anyone (with no a priori knowledge on Linear Algebra) to be able to follow the rest of the materials.
-
-!!! danger \" Inevitable\"
-	Some concepts in Linear Algebra are inevitable; rather than derivations in math, **intuitions** will play a central role in this course.
- 
-"""
-
-# ╔═╡ 7a1eb229-da44-40e0-8365-640a5ce88569
-md"""## 2.2.1. Matrices for linear equations
-
-In real life problems, we usually have many unknowns (thousands, millions) with generally much more equations than the number of unknowns. That is,
-
-* systems may not be square (mostly not) - more equations than unknowns;
-
-
-* they need to be cast into **Matrix** forms with $m$ rows ($\equiv$ number of equations) and $n$ columns ($\equiv$ number of unknowns) in order to be able to work on with comparative ease and computational efficiency;
-
-$\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} 
-\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{bmatrix}$ 
-
-$\bf A  x   =  b$
-
-* **_no one can solve such a huge system by hand, or even by computer if not come up with smart algorithms_**. That is the main reason why we refer to Matrix notation and Linear Algebra tools in Big Data problems.
-
----
-"""
+# ╔═╡ b0dca955-16c4-4cd3-8090-02d577624ab6
+md"
+---"
 
 # ╔═╡ c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
-md" 
-### Matrices in Julia
+md"# 2.3. Matrices in Julia
 
-* **Creating matrices from the entries:**
+### 1. Creating matrices from the entries
 "
 
 # ╔═╡ ae6fbc53-26d9-4980-b755-9d2278badfc3
@@ -506,14 +520,16 @@ A_77 = rand((0:4), 7, 7)
 A_77[:,2]
 
 # ╔═╡ 8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
-md"#
-* **Indexing entries:**
-  - The i, j entry of a matrix A ⇒ A[i,j], or 
-  - Assign a new value to any entry ⇒ A[i,j] = 'value'
-  - ``Julia`` allows you to access an entry of a matrix using only one index:
-     - matrices in Julia are stored in **_column-major_** order,
-     - a matrix can be considered as a one dimensional array, with the first column stacked on top of the second, stacked on top of the third, and so on. Note that this is **_not standard mathematical notation_**.
-"
+md"""#
+### 2. Indexing entries
+##### $\qquad -\;$ Access the $(i,j)^{th}$ entry of a matrix A ⇒ A[i,j] 
+##### $\qquad -\;$ Assign a new value to any entry ⇒ A[i,j] = "_value_"
+##### $\qquad -\;$ Access an entry of a matrix using only one index:
+##### $\qquad \qquad \circ\;$ matrices in Julia are stored in _column-major_ order,
+##### $\qquad \qquad \circ\;$ a matrix can be considered as a one dimensional array, 
+##### $\qquad \qquad \circ\;$ the $1^{st}$ column stacked on top of the $2^{nd}$, and so on. 
+##### $\qquad \qquad \circ\;$ this is not standard mathematical notation.
+"""
 
 # ╔═╡ 19adef74-4e28-4aab-9f05-92bcfde1bf73
 A_34;
@@ -541,7 +557,9 @@ b = [ -2.1; -3; 0 ] # A 3-vector or 3x1 matrix
 
 # ╔═╡ 19e9c605-fb39-450a-a4a2-edf617c72614
 md"#
-* **Slicing and Submatrices:** Using column notation you can extract a submatrix.
+### 3. Slicing and Submatrices
+
+##### $\qquad -\;$ Using column notation you can extract a submatrix
 "
 
 # ╔═╡ 060cb524-7c1d-422d-82ea-7263d829a0cb
@@ -560,7 +578,7 @@ B = [ 1 -3 ; 2 0 ; 1 -2]
 B[:] # Not standard mathematical notation
 
 # ╔═╡ 2ce8dab0-14ea-46b3-914a-59968dcff4ec
-reshape(B,(2,3)) # The Julia function reshape(B,(k,l)) gives a new k × l matrix, with the entries taken in the column-major order from B(m,n). Must have mn = kl,
+reshape(B,(2,3)); # The Julia function reshape(B,(k,l)) gives a new k × l matrix, with the entries taken in the column-major order from B(m,n). Must have mn = kl,
 
 # ╔═╡ e10b126b-17ee-4f93-aaeb-a5f1a1b34cb1
 reshape(A,(2,6));
@@ -571,39 +589,26 @@ rand(2,3); # rand(m,n) generates an mxn matrix of random numbers between -1 and 
 # ╔═╡ b49cf4b8-f690-4768-b27d-0104b0619317
 rand((-3:3),2,3); #rand((k:step:l), m,n) generates an mxn matrix of random numbers between -k and l with step size 'step' (the default step size is 1)
 
-# ╔═╡ 78f0d566-903a-4018-b3e4-b1748e60c10c
-md"#
-* **Block Matrices:**
-"
-
-# ╔═╡ a5d67212-6356-4caf-966e-14b0a851b00e
-begin
-	B1 = [ 0 2 3 ]; # 1x3 matrix
-	C1 = [ -1 ]; # 1x1 matrix
-	D1 = [ 2 2 1 ; 1 3 5]; # 2x3 matrix
-	E1 = [4 ; 4 ]; # 2x1 matrix
-# construct 3x4 block matrix
-	A1 = [B1 C1 ; D1 E1]
-end
-
 # ╔═╡ d0f9a0c9-f58d-48fe-81b0-539c14134969
-md"""## 2.2.2. Special Matrices
+md"""#
 
-* **Zero matrix $\bf 0$:** A matrix with all entries are zero
+### 4. Special Matrices
 
-
-* **Ones matrix $\bf 1$:** A matrix with all entries are ones
-
-
-* **Identity matrix $\bf I$:** A matrix with diagonal entries 1 and everything else 0
+##### $\;\; -\;\;$ Zero matrix ($\bf 0$): A matrix with all entries are zero
 
 
-* **Diagonal matrix:** A matrix with only diagonal entries
+##### $\;\; -\;\;$ Ones matrix ($\bf 1$): A matrix with all entries are ones
 
 
-* **Triangular matrices:** There are two types of triangular matrices
-  - Upper triangular
-  - Lower triangular
+##### $\;\; -\;\;$ Identity matrix ($\bf I$): A matrix with diagonal entries 1, others 0
+
+
+##### $\;\; -\;\;$ Diagonal matrix: A matrix with only diagonal entries
+
+
+##### $\;\; -\;\;$ Triangular matrix:
+##### $\qquad \circ \;$ Upper triangular: Entries in lower triangle are zero
+##### $\qquad \circ \;$ Lower triangular: Entries in upper triangle are zero
 """
 
 # ╔═╡ 1d01ecdd-6bed-46e7-acbe-684d9806fd40
@@ -644,43 +649,53 @@ UnitLowerTriangular(A_uptr)
 UnitUpperTriangular(A_uptr)
 
 # ╔═╡ f3838d6f-0b17-48fe-b90a-0053f7ce74dc
-md"""# 2.3. Matrix Operations
+md"""# 2.4. Matrix Operations
 
 !!! note \"Matrix notations\"
-	During this course, 
-	* **bold capital letters** like ${\bf A, B, X, Y,} ...$ are used for matrices
-	* **bold small letters** like ${\bf a, b, x, y,} ...$ are used for vectors and arrays
-	* **small letters** like $a, b, x, y, ...$ are used for ordinary real (rarely complex) constants
+	##### During this course, 
+	##### $\qquad -\;$ bold capital letters like ${\bf A, B, X, Y,} ...$ are used for matrices
+	##### $\qquad -\;$ bold small letters like ${\bf a, b, x, y,} ...$ are used for vectors
+	##### $\qquad -\;$ small letters like $a, b, x, y, ...$ are used for real constants
 	
 
-* To work with matrices and arrays, one needs to know the basic operations: **addition, subtraction, multiplication, division**, and some other operations that are useful in matrices.
+#### $\bullet\;\;$ To work with matrices and arrays, one needs to know 
+##### $\qquad \rightarrow$ the basic operations: add/subtract, multiply/divide, 
+##### $\qquad \rightarrow$ some other operations that are useful in matrices.
 
+\
 
-* Remember that we all have learnt these operations for regular algebra in primary schools or junior highs. That is, **they are simple and don't require any advanced knowledge**, which is the same for matrix operations as well.
+#### $\bullet\;\;$ Here are the list of operations in matrix algebra:
+##### $\qquad -$ scalar multiplication: $a \bf A$, $\alpha \bf x$, $c ({\bf x + y})$, $\beta ({\bf A + B})$, ...
+##### $\qquad -$  addition, subtraction: $\bf A ± B$, $\bf x ± y$, ...
+##### $\qquad -$  matrix-vector multiplication: $\bf A x$, $\bf y B$, ...
+##### $\qquad -$ matrix-matrix multiplication $\bf A B$, $\bf B Y$, ...
+##### $\qquad -$ determinant: $det({\bf A}) ≡ |{\bf A}|$, $|{\bf X}|$, ... $\color{red} \Leftarrow Square\;matrices$
+##### $\qquad -$ transpose: ${\bf A}^T$, ${\bf x}^T$, ...
+##### $\qquad -$ inverse: ${\bf A}^{-1}$, ${\bf X}^{-1}$, ... $\color{red} \Leftarrow Square\;matrices,\;\; det(A) \ne 0$
 
-
-* Here are the list of operations that we need to learn and be fluent in matrix algebra:
-  - scalar multiplication: $a \bf A$, $\alpha \bf x$, $c ({\bf x + y})$, $\beta ({\bf A + B})$, ...
-  - addition, subtraction: $\bf A ± B$, $\bf x ± y$, ...
-  - matrix-vector multiplication: $\bf A x$, $\bf y B$, ...
-  - matrix-matrix multiplication $\bf A B$, $\bf B Y$, ...
-  - determinant: $det({\bf A}) ≡ |{\bf A}|$, $|{\bf X}|$, ... $\color{red} \Leftarrow Square\;matrices$
-  - transpose: $\bf A'$, $\bf x'$, ...
-  - inverse: ${\bf A}^{-1}$, ${\bf X}^{-1}$, ... $\color{red} \Leftarrow Square\;matrices$
-
+---
 """
 
 # ╔═╡ ad2961bc-cf04-4206-a86f-1307416a3fe2
 md"""
-## 2.3.1. Matrix transpose
+## 2.4.1. Matrix transpose
 
-* If $\bf A$ is an m × n matrix, its transpose, denoted by $\bf A'$ in this course (${\bf A}^T$ is also used), is the n × m matrix given by $({\bf A}' )_{ij} = {\bf A}_{ji}$. 
 
-${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow \bf A' = \begin{bmatrix} a & c \\ b & d \end{bmatrix};\qquad {\bf Z} = \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \Rightarrow \bf Z' = \begin{bmatrix} a & c & e \\ b & d & f \end{bmatrix}$
+#### $\bullet\;\;$If $\bf A$ is an m × n matrix, its transpose ${\bf A}^T$ is the n × m matrix:
 
-${\bf x} = \begin{bmatrix} a \\ b \\ c \end{bmatrix} \Rightarrow \bf x' = \begin{bmatrix} a & b & c \end{bmatrix}; \qquad {\bf y} = \begin{bmatrix} α & β & γ \end{bmatrix} \Rightarrow {\bf y'} = \begin{bmatrix} α \\ β \\ γ \end{bmatrix}$
+##### $\qquad \qquad \qquad \qquad ({\bf A}^T )_{ij} = {\bf A}_{ji}$ 
 
-* Transposing a matrix twice results in the original matrix.
+#### $\;\;\;$ For example,
+
+##### $\;\;{\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^T = \begin{bmatrix} a & c \\ b & d \end{bmatrix};\qquad {\bf Z} = \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \Rightarrow \bf Z' = \begin{bmatrix} a & c & e \\ b & d & f \end{bmatrix}$
+
+\
+
+##### $\qquad {\bf x} = \begin{bmatrix} a \\ b \\ c \end{bmatrix} \Rightarrow \bf x' = \begin{bmatrix} a & b & c \end{bmatrix}; \qquad {\bf y} = \begin{bmatrix} α & β & γ \end{bmatrix} \Rightarrow {\bf y'} = \begin{bmatrix} α \\ β \\ γ \end{bmatrix}$
+
+\
+
+#### $\bullet\;\;$ Transposing a matrix twice results in the original matrix.
 """
 
 # ╔═╡ dc5e390f-ece4-4e27-9b25-023a731cc633
@@ -692,18 +707,19 @@ A_exT'# Transposing a matrix twice results in the original matrix
 # ╔═╡ ba787e69-7f86-4f41-87f5-b20d9e8831c6
 md"
 
-## 2.3.2. Matrix-Scalar multiplication
+## 2.4.2. Matrix-Scalar multiplication
 
-Given a matrix $\bf A$ and a scalar $c$, then $c \bf A$ is equal to the matrix whose entries are the entries of $\bf A$ multiplied by $c$:
+#### Given a matrix $\bf A$ and a scalar $c$,
+
+##### $\qquad \qquad c \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} = \begin{bmatrix} ca_{11} & ca_{12} & \cdots & ca_{1n} \\ ca_{21} & ca_{22} & \cdots & ca_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ ca_{m1} & ca_{m2} & \cdots & ca_{mn} \end{bmatrix}$
+
+\
 
 !!! julia
 	```math
 	c {\bf A} = [c*{\bf A}[i,j] \;for \;i \;in \;1:m, \;j \;in \;1:n]
 	```
 
-```math
-c \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} = \begin{bmatrix} ca_{11} & ca_{12} & \cdots & ca_{1n} \\ ca_{21} & ca_{22} & \cdots & ca_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ ca_{m1} & ca_{m2} & \cdots & ca_{mn} \end{bmatrix}
-```
 "
 
 # ╔═╡ 144114a0-20f1-4fee-8d7b-331274442bfb
@@ -722,19 +738,24 @@ c \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots 
 # cA1 == cA2 # elementwise comparison ".=="
 
 # ╔═╡ f130d717-bedc-4ebd-bba5-3908d54c07bc
-md"
+md"""
 
-## 2.3.3. Matrix addition/subtraction
+## 2.4.3. Matrix addition/subtraction
 
-* Two matrices of **the same size** can be added/subtracted.
+#### $\bullet\;\;$ Two matrices of the same size can be added/subtracted
 
 
-* The result is another matrix of the same size, obtained by **adding/subtracting the corresponding elements** of the two matrices. 
+#### $\bullet\;\;$ The result is obtained by adding/subtracting the corresponding elements 
 
-${\bf A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix};\qquad {\bf B} = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}$
+\
 
-${\bf A} \pm {\bf B} = \begin{bmatrix} a_{11} \pm b_{11} & a_{12} \pm b_{12} \\ a_{21} \pm b_{21} & a_{22} \pm b_{22} \end{bmatrix}$
-"
+##### $\qquad \qquad {\bf A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix};\qquad {\bf B} = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}$
+
+\
+
+##### $\qquad \qquad {\bf A} \pm {\bf B} = \begin{bmatrix} a_{11} \pm b_{11} & a_{12} \pm b_{12} \\ a_{21} \pm b_{21} & a_{22} \pm b_{22} \end{bmatrix}$
+
+"""
 
 # ╔═╡ 4fd22565-7443-4f10-baf3-a2881651a2be
 A_exA = rand(-3:3, 3,2)
@@ -745,9 +766,13 @@ B_exA = rand(-3:3, 3,2)
 # ╔═╡ 05c341eb-3db3-42bd-ae08-05f8aa370cb7
 A_exA + B_exA
 
+# ╔═╡ d17f883e-0e3f-419d-a45d-0fdde93d280b
+md"""
+---"""
+
 # ╔═╡ 2cf6c3c0-0406-49d8-b53b-56983d290188
 md"""
-## 2.3.4. Matrix-vector multiplication
+## 2.4.4. Matrix-vector multiplication
 
 >Here is a nice overview of **_Matrix-vector Multiplication_** by 3-Blue-1-Brown (Grant Sanderson) for your reference. I strongly recommend you to watch it and try to understand the intuitive picture of the concept rather than the mathematical details.
 
@@ -761,28 +786,38 @@ html"""
 # ╔═╡ 28d718bd-610a-4257-91dc-7148e3fe45df
 md"""
 !!! condition
-	*  $\bf A x$ is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf x$.\
-	* For a given ($m,\color{red}n$) matrix $\bf A$, $\bf x$ must be a column vector of (${\color{red}n},1$).
+	##### $\bullet \;$ For a given ($m,\color{red}n$) matrix $\bf A$, $\bf x$ must be a column vector of (${\color{red}n},1$)
+	##### $\bullet \;$ Number of columns of $\bf A\;\; \equiv\;\; $ Number of elements of $\bf x$
+
+---
 """
 
 # ╔═╡ 2d3abfe1-8cda-49f8-b5b1-b8b602626d92
 md"#
 ### Example: Rotation matrix 
-```math 
-	{\bf R}_\theta = \begin{bmatrix} cos\theta & -sin\theta \\
+
+\
+
+``` math 
+	\large {\bf R}_\theta = \begin{bmatrix} cos\theta & -sin\theta \\
  									 sin\theta & cos\theta \end{bmatrix}
 ```
-rotates each point in the plane counterclockwise around the origin by angle $\theta$.
+\
+
+#### rotates each point in the plane counterclockwise by angle $\theta$
 "
 
-# ╔═╡ b86955b4-9a9f-47c7-bec4-9069fbbd4061
-load("Picture1.png")
+# ╔═╡ 0f41e163-f847-4f57-9968-9a06f47aacd6
+begin
+	img_rot = load("Picture1.png")
+	imresize(img_rot, size(img_rot).*2)
+end
 
 # ╔═╡ 346bba70-2209-4d07-8c02-63a74e8c622d
 md"
-How can you show that it actually rotates x- and y-axis counterclockwise by angle $\theta$.
+##### Show that it actually rotates x- and y-axis counterclockwise by angle $\theta$
 
-Can you write x-axis as ${\bf x}=[1, 0]$ and y-axis as ${\bf y}=[0, 1]$?
+##### Can you write x-axis as ${\bf x}=[1, 0]$ and y-axis as ${\bf y}=[0, 1]$?
 "
 
 # ╔═╡ 5ed395e8-20c8-4e34-8a15-7d51b1d9949a
@@ -801,7 +836,7 @@ y_rot = A_rot * y₀
 	y_vals = [0 0 0 0; x₀[2] y₀[2] x_rot[2] y_rot[2] ]
 # There are 4 vectors and all start at (0,0) -> 4 zeros for x, 4 zeros for y
 # Each (0,0) connects to the other end of the vector. That is, first (0,0) -> (x₀[1],x₀[2]), second (0,0) -> (y₀[1], y₀[2]), ..
-# 	# After importing LaTeXStrings package, L stands for Latex in the following expressions; L"v_1"
+# After importing LaTeXStrings package, L stands for Latex in the following expressions
 	plot(x_vals, y_vals, arrow = true, color = [:blue :blue :red :red],
      legend = :none, xlims = (-1, 1), ylims = (-1, 1), aspectratio = true,
 	 annotations = [(x₀[1]-0.1, x₀[2]-0.1, Plots.text(L"x_0", color="blue")),
@@ -815,20 +850,20 @@ end
 # ╔═╡ a55816f3-1c24-4e6f-b35f-2aba8f8e8194
 md"""#
 
-### Multiplication by Rows
+### 1. Multiplication by Rows
 
-!!! julia
+!!! julia 
 	```math
-	{\bf A x} =  [{\bf A}[i,:]' * {\bf x} \;for \;i \;in \;1:m]\;\;\; \leftarrow Row-Column \;Multiplication
+	\large {\bf A x} =  [{\bf A}[i,:]' * {\bf x} \;for \;i \;in \;1:m]\;\;\; \leftarrow Row-Column \;Multiplication
 	```
 
 ```math
-\begin{bmatrix} {\color{green} a_{11}} & {\color{green} a_{12}} & {\color{green} \cdots} & {\color{green} a_{1n}} \\ {\color{blue} a_{21}} & {\color{blue} a_{22}} & {\color{blue} \cdots} & {\color{blue} a_{2n}} \\ \vdots & \vdots & \cdots & \vdots \\ {\color{red} a_{m1}} & {\color{red} a_{m2}} & {\color{red} \cdots} & {\color{red} a_{mn}} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} {\color{green} a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n} \\ {\color{blue} a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n} \\ \vdots \\ {\color{red} a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n} \end{bmatrix}
+\large \begin{bmatrix} {\color{green} a_{11}} & {\color{green} a_{12}} & {\color{green} \cdots} & {\color{green} a_{1n}} \\ {\color{blue} a_{21}} & {\color{blue} a_{22}} & {\color{blue} \cdots} & {\color{blue} a_{2n}} \\ \vdots & \vdots & \cdots & \vdots \\ {\color{red} a_{m1}} & {\color{red} a_{m2}} & {\color{red} \cdots} & {\color{red} a_{mn}} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} {\color{green} a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n} \\ {\color{blue} a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n} \\ \vdots \\ {\color{red} a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n} \end{bmatrix}
 ```
 """
 
 # ╔═╡ c7f02d62-d81c-4cf0-860c-79ea6b5fd7ab
-A2=rand((-2:2),2,2); # let us remember 
+A2=rand((-2:2),2,3) # let us remember 
 
 # ╔═╡ 7f367404-7275-4e35-9242-ebec5ac0668d
 A2[1,:]; # Even though we choose a row, Julia still stores it as a column vector
@@ -842,18 +877,22 @@ A2x_1 = [A2[i,:]' * x for i in 1:size(A2,1)]; # "'" is the transpose of A2[i,:],
 # ╔═╡ 4e2ca663-4fa4-4d33-96b4-bc495c911871
 A2 * x; # Notice that just writing A * x gives the right result, provided the two can be multiplied (number of columns of A = number of rows of x) 
 
+# ╔═╡ 55f8c2bb-de75-46b6-9bbb-ef8bf7248af9
+md"""
+---"""
+
 # ╔═╡ e36cbcee-5092-4d91-ad44-be63b695ce60
 md"""#
 
-### Multiplication by Columns
+### 2. Multiplication by Columns
 
 !!! julia
 	```math
-	{\bf A x} =  sum({\bf A}[:,j]*{\bf x}[j] \;for \;j \;in \;1:n)\;\;\; \leftarrow Multiplication \;by \; Columns
+	\large {\bf A x} =  sum({\bf A}[:,j]*{\bf x}[j] \rm \;\;\;for \;j \;in \;1:n)
 	```
 
 ```math
-\begin{bmatrix} {\color{green} a_{11}} & {\color{blue} a_{12}} & \cdots & {\color{red} a_{1n}} \\ {\color{green} a_{21}} & {\color{blue} a_{22}} & \cdots & {\color{red} a_{2n}} \\ {\color{green} \vdots} & {\color{blue} \vdots} & \cdots & {\color{red} \vdots} \\ {\color{green} a_{m1}} & {\color{blue} a_{m2}} & \cdots & {\color{red} a_{mn}} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = 
+\large \begin{bmatrix} {\color{green} a_{11}} & {\color{blue} a_{12}} & \cdots & {\color{red} a_{1n}} \\ {\color{green} a_{21}} & {\color{blue} a_{22}} & \cdots & {\color{red} a_{2n}} \\ {\color{green} \vdots} & {\color{blue} \vdots} & \cdots & {\color{red} \vdots} \\ {\color{green} a_{m1}} & {\color{blue} a_{m2}} & \cdots & {\color{red} a_{mn}} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = 
 x_1 \begin{bmatrix} {\color{green} a_{11}} \\ {\color{green} a_{21}}  \\ {\color{green} \vdots} \\ {\color{green} a_{m1}} \end{bmatrix} + 
 x_2 \begin{bmatrix} {\color{blue} a_{12}} \\ {\color{blue} a_{22}}  \\ {\color{blue} \vdots} \\ {\color{blue} a_{m2}} \end{bmatrix} + \cdots +
 x_n \begin{bmatrix} {\color{red} a_{1n}} \\ {\color{red} a_{2n}}  \\ {\color{red} \vdots} \\ {\color{red} a_{mn}} \end{bmatrix}
@@ -869,56 +908,64 @@ x_n \begin{bmatrix} {\color{red} a_{1n}} \\ {\color{red} a_{2n}}  \\ {\color{red
 # ╔═╡ e3d39b29-c0ef-45b1-96a5-e26a1e8763c5
 TwoColumn(
 	md"""
-Examine the following sets of equations: 
- $\;\;x_1 - 2 x_2 + \;x_3 =1$ \
- $2 x_1 - 4 x_2 + 2 x_3 = 2$ \
- $5 x_1 \qquad \;\;\, -5 x_3 = 5$ 
+#### Solve 
+ $\large \;\;x_1 - 2 x_2 + \;x_3 =1$ \
+ $\large 2 x_1 - 4 x_2 + 2 x_3 = 2$ \
+ $\large 5 x_1 \qquad \;\;\, -5 x_3 = 5$ 
  
- **OR** \
- $\;\;x_1 - 2 x_2 + \;x_3 =2$ \
- $2 x_1 - 4 x_2 + 2 x_3 = 4$ \
- $5 x_1 \qquad \;\;\, -5 x_3 = 0$ \
+ #### OR 
+\
+ $\large \;\;x_1 - 2 x_2 + \;x_3 =2$ \
+ $\large 2 x_1 - 4 x_2 + 2 x_3 = 4$ \
+ $\large 5 x_1 \qquad \;\;\, -5 x_3 = 0$ \
 """,
 	md"""
- In matrix form: \
-  $\begin{bmatrix} 1 & -2 & 1 \\  2 & -4 & 2 \\ 5 & 0 & -5 \end{bmatrix} 
+ #### In matrix form: 
+  $\large \begin{bmatrix} 1 & -2 & 1 \\  2 & -4 & 2 \\ 5 & 0 & -5 \end{bmatrix} 
   \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 5 
   \end{bmatrix} \rightarrow \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = ?$ 
 
-**OR** 
-
- $\begin{bmatrix} 1 & -2 & 1 \\  2 & -4 & 2 \\ 5 & 0 & -5 \end{bmatrix} 
+#### OR 
+\
+ $\large \begin{bmatrix} 1 & -2 & 1 \\  2 & -4 & 2 \\ 5 & 0 & -5 \end{bmatrix} 
 \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \begin{bmatrix} 2 \\ 4 \\ 0 \end{bmatrix} \rightarrow \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = ?$ 
 """		
 )
 
+# ╔═╡ 715b31c5-6c13-428a-8595-f8f661ba87ac
+md"""
+---"""
+
 # ╔═╡ 1668cb38-6078-4a7f-8ade-96f6d42280b6
 md"""
-## 2.3.5. Matrix-Matrix multiplication
+## 2.4.5. Matrix-Matrix multiplication
+
 
 
 !!! condition
-	 *  $\bf A B$ is only possible when the number of columns in $\bf A$ is equal to the number of rows in $\bf B$.\
-	* For a given ($m,\color{red}n$) matrix $\bf A$, $\bf B$ must be a matrix of (${\color{red}n},k$) dimension, and the resulting matrix $\bf A B$ will be of ($m,k$) dimension.
+	 ##### $\bullet \;$ Number of columns in $\bf A \; \equiv \;\;$ Number of rows in $\bf B$
+	 ##### $\bullet \;$ For given ($m,\color{red}n$) matrix $\bf A$ and (${\color{red}n},k$) matrix $\bf B$ 
+	 ##### $\qquad \qquad \bf A B$ will be of ($m,k$) dimension
 
-Considering Matrix-Vector multiplication by rows, and treating the columns of ${\bf B}$ as the vectors ${\bf B} = [b_1 \; b_2 \; \cdots \; b_k]$, then
+\
 
-```math
-	{\bf A B} =  [{\bf A} b_1 \; {\bf A} b_2 \; \cdots \; {\bf A} b_k] 
-```
+#### $\bullet \;\;$ Consider the columns of ${\bf B}$ as the vectors:
+#### $\qquad \qquad \qquad {\bf B} = [b_1 \; b_2 \; \cdots \; b_k]$
 
-```math
-\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} 
-\begin{bmatrix} b_{11} & b_{12} & \cdots & b_{1k} \\ b_{21} & b_{22} & \cdots & b_{2k} \\ \vdots & \vdots & \cdots & \vdots \\ b_{n1} & b_{n2} & \cdots & b_{nk} \end{bmatrix} 
-```
-${\bf AB}[i,j] = \; (i-th \;row \;of \;{\bf A}) \cdot \; (j-th \;column \;of \;{\bf B})$ 	
+\
 
+#### $\qquad \qquad \qquad {\bf A B} =  [{\bf A} b_1 \; {\bf A} b_2 \; \cdots \; {\bf A} b_k]$ 
+
+
+##### $\qquad \qquad \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \cdots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{bmatrix} \begin{bmatrix} b_{11} & b_{12} & \cdots & b_{1k} \\ b_{21} & b_{22} & \cdots & b_{2k} \\ \vdots & \vdots & \cdots & \vdots \\ b_{n1} & b_{n2} & \cdots & b_{nk} \end{bmatrix}$
+
+\
+
+##### $\qquad \qquad {\bf AB}[i,j] = \; (i-th \;row \;of \;{\bf A}) \cdot \; (j-th \;column \;of \;{\bf B})$ 	
 !!! julia
 	```math
-	{\bf A*B} = [ A[i,:] ⋅ B[:,j] \;\;for \;i \;in \;(1:m), \;j \;in \;(1:k)] 
+	\large {\bf A*B} = [ A[i,:] ⋅ B[:,j] \;\;for \;i \;in \;(1:m), \;j \;in \;(1:k)] 
 	```
-
----
 """
 
 # ╔═╡ d9636375-def7-4693-a2c3-91879d304b81
@@ -936,10 +983,14 @@ ${\bf AB}[i,j] = \; (i-th \;row \;of \;{\bf A}) \cdot \; (j-th \;column \;of \;{
 # ╔═╡ d9a74a15-8867-4b62-a6c3-943f6b6b6179
 #AB2 = [A3[i,:]' * B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
 
+# ╔═╡ b6005ec2-c856-4cfb-9de1-fd0d65b957a1
+md"""
+---"""
+
 # ╔═╡ 75e91ef3-8893-48fc-a297-e54aa6b6c671
 md"""
 
-## 2.3.6. Determinant of a Matrix
+## 2.4.6. Determinant of a Matrix
 
 >Here is a nice overview of **_Determinant_** by 3-Blue-1-Brown (Grant Sanderson) for your reference. I strongly recommend you to lisen to it and try to understand the intuitive picture of the concept rather than the mathematical details.
 
@@ -951,89 +1002,93 @@ html"""
 """
 
 # ╔═╡ 877ef381-df6c-4a5b-bf99-88f8afba0995
-md"#
+md"""#
 ### Properties
-1.  $det \;{\bf I}$ = $1$
-2. if two rows are interchanged, the determinant changes sign.
-3. If a row is multiplied by a number, the determinant is multiplied by the same number.
-4. Two equal rows => $det = 0$.
-5. if a multiple of a row is added to another row, the determinant does not change.
-6. Row of zeros leads to zero determinant.
-7. Determinant of upper triangular matrix:
-```math
-	det \begin{bmatrix} d_1 & * & \cdots & * \\ 0 & d_2 & \cdots & * \\ 		\vdots & \vdots & \cdots & \vdots \\ 0 & 0 & \cdots & d_n 
- 	\end{bmatrix} = d_1 d_2 \cdots d_n
-```
-9.  $det \;{\bf A} = 0$ when $\bf A$ is singular
-10.  $det \;{\bf A} = det \;{\bf A}^𝑇$ → (All the properties are also valid for the columns)
-12.  $det \;{\bf A\;B} = (det \;{\bf A}) (\;det \;{\bf B})$
-    -  $det (\;{\bf A\;A}^{-1})=det \;{\bf I} \Rightarrow det \;{\bf A}^{-1}=1/det \;{\bf A}$
-    -  $det \;{\bf A}^2 = (det \;{\bf A})^2$
-13. It is easy to calculate the determinant for $2 \times 2$ matrices,
-${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow det({\bf A}) = {ad - bc}$
+##### 1.  $\;det \;{\bf I}$ = $1$
+##### 2. if two rows are interchanged, the determinant changes sign.
+##### 3. If a row is multiplied by a number, the determinant is multiplied by the same number.
+##### 4. Two equal rows => $det = 0$.
+##### 5. if a multiple of a row is added to another row, the determinant does not change.
+##### 6. Row of zeros leads to zero determinant.
+##### 7. Determinant of upper triangular matrix:
+##### $\qquad det \begin{bmatrix} d_1 & * & \cdots & * \\ 0 & d_2 & \cdots & * \\ \vdots & \vdots & \cdots & \vdots \\ 0 & 0 & \cdots & d_n \end{bmatrix} = d_1 d_2 \cdots d_n$
+
+##### 9.  $\;det \;{\bf A} = 0\;$ when $\bf A$ is singular
+##### 10.  $\;det \;{\bf A} = det \;{\bf A}^𝑇$ → (All the properties are also valid for the columns)
+##### 12.  $\;det \;{\bf A\;B} = (det \;{\bf A}) (\;det \;{\bf B})$
+##### $\qquad \rightarrow  \;det (\;{\bf A\;A}^{-1})=det \;{\bf I} \Rightarrow det \;{\bf A}^{-1}=1/det \;{\bf A}$
+##### $\qquad \rightarrow  \;det \;{\bf A}^2 = (det \;{\bf A})^2$
+##### 13. $\;$ It is easy to calculate the determinant for $2 \times 2$ matrices,
+##### $\qquad \qquad {\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow det({\bf A}) = {ad - bc}$
 
 ---
-"
+"""
 
 # ╔═╡ 3a8ef338-38a4-4954-862c-6ce50e80f2fe
 md"""
 
-## 2.3.7. Inverse of a Matrix
+## 2.4.7. Inverse of a Matrix
 
-* is needed in places of a divide for algebraic equations;
-$5 a = 15 \Rightarrow a = 5^{-1} \times 15 = 15 / 5 = 3$
-${\bf A x = b} \Rightarrow {\bf x} = {\bf A}^{-1} {\bf b}$
+##### $- \;$ is needed in places of a divide for algebraic equations;
+##### $\qquad \qquad \rightarrow 5 a = 15 \Rightarrow a = 5^{-1} \times 15 = 15 / 5 = 3$
+##### $\qquad \qquad \rightarrow {\bf A x = b} \Rightarrow {\bf x} = {\bf A}^{-1} {\bf b}$
 
-* is like a reciprocal of a number, 5 and 1/5, or 7 and 1/7, when multiplied results in 1, or identity matrix $\bf I$ in cases of matrices;
-
-
-* is denoted by ${\bf A}^{-1}$;
+##### $- \;$ is denoted by ${\bf A}^{-1}$;
 
 
-* is defined only for square matrices, that is, $n \times n$ matrices;
+##### $- \;$ is defined only for square matrices, that is, $n \times n$ matrices;
 
 
-* is defined only for non-singular matrices ($det(\bf A) \ne 0$);
+##### $- \;$ is defined only for non-singular matrices ($det(\bf A) \ne 0$);
 
 
-* results in an identity matrix when multiplied by itself,
-${\bf A}{\bf A}^{-1} = {\bf A}^{-1}{\bf A} = {\bf I};$
+##### $- \;$ results in an identity matrix when multiplied by itself,
+##### $\qquad \qquad {\bf A}{\bf A}^{-1} = {\bf A}^{-1}{\bf A} = {\bf I};$
 
-* is easy to find for $2 \times 2$ matrices,
-${\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}.$
+##### $- \;$ is easy to find for $2 \times 2$ matrices,
+##### $\qquad {\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}.$
 ---
 """
 
 # ╔═╡ 2d036e2e-6850-46d8-bbb5-21856403ecc8
-md"# 2.4. A Few Applications
+md"""# 2.5. A Few Applications
 \
-`` \bullet \Large \;\; Markov \;\; Process``
+`` \bullet \Large \bf  \;\; Markov \;\; Process``
 
-`` 	\qquad - PageRank``
+`` 	\qquad - \large PageRank``
 
-``  \qquad - Covid-19 \;\; Survival \;\; Analysis ``
+``  \qquad - \large Covid-19 \;\; Survival \;\; Analysis ``
 
-`` \bullet \Large \;\;Compression \;\;(Image, \;Data, \;etc.) ``
+\
 
-`` \qquad - A \;sample \;image \;and \;compression \;via \;SVD ``
+`` \bullet \Large \bf \;\;Compression \;\;(Image, \;Data, \;etc.) ``
 
- `` \bullet \Large \;\;Regression ``
+`` \qquad - \large A \;sample \;image \;and \;compression \;via \;SVD ``
 
- `` \qquad - Linear \;and \;non-linear ``
+\
 
-"
+ `` \bullet \Large \bf \;\;Regression ``
+
+ `` \qquad - \large Linear \;and \;non-linear ``
+
+---
+"""
 
 # ╔═╡ 7ad20af1-a7d6-4092-b982-fad27d6e51ea
 md"## 2.4.1. Markov Processes 
 
 ### Example 1: Page Rank[^1] 
-**_Birth of Google's PageRank algorithm:_** Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
+##### Birth of Google's PageRank algorithm:
 
-From a theoretical point of view, the PageRank algorithm relies on the simple but fundamental mathematical notion of **_Markov chains_**.
+###### Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
 
-PageRank is a function that assigns a real number to each page in the Web
-that the higher the number, the more **important** it is.
+\
 
+###### From a theoretical point of view, the PageRank algorithm relies on the simple but fundamental mathematical notion of **_Markov chains_**.
+
+\
+
+###### PageRank is a function that assigns a real number to each page in the Web that the higher the number, the more **important** it is.
 [^1]: _Introduction to Markov chains: 
 	Definitions, properties and PageRank example_, Joseph Rocca, Published in _Towards Data Science_ in Feb 25, 2019.
 "
@@ -1044,13 +1099,14 @@ begin
 	pgrank[1:10:size(pgrank)[1],1:10:size(pgrank)[2]]
 end
 
+# ╔═╡ 55bbc51f-86ef-41ab-824c-0d5fe4241181
+md"""
+---"""
+
 # ╔═╡ 2633b604-7476-48d0-8cdc-05645ea0ed57
 md"#
-### PageRank of a tiny website
+### - Form the Markov matrix
 "
-
-# ╔═╡ 41ac05e6-b5a6-4546-9a21-e6694571f672
-#using ImageMagick
 
 # ╔═╡ 3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
 markov_example = load("markov_fig.gif");
@@ -1083,20 +1139,25 @@ M = [0.0 0.0 0.0 0.5 1.0 0.0 0.5;
 # ╔═╡ 0872e2b8-386a-40a4-b2cb-48f564c921d8
 ones(7)' * M # Sum of all columns must be 1 as the total probability can not exceed 1
 
+# ╔═╡ 23a409b4-4299-4c12-a55a-adc438def7ea
+md"""
+---"""
+
 # ╔═╡ a3611641-256e-49e8-9e2e-c78b9efc21ce
 md"""#
-#### Next Steps
+### - Define initial state
 
-* Define an inital state: suppose a random surfer starts at Page-1, so the inital state is ${\bf x_0}=[1 \; 0 \; 0 \; 0 \; 0 \; 0 \; 0]'$.
-* Next state $\bf x_1 = M x_0$ is given as 
+##### $\bullet \;\;$ Define an inital state: suppose surfer starts at Page-1, 
+##### $\qquad \qquad {\bf x_0}=[1 \; 0 \; 0 \; 0 \; 0 \; 0 \; 0]'$
+##### $\bullet \;\;$ Next state $\bf x_1 = M x_0$ is given as 
 
-```math 
-{\bf x_1} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cdot \\ 0.25 \\ \cdot \\ \cdot \\ 0.25 \\ 0.25 \\ 0.25 \end{bmatrix}
-```
+##### $\qquad \qquad {\bf x_1} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cdot \\ 0.25 \\ \cdot \\ \cdot \\ 0.25 \\ 0.25 \\ 0.25 \end{bmatrix}$
+\
+
 """
 
 # ╔═╡ 541a573c-2e87-49dc-97e7-778a50364e52
-state0 = [0, 0, 1, 0, 0, 0, 0] # [1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7] 
+state0 = [1, 0, 0, 0, 0, 0, 0] # [1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7] 
 
 # ╔═╡ dd6f459f-898f-4370-9cc8-35e410a76cc7
 state = zeros(7,50); # Initialize the state matrix
@@ -1104,19 +1165,20 @@ state = zeros(7,50); # Initialize the state matrix
 # ╔═╡ f6e62718-42b7-4e0b-b9ab-60fbf3bfa4a6
 state[:,1] = M * state0
 
-# ╔═╡ 7516b6a6-1f70-4bab-a320-ae16b028e6be
-md"#
-and 
-* the following states
-```math
-{\bf x_2 = M x_1} → {\bf x_3 = M x_2} → \cdots → {\bf x_n = M x_{n-1}}
-```
-OR
+# ╔═╡ abf983de-2f8b-42d8-b3ef-54d0eb5f0cde
+md"""
+---"""
 
-```math
-{\bf x_n = M^n x_0}
-```
-"
+# ╔═╡ 7516b6a6-1f70-4bab-a320-ae16b028e6be
+md"""#
+### - Find the following states
+##### $\qquad \qquad {\bf x_2 = M x_1} → {\bf x_3 = M x_2} → \cdots → {\bf x_n = M x_{n-1}}$
+
+##### OR
+
+##### $\qquad \qquad {\bf x_n = M^n x_0}$
+
+"""
 
 # ╔═╡ d1eec44f-5373-4a5c-8013-46434a6679b2
 state[:,2] = M * state[:,1]
@@ -1140,38 +1202,38 @@ state[:,20] = M^20 * state0
 state[:,30] = M^30 * state0
 
 # ╔═╡ e19c2e7b-7587-4584-9093-3e8c8563cdc9
-md"#
-### Properties of Markov Matrix
-* ##### What do you notice from the above computations?
-   - ###### States converge;  
-     - How can we measure the distance between each state, `norm`?  
-     - Is the steady-state distribution dependent on the distribution of the initial state?  
-     -  Is $\bf M^n x_n = x_n$ correct? What is your conclusion from this?
+md"""#
+### - Properties of Markov Matrix
+#### $\bullet \;\;$ What do you notice from the above computations?
+##### $\qquad \circ\;\;$ States converge;  
+##### $\qquad \qquad -\;\;$ How can we measure the distance between each state, `norm`?  
+ ##### $\qquad \qquad -\;\;$ Steady-state distribution depends on the initial state? NO  
+##### $\qquad \qquad -\;\;$ Is $\bf M^n x_n = x_n$ correct? What is your conclusion from this?
   
-   - ###### All numbers in each state sum up to '$1$'. True or False?
+ ##### $\qquad \qquad -\;\;$ All numbers in each state sum up to '$1$'. True or False?
 
-* ##### How do you interpret the end state after 30 transitions?
-```math
-{\bf x_{30}} = \begin{bmatrix} 0.29 & 0.095 & 0.047 & 0.19 & 0.07 & 0.07 & 0.238 \end{bmatrix}'
-```
-"
+#### $\bullet \;\;$ How do you interpret the end state after 30 transitions?
+
+##### $\qquad \qquad {\bf x_{30}} = \begin{bmatrix} 0.29 & 0.095 & 0.047 & 0.19 & 0.07 & 0.07 & 0.238 \end{bmatrix}'$
+
+"""
 
 # ╔═╡ 20e0521b-1943-4eef-85b2-e46d6fc1d9c0
 bar([i for i in 1:7], state[:,30], legend = false, xlabel ="Pages", ylabel= "PageRank values", size = (600, 350))
 
 # ╔═╡ a10cae47-2b16-421f-9f1c-cdd8a6eda5ad
-md"#
-##### Norm
+md"""#
+### - Convergence study (norms)
 
-* Norm is the length of a vector ${\bf v}$ and represented by $\| {\bf v} \|$
-* There are different norm definitions and the three widely used ones in order are
-  - ``L_1`` norm =  $\| {\bf v} \|_1 = |v_1| + |v_2| + \cdots + |v_n|$; `norm(v,1)` in _Julia_
-  - ``L_2`` norm (≡ Euclidian norm) = $\| {\bf v} \|_2 = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$;  `norm(v,2)` in _Julia_
-  - ``L_{\infty}`` norm (≡ Max norm) = $\| {\bf v} \|_\infty  = Max[{|v_1|, |v_2|, \cdots, |v_n|}]$; `norm(v,Inf)` in _Julia_
+##### $\bullet \;\;$ Norm is the length of a vector ${\bf v}$ and represented by $\| {\bf v} \|$
+##### $\bullet \;\;$ There are different norm definitions
+##### $\qquad - \;\;$ ``L_1`` norm =  $\| {\bf v} \|_1 = |v_1| + |v_2| + \cdots + |v_n|$ 
+##### $\qquad - \;\;$ ``L_2`` norm (≡ Euclidian norm) = $\| {\bf v} \|_2 = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$ 
+##### $\qquad - \;\;$ ``L_{\infty}`` norm (≡ Max norm) = $\| {\bf v} \|_\infty  = Max[{|v_1|, |v_2|, \cdots, |v_n|}]$
 
-!!! note
-	Throughout this course, mostly Euclidian Norm will be used and subscript '2' will be droped in $\| {\bf v} \|$.
-"
+!!! norm
+	##### Throughout this course, mostly Euclidian Norm will be used and subscript '2' will be droped in $\| {\bf v} \|$.
+"""
 
 # ╔═╡ 1798453f-54cc-45e8-b65d-9e5745dbfbd6
 begin
@@ -1197,17 +1259,22 @@ begin
 	plot!([1:20], error_Linf, mark = :diamond, label = L"L_{\infty} \;Norm")
 end  	
 
+# ╔═╡ 2780a6fa-fc19-40be-93d1-8b092045a071
+md"""
+---"""
+
 # ╔═╡ 9a987b58-47e9-4191-8fb7-9225d27d2628
 md"#
-##### Role of Initial State
-In Markov matrices, there are few properties that we need to state for the sake of understanding its potential and problems: For Markov Matrices,
-- the sum of each column must be '1'; $\rightarrow [1 \;1 \cdots 1]\; {\bf M} =[1 \;1 \cdots 1]$   
-- if entries postive,
-  - called positive Markov matrices, they always converge to a unique steady-state; However,
-- if not, that is, if there are zero entries, then
-  - it may still converge to a single steady-state or converge to more than one steady-states dependent on the initial state $x_0$; 
-* iterations maintain the sum of the entries of the initial guess, that is
-$[1 \;1 \cdots 1]\; {\bf x_1} = [1 \;1 \cdots 1]\; {\bf M x_0} = [1 \;1 \cdots 1]\; {\bf x_0}$
+### - Role of Initial State
+##### In Markov matrices, there are few properties that we need to state for the sake of understanding its potential and problems: For Markov Matrices,
+##### $\bullet \;\;$ the sum of each column must be '1'; $\rightarrow [1 \;1 \cdots 1]\; {\bf M} =[1 \;1 \cdots 1]$   
+##### $\bullet \;\;$ if entries postive, called positive Markov matrices,
+##### $\qquad - \;\;$ they always converge to a unique steady-state;
+##### $\bullet \;\;$ if not, that is, if there are zero entries, then
+##### $\qquad - \;\;$ it may still converge to a single steady-state or converge to more 
+##### $\qquad \;\;\;\;$ than one steady-states dependent on the initial state $x_0$; 
+##### $\bullet \;\;$ iterations maintain the sum of the entries of the initial guess, that is
+##### $\qquad Sum({\bf x}_1) = [1 \;1 \cdots 1]\; {\bf x}_1 = \underbrace{[1 \;1 \cdots 1]\; {\bf M}}_{\color{red} [1 \;1 \cdots \; 1]} \;{\bf x}_0 = [1 \;1 \cdots 1]\; {\bf x_0} = Sum({\bf x}_0)$
 "
 
 # ╔═╡ 54cbf7b1-95d0-4027-b65f-a5ad5808e4b4
@@ -1215,17 +1282,40 @@ let
 	state0 =[0, 0, 1, 1, 1, 0, 0]
 	state30 = M^30 * state0
 	nstate30 = state30 / sum(state30)
-	bar([i for i in 1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values")
+	bar([i for i in 1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values", title = "30 iterations; Initial state = $(state0[:,1])")
 end
 
-# ╔═╡ b6036a94-7e1f-40f4-a905-b9081fd25c8a
-md"#
-##### Is $\bf M^n x_n = x_n$ ?   What is your conclusion?
+# ╔═╡ 81d40d17-e770-408a-8987-0ab17f40293d
+begin
+	nst_i = zeros(7,30)
+	st_0 =rand(0:1:1, 7)
+	nst_i[:,1] = round.(st_0/ sum(st_0); digits=2)# Float16.(st_0/ sum(st_0)) # normalized initial state
+	for i = 2:30
+		nst_i[:,i] = (M^(i-1) * nst_i[:,i-1])
+	end	
+	# barplt = bar([1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values")
+	
+	anim_states = @animate for i in 1:10
+	plot!(bar([1:7], nst_i[:,i], legend = false, xlabel ="Pages", ylabel= "PageRank values"), title = "$(i-1); Initial state = $(nst_i[:,1])")
+	end
+	
+end
 
-- Do you remember ${\bf A x}=\lambda {\bf x}$ ? `Eigenvalues` and `Eigenvectors`
--  $\bf M^n x_n = x_n$ implies that Markov matrix $\bf M$ has an eigenvalue at $\lambda = 1$ with its eigenvector $\bf x_n$
--  So, finding the eigenvector of $\bf M$ corresponding to eigenvalue $\lambda = 1$ will directly give the steady-state:
-"
+# ╔═╡ f2c5a261-af9f-4f4a-b854-1dc36bd7ea44
+gif(anim_states, "anim_states.gif", fps = 0.5)
+
+# ╔═╡ b6036a94-7e1f-40f4-a905-b9081fd25c8a
+md"""#
+#### Is $\bf M^n x_n = x_n$ ?   What is your conclusion?
+
+##### $\bullet \;\;$ Do you remember ${\bf A x}=\lambda {\bf x}$ ? `Eigenvalues` and `Eigenvectors`
+\
+
+##### $\bullet \;\;$ $\bf M^n x_n = x_n$ implies that Markov matrix $\bf M$ has an eigenvalue at $\lambda = 1$ with its eigenvector $\bf x_n$
+\
+
+##### $\bullet \;\;$ So, finding the eigenvector of $\bf M$ corresponding to eigenvalue $\lambda = 1$ will directly give the steady-state:
+"""
 
 # ╔═╡ 66fe1bad-ae41-4e10-82ce-64b36d446049
 # lambda = eigvals(M) # Eigenvalues of M
@@ -1239,6 +1329,10 @@ md"#
 # ╔═╡ b9d3cf7e-942b-4cb3-bda2-c932dcc314a4
 # norm((eigv[:,7] / sum(eigv[:,7]) - state[:,30]),Inf) # see the distance (norm) between the eigenvector for lambda =1 and the state we have reached after 30 iterations
 
+# ╔═╡ 725d0c60-a3fa-49ee-9c14-4b950f8b7d53
+md"""
+---"""
+
 # ╔═╡ 7c35704a-c6dc-429a-b28f-105764177636
 md"""
 !!! note \"Project Idea - 1\"
@@ -1246,31 +1340,31 @@ md"""
 """
 
 # ╔═╡ b16906ed-b4ab-446e-a0e8-d79418ef56ca
-md"#
+md"""#
 ### Example 2: Covid-19 Survival Analysis[^2]
 
-[^2]: [_A Markov Chain Model for Covid-19 Survival Analysis_] (https://web.cortland.edu/matresearch/MarkovChainCovid2020.pdf), Jorge Luis Romeu, July 17, 2020.
+##### The problem was formulated under two infection scenarios:
 
-The problem was formulated with three states under two `infection` rate scenarios, namely 5% as suggested by CDC (Centers for Desease Control) and 10% for aggressive case: `Non infected`, `Infected` and `Hospitalized` with the following probabilities in Markov matrices:
+##### $1. \;\;$ 5% as suggested by CDC (Centers for Desease Control) and 
+##### $2. \;\;$ 10% for aggressive case 
 
-```math
-{\bf M_1^{CDC}} = \begin{bmatrix} 0.95 & 0.10 & 0.00 \\ 
-						  0.05 & 0.70 & 0.30 \\ 
-						  0.00 & 0.20 & 0.70  \end{bmatrix}
-\qquad {\bf M_2^{Agg}} = \begin{bmatrix} 0.90 & 0.12 & 0.00 \\ 
-						    0.10 & 0.70 & 0.20 \\ 
-						    0.00 & 0.18 & 0.80  \end{bmatrix}
+##### with three states as `Non infected`, `Infected` and `Hospitalized` with the following probabilities in Markov matrices:
+\
 
-```
-where 
-*  $1^{st}$ column represents `Non infected` and their transitions to other states;
-*  $2^{nd}$ column is for `Infected` and their transitions to other states;
-*  $3^{rd}$ column is for `Hospitalized` and their transitions to other states.
+##### $\qquad {\bf M_1^{CDC}} = \begin{bmatrix} 0.95 & 0.10 & 0.00 \\ 0.05 & 0.70 & 0.30 \\ 0.00 & 0.20 & 0.70  \end{bmatrix} \qquad {\bf M_2^{Agg}} = \begin{bmatrix} 0.90 & 0.12 & 0.00 \\ 0.10 & 0.70 & 0.20 \\ 0.00 & 0.18 & 0.80  \end{bmatrix}$
+
+
+##### where 
+##### $\bullet \;\;$ $1^{st}$ column represents `Non infected` and their transitions to others;
+##### $\bullet \;\;$ $2^{nd}$ column is for `Infected` and their transitions to others;
+##### $\bullet \;\;$ $3^{rd}$ column is for `Hospitalized` and their transitions to other states.
 
 !!! warning \"The goal of this study is to assess\"
-	* the long-run (≡ steady-state) percent of cases in each of the states, 
-	* the rates at which these states populated under two different infection rates.
-"
+	##### $\bullet \;\;$ the long-run percentages of cases in each of the states, 
+	##### $\bullet \;\;$ the rates at which these states populated 
+
+[^2]: [_A Markov Chain Model for Covid-19 Survival Analysis_] (https://web.cortland.edu/matresearch/MarkovChainCovid2020.pdf), Jorge Luis Romeu, July 17, 2020.
+"""
 
 # ╔═╡ e4a6e169-925f-490b-b03a-21f277ff0fa5
 M_covCDC = [0.95 0.10 0.0 ;
@@ -1282,10 +1376,16 @@ M_covAgg = [0.90 0.12 0.0 ;
 	0.10 0.70 0.20
 	0.0 0.18 0.80]
 
+# ╔═╡ b0a3be42-6aec-4c7d-8798-d62a23aeb01a
+md"""
+---"""
+
 # ╔═╡ ffe0fb93-50f4-4a1d-b73b-e24fb729d043
 md"""# 
+### - Eigenvalue - Eigenvector analysis
 !!! note
-	Largest eigenvalue of the Markov matrix is expected be '$1$' and its corresponiding eigenvector to be the state-state.
+	##### $\;\; - \;\;$ Largest eigenvalue of the Markov matrix is expected to be '$1$' 
+	##### $\;\; - \;\;$ its corresponding eigenvector is the steady state
 
 """
 
@@ -1299,10 +1399,17 @@ md"""#
 # lambda_covAgg, eigv_covAgg = eigen(M_covAgg)
 
 # ╔═╡ d29b41b0-f453-4c61-95ac-42695a07187a
-md"
-* As expected, $\lambda_{max} = 1.0$ and corresponding eigenvetors [-0.86, -0.43, -0.286] for the CDC case and [0.67, 0.55, 0.50] for the Aggressive case.
-* Since the eigenvector is to represent the probabilities of being in these three states in the long-run, it needs to be normalized to make the sum of the vector unity. 
-"
+md"""
+#### $\quad \bullet \;\;$ As expected, $\lambda_{max} = 1.0$ and corresponding eigenvectors
+##### $\qquad \;\;\; \rightarrow \;\; [-0.86, -0.43, -0.286]\;$ for the CDC case 
+##### $\qquad \;\;\; \rightarrow \;\; [0.67, 0.55, 0.50]\;$ for the Aggressive case.
+
+\
+
+#### $\quad \bullet \;\;$ Eigenvectors represent the probabilities, so 
+#### $\quad \quad$ they need to be normalized to make the sum of their 
+#### $\quad \quad$ entries unity 
+"""
 
 # ╔═╡ 3fc7529c-e101-480b-87d6-85400bbebd03
 # ss_covidCDC = eigv_covCDC[:,3]/ sum(eigv_covCDC[:,3])
@@ -1310,64 +1417,117 @@ md"
 # ╔═╡ cc0f82bc-096c-444e-a078-37e91d019234
 # ss_covidAgg = eigv_covAgg[:,3]/ sum(eigv_covAgg[:,3])
 
+# ╔═╡ b2d01760-61a1-41b4-99dd-c719c1c6f679
+md"""
+---"""
+
+# ╔═╡ 77868858-900b-43a5-8172-49832c339534
+md"""#
+#### $\qquad \qquad \qquad$ Steady state distributions"""
+
 # ╔═╡ 3b210f36-33fb-4405-a9cf-9403d65cdce9
 TwoColumn(
 	md"""
-##### CDC scenario (5%)
+#### CDC scenario (5%)
 
-* 54.5% `Non infected`
-* 27.3% `Infected`
-*  $\color{red} 18.2\% \;\;Hospitalized$
+##### $\bullet \;\;$ 54.5% `Non infected`
+##### $\bullet \;\;$ 27.3% `Infected`
+##### $\bullet \;\;$ $\color{red} 18.2\% \;\;Hospitalized$
 """,
-	md""" #####  Aggressive Scenario (10%)
+	md""" ####  Aggressive Scenario (10%)
 
-* 38.7% `Non infected`
-* 32.2% `Infected`
-*  $\color{red} 29.0\% \;\;Hospitalized$
+##### $\bullet \;\;$ 38.7% `Non infected`
+##### $\bullet \;\;$ 32.2% `Infected`
+##### $\bullet \;\;$ $\color{red} 29.0\% \;\;Hospitalized$
 """		
 )
 
+# ╔═╡ c6ca304b-81ab-48c6-93d7-738336e5adbe
+md"""
+\
+
+#### _The steady-state distribution_ represents 
+##### $\qquad -\;$ the long-run percent of cases in each states
+##### $\qquad -\;$ the rates at which the Markov Chain enters the states
+##### $\qquad \qquad \circ\;$ the average time between two successive visit to a state 
+##### $\qquad \quad \quad \;\;$ = 1/ (long-run percent)
+"""
+
+# ╔═╡ 66eff877-5530-4da7-8062-68b70d545e37
+md"""
+---"""
+
+# ╔═╡ c2069db6-5737-4fb9-8d85-564cffb48357
+df_covid = DataFrame(Infection_Rates = ["Efficient (5%)", "Efficient (5%)", "Inefficient (10%)", "Inefficient (10%)"], 
+    Long_run = ["Probabilities", "Times Between", "Probabilities", "Times Between"],
+    Not_Infected = [0.545, 1.834, 0.387, 2.583],
+    Infected_Home = [0.273, 3.667, 0.322, 3.099],
+	Hospitalized = [0.182, 5.50, 0.290, 3.444])
+
+# ╔═╡ c48af5a0-9595-4af1-aaa0-21c38720654b
+md"""
+#### Observations
+##### $\bf \qquad 1.\;$ For 10% infection rates, higher percent of patients hospitalized,
+##### $\qquad \qquad \qquad \qquad$ 29% vs. 18.2%
+##### ⇒ infection rate increase results in saturating the Health Care system
+##### $\bf \qquad 2.\;$ For 5% infection rates, times between two successive visits
+##### $\qquad \quad$ to the Hospital are longer: 5.5 days vs. 3.4 days
+
+---
+"""
 
 # ╔═╡ db20720c-98d2-44b1-a9a3-8acc04ca55b9
 md"""#
-##### More Realistic
+### - More Realistic scenario
 
-* Define the Markov chain over five states:
-  - non infected (in the general population) → 93% remain uninfected, 7% infected
-  - infected (isolated at home) → 5% recovered, 80% remain isolated at home, 10% hopitalized, 5% in ICU
-  - hospitalized (after becoming ill) → 15% recovered and sent to home for isolation, 80% remain hospitalized, 5% in ICU
-  - in the ICU (or ventilators) → 5% recovered and stayed in hospital, 80% remain in ICU, 15% dead
-  - dead (absorbing state)
+#### Define the probabilities over five states:
+##### $\qquad \circ \;$ General population → 93% remain uninfected, 7% infected
+##### $\qquad \circ \;$ infected (isolated at home) → 5% recovered, 80% remain isolated, 
+##### $\qquad \quad$ 10% hopitalized, 5% in ICU
+##### $\qquad \circ \;$ hospitalized (after becoming ill) → 15% recovered and sent for  
+##### $\qquad \quad$ isolation, 80% remain hospitalized, 5% in ICU
+##### $\qquad \circ \;$ in the ICU (or ventilators) → 5% recovered and stayed in hospital, 
+##### $\qquad \quad$ 80% remain in ICU, 15% dead
+##### $\qquad \circ \;$ dead (absorbing state)
 
-* Based on the data avilable, set up the Markov matrix as
+---
+"""
+
+# ╔═╡ 62748722-ba68-4bb9-9d87-8d08158e56dd
+md"""
+
+#### Based on the data avilable, set up the Markov matrix as
+\
+
 ```math
-{\bf M} = \begin{bmatrix} {\color{green} 0.93} & {\color{blue} 0.05} & {\color{orange} \cdot} & {\color{red} \cdot} & \cdot \\ 
+\large {\bf M} = \begin{bmatrix} {\color{green} 0.93} & {\color{blue} 0.05} & {\color{orange} \cdot} & {\color{red} \cdot} & \cdot \\ 
 						  {\color{green} 0.07} & {\color{blue} 0.80} & {\color{orange} 0.15} & {\color{red} \cdot} & \cdot \\ 
 						 {\color{green} \cdot} & {\color{blue} 0.10} & {\color{orange} 0.80} & {\color{red} 0.05}  & \cdot \\ 
 	   					 {\color{green} \cdot} & {\color{blue} 0.05} & {\color{orange} 0.05} & {\color{red} 0.80}  & \cdot \\ 
 		  				 {\color{green} \cdot} & {\color{blue} \cdot} & {\color{orange} \cdot} & {\color{red} 0.15} & 1.0  \end{bmatrix}  \Leftarrow {\bf Markov \; \; Matrix}
 ```
-where 
-*   $\color{green} green$ column is for `non-infected`
-*   $\color{blue} blue$ column is for `infected`
-*   $\color{orange} orange$ column is for `hospitalized`
-*   $\color{red} red$ column is for `ICU`
-*   $black$ column is for `dead`
+#### where 
+##### $\qquad \bullet\;\;$  $\color{green} green$ column is for $\color{green} non-infected$
+##### $\qquad \bullet\;\;$   $\color{blue} blue$ column is for $\color{blue} infected$
+##### $\qquad \bullet\;\;$   $\color{orange} orange$ column is for $\color{orange} hospitalized$
+##### $\qquad \bullet\;\;$   $\color{red} red$ column is for $\color{red} ICU$
+##### $\qquad \bullet\;\;$   $\color{black} black$ column is for $\color{black} dead$
 
 !!! warning \"Goal\"
-	_Probability of Death_ and _Expected Time to Death_.
-
+	##### _Probability of Death_ and _Expected Time to Death_
+---
 """
 
 # ╔═╡ 4778254b-f59f-4080-976b-44c6a8f68adc
 md"""#
-##### For the Markov model
-* the unit time is a day, transitions refer to changes from one morning to the following;
-* every transition at time T is independent corresponding to a transition from its current state to its next; 
-* the data are closer to the cases in Italy or NYC at the height of their Covid crisis.
+#### For the Markov model
+##### $\qquad -\;$ the unit time is a day, transitions are from morning to the next
+##### $\qquad -\;$ every transition is an independent trial 
+##### $\qquad -\;$ the data are closer to the cases in Italy or NYC
 
 !!! danger \"Absorbing State\"
-	Notice that, in the last column (dead state), there is a single entry with propability '1' to stay in the same state, that is, the final state, **no return**.
+	##### $\;\; -\;$ The last column (dead state) has a single entry with propability '1'
+	##### $\;\; -\;$ It is the final state, _no return_
 """
 
 # ╔═╡ 52a2d40f-069f-4e4b-9e3d-74d8f5c93632
@@ -1378,24 +1538,26 @@ M_cov = [0.93 0.05 0.0 0.0 0.0;
 	0.0 0.0 0.0 0.15 1.0]
 
 # ╔═╡ aed82abb-a91e-4ddc-91d3-9da1f5730459
-md"
+md"""
 
 ##### What happens to $\bf x_n = M^n x_0$? 
 ##### Where does $\bf M^n$ converges to for $n→∞$?
-"
+
+---
+"""
 
 # ╔═╡ e8f7eb00-8e18-4b31-8e4a-493cf81acb92
-md"#
-${\bf Brute \;force \;calculation}$
-"
+md"""#
+$\Large {\bf Brute \;force \;calculation}$
+"""
 
 # ╔═╡ 58646f88-df1a-488c-a951-1f942714ef5d
-M_cov^500 # each column converges to [0, 0, 0, 0, 1]
+M_cov^500 # all columns converge to [0, 0, 0, 0, 1]
 
 # ╔═╡ 00f6f985-8d07-4909-8e64-9db412ae816b
 md"
 
-${\bf Eigenvalue \;and \;eigenvector \;calculation}$
+$\Large {\bf Eigenvalue \;and \;eigenvector \;calculation}$
 
 "
 
@@ -1406,124 +1568,172 @@ lambda_cov, eigv_cov = eigen(M_cov)
 eigv_cov[:,5] # corresponds to lambda=1, so steady-state seems to be when everyone is dead?
 
 # ╔═╡ f2fbd554-26fa-4f87-819f-0c7b14891764
-md" 
-${\bf In \;steady \;state, \;it \;converges \;to \;the \;aborbing \;state}$
+md""" 
+$\Large {\bf In \;steady \;state, \;it \;converges \;to \;the \;aborbing \;state}$
 
-!!! danger \" Everybody will be dead 🤔\"
-"
+!!! danger 
+	#### Everybody will be dead 🤔
+
+---
+"""
 
 # ╔═╡ ec0f0925-e565-47fe-814a-cb6bf8caaee3
 md"""#
 
-##### How can you proceed?
+### 1. Working with absorbing states
 
-##### A brief overview for curious minds (not included) [^3]
+#### This is a brief overview for curious minds (not included) [^3]
 
-Assume that we have an absorbing Markov chain with the following transition matrix in \"block\" form:
+##### Transition matrix for a Markov chain with $k$ absorbing states
+\
 
 ```math
-{\bf M} = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+\large {\bf M} = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
 						  {\bf R} & {\bf I}_l  \end{bmatrix} 
 ```
-where 
-*  $\bf T$ is an $k \times k$ matrix with probabilities of moving from one transient state to another transient state.
-*  $\bf R$ is an $l \times k$ matrix with probabilities of moving from a transient state to an absorbing state.
-*  ${\bf 0}_{k×l}$ is an $k × l$ matrix of all $0$’s, as moving from an absorbing state to a transient state is impossible.
-*  ${\bf I}_l$ is an $l×l$ identity matrix, as transitioning between absorbing states is impossible.
+##### where 
+##### $\; - \; \bf T$ is a $k \times k$ matrix with transition probabilities from one transient state to another
+##### $\; - \; \bf R$ is an $l \times k$ matrix with transition probabilities from a transient state to an absorbing state
+##### $\; - \; {\bf 0}_{k×l}$ is an $k × l$ matrix of all $0$’s, as moving from an absorbing state to a transient state is impossible.
+##### $\; - \; {\bf I}_l$ is an $l×l$ identity matrix, as transitioning between absorbing states is impossible.
 
 !!! note
-	One can always cast the Markov matrix in a similar block form, when there are some absorbing states, by intechanging the order of columns and rows.
+	##### One can always cast the Markov matrix in a similar block form, by intechanging the order of columns and rows.
  
-As the system transions, $M^2$, $M^3$, ..., $M^n$ need to be calculated:
-```math
-{\bf M^2} = \begin{bmatrix} T & 0_{k \times l} \\ 
-						  R & I_l  \end{bmatrix} 
-		  \begin{bmatrix} T & 0_{k \times l} \\ 
-						  R & I_l  \end{bmatrix} = 
-		  \begin{bmatrix} T^2 & 0_{k \times l} \\ 
-						  RT+R & I_l  \end{bmatrix}
-```
-```math
-{\bf M^3} = \begin{bmatrix} T & 0_{k \times l} \\ 
-						  R & I_l  \end{bmatrix} 
-		 \begin{bmatrix} T^2 & 0_{k \times l} \\ 
-						 RT+R & I_l  \end{bmatrix} = 
-		  \begin{bmatrix} T^3 & 0_{k \times l} \\ 
-						  RT^2+RT+R & I_l  \end{bmatrix}
-```
-$\vdots$
-```math
-{\bf M^n} = \begin{bmatrix} T^n & 0_{k \times l} \\ 
-						  R+RT+\cdots+RT^{n-1} & I_l  \end{bmatrix} =
-		  \begin{bmatrix} T^n & 0_{k \times l} \\ 
-						  R \sum_{i=0}^{n-1}T^i & I_l  \end{bmatrix}
-```
-
-For $n → ∞$, the series $\sum_{i=0}^{n-1}T^i → (I-T)^{-1}$, provided the column sums of $T$ are less than $1$.
-
 
 [^3][Absorbing Markov Chains] (https://www.math.umd.edu/~immortal/MATH401/book/ch_absorbing_markov_chains.pdf), Allan Yashinski, July 21, 2021
+
+---
+"""
+
+# ╔═╡ bc7d0dc1-251d-4d0b-9813-f4a0fd311a18
+md"""#
+##### → $M^2$, $M^3$, ..., $M^n$ need to be calculated as the system transions 
+```math
+\large {\bf M}^2 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} 
+		  \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} = 
+		  \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
+						  {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
+```
+\
+
+```math
+\large {\bf M}^3 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} 
+		 \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
+						 {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix} = 
+		  \begin{bmatrix} {\bf T}^3 & {\bf 0}_{k \times l} \\ 
+						  {\bf RT}^2+{\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
+```
+$\large \vdots$
+```math
+\large {\bf M^n} = \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+						  {\bf R}+{\bf RT}+\cdots+{\bf RT}^{n-1} & {\bf I}_l  \end{bmatrix} =
+		  \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix}
+```
+
+\
+
+
+ $\large {\rm For} \;\;n → ∞ \;\;\;\; \sum_{i=0}^{n-1}{\bf T}^i → ({\bf I-T})^{-1}$, 
+##### provided the column sums of $\bf T$ are less than $1$.
+\
+
+#### Let us try it on the covid data: 
 """
 
 # ╔═╡ 2b5cd8bb-7df2-4e59-8956-26b1974d9f0f
-# T = M_cov[1:4,1:4] # Block T, only the transient porton of M
+T = M_cov[1:4,1:4] # Block T (4 x 4), only the transient porton of M
 
 # ╔═╡ 6a056c28-bb34-42dc-92c2-c100154685a4
-# R = M_cov[5,1:4] # Block R, from transient to absorbing state
+R = M_cov[5,1:4] # Block R (1 x 4), from transient to absorbing state
 
 # ╔═╡ 2bc35e57-a5d4-484e-9dd9-ccaa7566eaf7
-# ones(4)' * T # to check if the column sums are less than 1 => NOT
+ones(4)' * T # to check if the column sums are less than 1 => NOT
 
 # ╔═╡ 330a0efe-c14e-4153-bd95-8b1fd9c27e66
-# ones(4)' * T^5 # However, higher powers of T satisfy this criterion, which would be enough for the approximation
+ones(4)' * T^5 # However, higher powers of T satisfy this criterion, which would be enough for the approximation
 
 # ╔═╡ 88592d8b-6115-4258-bd3f-33e01101e8dc
-# lambda_T = eigvals(T) # eigvals and eigvecs give e-values and e-vectors separately
+lambda_T = eigvals(T) # eigvals and eigvecs give e-values and e-vectors separately
+
+# ╔═╡ 18a1ec88-f203-46df-9d1d-50a6f10d4275
+md"""
+---"""
 
 # ╔═╡ 78dfd8bd-ba3e-47c8-878a-b735a0f5d787
 md"""#
-Therefore, the Markov matrix at steady-state approaches to
+#### Therefore, the Markov matrix at steady-state
+\
+
 ```math
-\lim_{n→∞}{\bf M^n} = \lim_{n→∞} \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+\large \lim_{n→∞}{\bf M^n} = \lim_{n→∞} \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
 						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix} \Rightarrow
 				{\bf M^{ss}} = \begin{bmatrix} {\bf 0}_{k \times k} & {\bf 0}_{k \times l} \\ 
 						  {\bf R} ({\bf I-T})^{-1} & {\bf I}_l  \end{bmatrix}
 ```
-where only surviving block is the one showing the transition probabilities from transient states to absorbing states ${\bf R} ({\bf I-T})^{-1}$.
+\
 
-* Remember $\bf R$ is composed of probabilities of moving from transient states to the absorbing state.
-*  Define ${\bf F = (I-T)}^{-1}$ → Fundamental Matrix
+##### → only surviving block is the one showing the transition probabilities 
+##### $\;\;\;$ from transient states to absorbing states: $\qquad {\bf R} ({\bf I-T})^{-1}$
+
+##### $\qquad -\;\; \bf R$: probabilities from transient states to absorbing states
+##### $\qquad -\;\;$ Define $\color{red} {\bf F = (I-T)}^{-1} → \rm \bf Fundamental \;Matrix$
+##### $\qquad -\;\;$ $\color{red} (i, j)^{th} \rm \bf \;entry \;of \;F\;$ is the expected number of times the chain 
+##### $\qquad \quad \;\;$ is in state $j$, given that the chain started in state $i$.
+##### $\qquad -\;\;$ The expected number of steps before being absorbed 
+##### $\qquad \qquad \qquad \qquad {\bf N} = [{\bf 1}^T {\bf F}] = [N_1 \;\;.\;.\;.\;\; N_i \;\;.\;.\;.\;\; N_{l-k}]$
+##### $\qquad \quad \;\;$ where $N_i$ is the number of steps starting in transient state $i$ 
+
 """
 
 # ╔═╡ 4c3f565a-9938-44e6-9105-f4a949774ea0
-# F = (I(4) - T)^-1 # or inv(I(4)-T) Fundamental Matrix
+F = (I(4) - T)^-1 # or inv(I(4)-T) Fundamental Matrix
 
 # ╔═╡ fdc5a903-61c4-411f-8726-be012cbd8cfc
-# R' * F # as expected, in steady-state, it goes to the absorbing state
+R' * F # as expected, in steady-state, it goes to the absorbing state
+
+# ╔═╡ f95d08df-20e4-42d4-9afb-8872b33ad1e6
+ones(size(F,1))' * F
+
+# ╔═╡ 897fbfd2-8282-42b3-93d1-f2d2303f621b
+md"""
+---"""
 
 # ╔═╡ 424187c3-f6d3-4642-8d37-6266a2d9c597
-md"""
+md"""#
 
 ##### ${\bf F = (I-T)}^{-1}$ → Average number of days in transient states
 
 ```math
-{\bf F} = ({\bf I-T})^{-1} = \begin{bmatrix} 26.19 & 11.90 & 9.52 & 2.38 \\ 
+\large {\bf F} = ({\bf I-T})^{-1} = \begin{bmatrix} 26.19 & 11.90 & 9.52 & 2.38 \\ 
 						 16.67 & 16.67 & 13.33 & 3.33 \\ 
 	   					 10.0 & 10.0 & 13.3 & 3.33 \\ 
 		  				 6.67 & 6.67 & 6.67 & 6.67 \end{bmatrix} 
 ```
 
-##### Interpretation
-The average number of days a `non infected` person ($1^{st}$ column)
-* stays `non infected` is 26.19 days;
-* spends `infected (isolated)`, after being infected, is 16.67 days;
-* spends in `hospital` is 10.0 days
-* spends in `ICU`, before passing away, is 6.67 days.
+#### Interpretation
+##### The average number of days a _non infected_ person ($1^{st}$ column)
+##### $\qquad -\;$ stays _non infected_ is 26.19 days;
+##### $\qquad -\;$ spends _infected (isolated)_, after being infected, is 16.67 days;
+##### $\qquad -\;$ spends in _hospital_ is 10.0 days
+##### $\qquad -\;$ spends in _ICU_, before passing away, is 6.67 days.
 
-!!! note \"Project Idea - 2\"
-	Based on Istanbul's Covid data, analyze the situation during the inital and latest phases of the pandemic.
+\
+
+##### ⇒ Average number of days it takes for a non infected person to pass away
+$\large 26.19 + 16.66 + 10.00 + 6.66 = 59.52 \; \rm days$
 
 """
+
+# ╔═╡ 53e5a89f-304a-436c-bb64-a60d429994d0
+M_cov^2 # Probability of dyiing in 2 days for Healthy is 0.0, for infected is 0.0075, for Hospitalized is 0.0075, for ICU is 0.27
+
+# ╔═╡ fa32b2ed-8c24-4b32-ad1e-41044b797533
+M_cov^8 # Probability of dyiing in 8 days for Healthy is 0.018, for infected is 0.118, for Hospitalized is 0.127, for ICU is 0.636
 
 # ╔═╡ 3ee12973-b0ad-409c-a451-bb765ad01cff
 md"""
@@ -1536,42 +1746,50 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 ColorVectorSpace = "c3611d14-8923-5661-9e6a-0046d554d3a4"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
 ImageShow = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 QuartzImageIO = "dca85d43-d64c-5e67-8c65-017450d5d020"
+TestImages = "5e47fb64-e119-507b-a336-dd2b206d9990"
 
 [compat]
 ColorVectorSpace = "~0.9.8"
 Colors = "~0.12.8"
+DataFrames = "~1.3.4"
 FileIO = "~1.13.0"
 HypertextLiteral = "~0.9.3"
 ImageIO = "~0.6.1"
 ImageShow = "~0.3.3"
+Images = "~0.25.2"
 LaTeXStrings = "~1.3.0"
-Plots = "~1.25.8"
+OffsetArrays = "~1.12.7"
+Plots = "~1.31.6"
 PlutoUI = "~0.7.34"
 QuartzImageIO = "~0.7.4"
+TestImages = "~1.7.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0-beta3"
+julia_version = "1.8.0"
 manifest_format = "2.0"
-project_hash = "8eb0f17925b0aa3f6d6713e45e82c1a7d70f7b80"
+project_hash = "af22e4ad53cb4d7bdfed68be490d0638a0a6bd67"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
-git-tree-sha1 = "6f1d9bc1c08f9f4a8fa92e3ea3cb50153a1b40d4"
+git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.1.0"
+version = "1.2.1"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1581,16 +1799,34 @@ version = "1.1.4"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "af92965fb30777147966f58acb05da51c5616b5f"
+git-tree-sha1 = "195c5505521008abea5aee4f96930717958eac6f"
 uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "3.3.3"
+version = "3.4.0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 version = "1.1.1"
 
+[[deps.ArnoldiMethod]]
+deps = ["LinearAlgebra", "Random", "StaticArrays"]
+git-tree-sha1 = "62e51b39331de8911e4a7ff6f5aaf38a5f4cc0ae"
+uuid = "ec485272-7323-5ecc-a04f-4719b315124d"
+version = "0.2.0"
+
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+
+[[deps.AxisAlgorithms]]
+deps = ["LinearAlgebra", "Random", "SparseArrays", "WoodburyMatrices"]
+git-tree-sha1 = "66771c8d21c8ff5e3a93379480a2307ac36863f7"
+uuid = "13072b0f-2c55-5437-9ae7-d433b7a33950"
+version = "1.0.1"
+
+[[deps.AxisArrays]]
+deps = ["Dates", "IntervalSets", "IterTools", "RangeArrays"]
+git-tree-sha1 = "1dd4d9f5beebac0c03446918741b1a03dc5e5788"
+uuid = "39de3d68-74b9-583c-8d2d-e117c070f3a9"
+version = "0.4.6"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -1612,29 +1848,53 @@ git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
 
+[[deps.Calculus]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "f641eb0a4f00c343bbc32346e1217b86f3ce9dad"
+uuid = "49dc2e85-a5d0-5ad3-a950-438e2897f1b9"
+version = "0.5.1"
+
+[[deps.CatIndices]]
+deps = ["CustomUnitRanges", "OffsetArrays"]
+git-tree-sha1 = "a0f80a09780eed9b1d106a1bf62041c2efc995bc"
+uuid = "aafaddc9-749c-510e-ac4f-586e18779b91"
+version = "0.2.2"
+
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "9489214b993cd42d17f44c36e359bf6a7c919abf"
+git-tree-sha1 = "80ca332f6dcb2508adba68f22f551adb2d00a624"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.15.0"
+version = "1.15.3"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "1e315e3f4b0b7ce40feded39c73049692126cf53"
+git-tree-sha1 = "38f7a08f19d8810338d4f5085211c7dfa5d5bdd8"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.3"
+version = "0.1.4"
+
+[[deps.Clustering]]
+deps = ["Distances", "LinearAlgebra", "NearestNeighbors", "Printf", "SparseArrays", "Statistics", "StatsBase"]
+git-tree-sha1 = "75479b7df4167267d75294d14b58244695beb2ac"
+uuid = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
+version = "0.14.2"
+
+[[deps.CodecZlib]]
+deps = ["TranscodingStreams", "Zlib_jll"]
+git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
+uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
+version = "0.7.0"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
-git-tree-sha1 = "7297381ccb5df764549818d9a7d57e45f1057d30"
+git-tree-sha1 = "1fd869cc3875b57347f7027521f561cf46d1fcd8"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.18.0"
+version = "3.19.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "0f4e115f6f34bbe43c19751c90a38b2f380637b9"
+git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.3"
+version = "0.11.4"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "SpecialFunctions", "Statistics", "TensorCore"]
@@ -1649,26 +1909,52 @@ uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.12.8"
 
 [[deps.Compat]]
-deps = ["Dates", "LinearAlgebra", "UUIDs"]
-git-tree-sha1 = "924cdca592bc16f14d2f7006754a621735280b74"
+deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
+git-tree-sha1 = "9be8be1d8a6f44b96482c8af52238ea7987da3e3"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.1.0"
+version = "3.45.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "0.5.2+0"
 
+[[deps.ComputationalResources]]
+git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
+uuid = "ed09eef8-17a6-5b46-8889-db040fac31e3"
+version = "0.3.2"
+
 [[deps.Contour]]
-deps = ["StaticArrays"]
-git-tree-sha1 = "9f02045d934dc030edad45944ea80dbd1f0ebea7"
+git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
-version = "0.5.7"
+version = "0.6.2"
+
+[[deps.CoordinateTransformations]]
+deps = ["LinearAlgebra", "StaticArrays"]
+git-tree-sha1 = "681ea870b918e7cff7111da58791d7f718067a19"
+uuid = "150eb455-5306-5404-9cee-2592286d6298"
+version = "0.6.2"
+
+[[deps.Crayons]]
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.1.1"
+
+[[deps.CustomUnitRanges]]
+git-tree-sha1 = "1a3f97f907e6dd8983b744d2642651bb162a3f7a"
+uuid = "dc8bdbbb-1ca9-579f-8c36-e416f6a65cce"
+version = "1.0.2"
 
 [[deps.DataAPI]]
 git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 version = "1.10.0"
+
+[[deps.DataFrames]]
+deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
+git-tree-sha1 = "daa21eb85147f72e41f6352a57fccea377e310a9"
+uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+version = "1.3.4"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -1689,6 +1975,12 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
+[[deps.Distances]]
+deps = ["LinearAlgebra", "SparseArrays", "Statistics", "StatsAPI"]
+git-tree-sha1 = "3258d0659f812acde79e8a74b11f17ac06d0ca04"
+uuid = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
+version = "0.10.7"
+
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
@@ -1704,6 +1996,12 @@ deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
 
+[[deps.DualNumbers]]
+deps = ["Calculus", "NaNMath", "SpecialFunctions"]
+git-tree-sha1 = "5837a837389fccf076445fce071c8ddaea35a566"
+uuid = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
+version = "0.6.8"
+
 [[deps.EarCut_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "3f3a2501fa7236e9b911e0f7a588c657e822bb6d"
@@ -1716,6 +2014,11 @@ git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
 version = "2.4.8+0"
 
+[[deps.Extents]]
+git-tree-sha1 = "5e1e4c53fa39afe63a7d356e30452249365fba99"
+uuid = "411431e0-e8b7-467b-b5e0-f676ba4f2910"
+version = "0.1.1"
+
 [[deps.FFMPEG]]
 deps = ["FFMPEG_jll"]
 git-tree-sha1 = "b57e3acbe22f8484b4b5ff66a7499717fe1a9cc8"
@@ -1723,10 +2026,28 @@ uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 version = "0.4.1"
 
 [[deps.FFMPEG_jll]]
-deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "Pkg", "Zlib_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
-git-tree-sha1 = "d8a578692e3077ac998b50c0217dfd67f21d1e5f"
+deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "Pkg", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
+git-tree-sha1 = "ccd479984c7838684b3ac204b716c89955c76623"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
-version = "4.4.0+0"
+version = "4.4.2+0"
+
+[[deps.FFTViews]]
+deps = ["CustomUnitRanges", "FFTW"]
+git-tree-sha1 = "cbdf14d1e8c7c8aacbe8b19862e0179fd08321c2"
+uuid = "4f61f5a4-77b1-5117-aa51-3ab5ef4ef0cd"
+version = "0.3.2"
+
+[[deps.FFTW]]
+deps = ["AbstractFFTs", "FFTW_jll", "LinearAlgebra", "MKL_jll", "Preferences", "Reexport"]
+git-tree-sha1 = "90630efff0894f8142308e334473eba54c433549"
+uuid = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+version = "1.5.0"
+
+[[deps.FFTW_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "c6033cc3892d0ef5bb9cd29b7f2f0331ea5184ea"
+uuid = "f5851436-0d7a-5f13-b9de-f02708fd171a"
+version = "3.3.10+0"
 
 [[deps.FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
@@ -1767,35 +2088,51 @@ git-tree-sha1 = "aa31987c2ba8704e23c6c8ba8a4f769d5d7e4f91"
 uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.10+0"
 
+[[deps.Future]]
+deps = ["Random"]
+uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
+
 [[deps.GLFW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
-git-tree-sha1 = "51d2dfe8e590fbd74e7a842cf6d13d8a2f45dc01"
+git-tree-sha1 = "d972031d28c8c8d9d7b41a536ad7bb0c2579caca"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
-version = "3.3.6+0"
+version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
-git-tree-sha1 = "c98aea696662d09e215ef7cda5296024a9646c75"
+git-tree-sha1 = "037a1ca47e8a5989cc07d19729567bb71bfabd0c"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.64.4"
+version = "0.66.0"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "3a233eeeb2ca45842fe100e0413936834215abf5"
+git-tree-sha1 = "c8ab731c9127cd931c93221f65d6a1008dad7256"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.64.4+0"
+version = "0.66.0+0"
+
+[[deps.GeoInterface]]
+deps = ["Extents"]
+git-tree-sha1 = "fb28b5dc239d0174d7297310ef7b84a11804dfab"
+uuid = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+version = "1.0.1"
 
 [[deps.GeometryBasics]]
-deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
-git-tree-sha1 = "83ea630384a13fc4f002b77690bc0afeb4255ac9"
+deps = ["EarCut_jll", "GeoInterface", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
+git-tree-sha1 = "a7a97895780dab1085a97769316aa348830dc991"
 uuid = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
-version = "0.4.2"
+version = "0.4.3"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
 git-tree-sha1 = "9b02998aba7bf074d14de89f9d37ca24a1a0b046"
 uuid = "78b55507-aeef-58d4-861c-77aaff3498b1"
 version = "0.21.0+0"
+
+[[deps.Ghostscript_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "78e2c69783c9753a91cdae88a8d432be85a2ab5e"
+uuid = "61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+version = "9.55.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE_jll", "Pkg", "Zlib_jll"]
@@ -1815,16 +2152,22 @@ git-tree-sha1 = "344bf40dcab1073aca04aa0df4fb092f920e4011"
 uuid = "3b182d85-2403-5c21-9c21-1e1f0cc25472"
 version = "1.3.14+0"
 
+[[deps.Graphs]]
+deps = ["ArnoldiMethod", "Compat", "DataStructures", "Distributed", "Inflate", "LinearAlgebra", "Random", "SharedArrays", "SimpleTraits", "SparseArrays", "Statistics"]
+git-tree-sha1 = "db5c7e27c0d46fd824d470a3c32a4fc6c935fa96"
+uuid = "86223c79-3864-5bf0-83f7-82e725a168b6"
+version = "1.7.1"
+
 [[deps.Grisu]]
 git-tree-sha1 = "53bb909d1151e57e2484c3d1b53e19552b887fb2"
 uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
 [[deps.HTTP]]
-deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
-git-tree-sha1 = "0fa77022fe4b511826b39c894c90daf5fce3334a"
+deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "f0956f8d42a92816d2bf062f8a6a6a0ad7f9b937"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "0.9.17"
+version = "1.2.1"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -1850,17 +2193,41 @@ git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.2"
 
+[[deps.ImageAxes]]
+deps = ["AxisArrays", "ImageBase", "ImageCore", "Reexport", "SimpleTraits"]
+git-tree-sha1 = "c54b581a83008dc7f292e205f4c409ab5caa0f04"
+uuid = "2803e5a7-5153-5ecf-9a86-9b4c37f5f5ac"
+version = "0.6.10"
+
 [[deps.ImageBase]]
 deps = ["ImageCore", "Reexport"]
 git-tree-sha1 = "b51bb8cae22c66d0f6357e3bcb6363145ef20835"
 uuid = "c817782e-172a-44cc-b673-b171935fbb9e"
 version = "0.1.5"
 
+[[deps.ImageContrastAdjustment]]
+deps = ["ImageCore", "ImageTransformations", "Parameters"]
+git-tree-sha1 = "0d75cafa80cf22026cea21a8e6cf965295003edc"
+uuid = "f332f351-ec65-5f6a-b3d1-319c6670881a"
+version = "0.3.10"
+
 [[deps.ImageCore]]
 deps = ["AbstractFFTs", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Graphics", "MappedArrays", "MosaicViews", "OffsetArrays", "PaddedViews", "Reexport"]
-git-tree-sha1 = "9a5c62f231e5bba35695a20988fc7cd6de7eeb5a"
+git-tree-sha1 = "acf614720ef026d38400b3817614c45882d75500"
 uuid = "a09fc81d-aa75-5fe9-8630-4744c3626534"
-version = "0.9.3"
+version = "0.9.4"
+
+[[deps.ImageDistances]]
+deps = ["Distances", "ImageCore", "ImageMorphology", "LinearAlgebra", "Statistics"]
+git-tree-sha1 = "b1798a4a6b9aafb530f8f0c4a7b2eb5501e2f2a3"
+uuid = "51556ac3-7006-55f5-8cb3-34580c88182d"
+version = "0.2.16"
+
+[[deps.ImageFiltering]]
+deps = ["CatIndices", "ComputationalResources", "DataStructures", "FFTViews", "FFTW", "ImageBase", "ImageCore", "LinearAlgebra", "OffsetArrays", "Reexport", "SparseArrays", "StaticArrays", "Statistics", "TiledIteration"]
+git-tree-sha1 = "15bd05c1c0d5dbb32a9a3d7e0ad2d50dd6167189"
+uuid = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
+version = "0.7.1"
 
 [[deps.ImageIO]]
 deps = ["FileIO", "IndirectArrays", "JpegTurbo", "LazyModules", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
@@ -1868,11 +2235,59 @@ git-tree-sha1 = "d9a03ffc2f6650bd4c831b285637929d99a4efb5"
 uuid = "82e4d734-157c-48bb-816b-45c225c6df19"
 version = "0.6.5"
 
+[[deps.ImageMagick]]
+deps = ["FileIO", "ImageCore", "ImageMagick_jll", "InteractiveUtils", "Libdl", "Pkg", "Random"]
+git-tree-sha1 = "5bc1cb62e0c5f1005868358db0692c994c3a13c6"
+uuid = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
+version = "1.2.1"
+
+[[deps.ImageMagick_jll]]
+deps = ["Artifacts", "Ghostscript_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "f025b79883f361fa1bd80ad132773161d231fd9f"
+uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+version = "6.9.12+2"
+
+[[deps.ImageMetadata]]
+deps = ["AxisArrays", "ImageAxes", "ImageBase", "ImageCore"]
+git-tree-sha1 = "36cbaebed194b292590cba2593da27b34763804a"
+uuid = "bc367c6b-8a6b-528e-b4bd-a4b897500b49"
+version = "0.9.8"
+
+[[deps.ImageMorphology]]
+deps = ["ImageCore", "LinearAlgebra", "Requires", "TiledIteration"]
+git-tree-sha1 = "e7c68ab3df4a75511ba33fc5d8d9098007b579a8"
+uuid = "787d08f9-d448-5407-9aad-5290dd7ab264"
+version = "0.3.2"
+
+[[deps.ImageQualityIndexes]]
+deps = ["ImageContrastAdjustment", "ImageCore", "ImageDistances", "ImageFiltering", "LazyModules", "OffsetArrays", "Statistics"]
+git-tree-sha1 = "0c703732335a75e683aec7fdfc6d5d1ebd7c596f"
+uuid = "2996bd0c-7a13-11e9-2da2-2f5ce47296a9"
+version = "0.3.3"
+
+[[deps.ImageSegmentation]]
+deps = ["Clustering", "DataStructures", "Distances", "Graphs", "ImageCore", "ImageFiltering", "ImageMorphology", "LinearAlgebra", "MetaGraphs", "RegionTrees", "SimpleWeightedGraphs", "StaticArrays", "Statistics"]
+git-tree-sha1 = "36832067ea220818d105d718527d6ed02385bf22"
+uuid = "80713f31-8817-5129-9cf8-209ff8fb23e1"
+version = "1.7.0"
+
 [[deps.ImageShow]]
 deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
 git-tree-sha1 = "b563cf9ae75a635592fc73d3eb78b86220e55bd8"
 uuid = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
 version = "0.3.6"
+
+[[deps.ImageTransformations]]
+deps = ["AxisAlgorithms", "ColorVectorSpace", "CoordinateTransformations", "ImageBase", "ImageCore", "Interpolations", "OffsetArrays", "Rotations", "StaticArrays"]
+git-tree-sha1 = "8717482f4a2108c9358e5c3ca903d3a6113badc9"
+uuid = "02fcd773-0e25-5acc-982a-7f6622650795"
+version = "0.9.5"
+
+[[deps.Images]]
+deps = ["Base64", "FileIO", "Graphics", "ImageAxes", "ImageBase", "ImageContrastAdjustment", "ImageCore", "ImageDistances", "ImageFiltering", "ImageIO", "ImageMagick", "ImageMetadata", "ImageMorphology", "ImageQualityIndexes", "ImageSegmentation", "ImageShow", "ImageTransformations", "IndirectArrays", "IntegralArrays", "Random", "Reexport", "SparseArrays", "StaticArrays", "Statistics", "StatsBase", "TiledIteration"]
+git-tree-sha1 = "03d1301b7ec885b266c0f816f338368c6c0b81bd"
+uuid = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+version = "0.25.2"
 
 [[deps.Imath_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1895,15 +2310,44 @@ git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
 version = "0.5.1"
 
+[[deps.IntegralArrays]]
+deps = ["ColorTypes", "FixedPointNumbers", "IntervalSets"]
+git-tree-sha1 = "be8e690c3973443bec584db3346ddc904d4884eb"
+uuid = "1d092043-8f09-5a30-832f-7509e371ab51"
+version = "0.1.5"
+
+[[deps.IntelOpenMP_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "d979e54b71da82f3a65b62553da4fc3d18c9004c"
+uuid = "1d5cc7b8-4909-519e-a0f8-d0f5ad9712d0"
+version = "2018.0.3+2"
+
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[[deps.Interpolations]]
+deps = ["Adapt", "AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
+git-tree-sha1 = "23e651bbb8d00e9971015d0dd306b780edbdb6b9"
+uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
+version = "0.14.3"
+
+[[deps.IntervalSets]]
+deps = ["Dates", "Random", "Statistics"]
+git-tree-sha1 = "57af5939800bce15980bddd2426912c4f83012d8"
+uuid = "8197267c-284f-5f27-9208-e0e47529a953"
+version = "0.7.1"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
 git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
 version = "0.1.7"
+
+[[deps.InvertedIndices]]
+git-tree-sha1 = "bee5f1ef5bf65df56bdd2e40447590b272a5471f"
+uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
+version = "1.1.0"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
@@ -1919,6 +2363,12 @@ version = "1.4.0"
 git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
 uuid = "82899510-4779-5014-852e-03e436cf321d"
 version = "1.0.0"
+
+[[deps.JLD2]]
+deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "Pkg", "Printf", "Reexport", "TranscodingStreams", "UUIDs"]
+git-tree-sha1 = "81b9477b49402b47fbe7f7ae0b252077f53e4a08"
+uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+version = "0.4.22"
 
 [[deps.JLLWrappers]]
 deps = ["Preferences"]
@@ -1969,9 +2419,13 @@ version = "1.3.0"
 
 [[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
-git-tree-sha1 = "46a39b9c58749eefb5f2dc1178cb8fab5332b1ab"
+git-tree-sha1 = "1a43be956d433b5d0321197150c2f94e16c0aaa0"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.15"
+version = "0.15.16"
+
+[[deps.LazyArtifacts]]
+deps = ["Artifacts", "Pkg"]
+uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 
 [[deps.LazyModules]]
 git-tree-sha1 = "a560dd966b386ac9ae60bdd3a3d3a326062d3c3e"
@@ -1986,7 +2440,7 @@ version = "0.6.3"
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
-version = "7.81.0+0"
+version = "7.84.0+0"
 
 [[deps.LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
@@ -2054,12 +2508,24 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "09e4b894ce6a976c354a69041a04748180d43637"
+git-tree-sha1 = "361c2b088575b07946508f135ac556751240091c"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.15"
+version = "0.3.17"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+
+[[deps.LoggingExtras]]
+deps = ["Dates", "Logging"]
+git-tree-sha1 = "5d4d2d9904227b8bd66386c1138cf4d5ffa826bf"
+uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+version = "0.4.9"
+
+[[deps.MKL_jll]]
+deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
+git-tree-sha1 = "e595b205efd49508358f7dc670a940c790204629"
+uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
+version = "2022.0.0+0"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -2077,10 +2543,10 @@ deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [[deps.MbedTLS]]
-deps = ["Dates", "MbedTLS_jll", "Random", "Sockets"]
-git-tree-sha1 = "1c38e51c3d08ef2278062ebceade0e46cefc96fe"
+deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
+git-tree-sha1 = "d9ab10da9de748859a7780338e1d6566993d1f25"
 uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
-version = "1.0.3"
+version = "1.1.3"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -2091,6 +2557,12 @@ version = "2.28.0+0"
 git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
 version = "0.3.1"
+
+[[deps.MetaGraphs]]
+deps = ["Graphs", "JLD2", "Random"]
+git-tree-sha1 = "2af69ff3c024d13bde52b34a2a7d6887d4e7b438"
+uuid = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
+version = "0.7.1"
 
 [[deps.Missings]]
 deps = ["DataAPI"]
@@ -2112,9 +2584,16 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "737a5957f387b17e74d4ad2f440eb330b39a62c5"
+deps = ["OpenLibm_jll"]
+git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "1.0.0"
+version = "1.0.1"
+
+[[deps.NearestNeighbors]]
+deps = ["Distances", "StaticArrays"]
+git-tree-sha1 = "0e353ed734b1747fc20cd4cba0edd9ac027eff6a"
+uuid = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
+version = "0.4.11"
 
 [[deps.Netpbm]]
 deps = ["FileIO", "ImageCore"]
@@ -2128,9 +2607,9 @@ version = "1.2.0"
 
 [[deps.OffsetArrays]]
 deps = ["Adapt"]
-git-tree-sha1 = "b4975062de00106132d0b01b5962c09f7db7d880"
+git-tree-sha1 = "1ea784113a6aa054c5ebd95945fa5e52c2f378e7"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.12.5"
+version = "1.12.7"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2162,9 +2641,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "ab05aa4cc89736e95915b01e7279e61b1bfe33b8"
+git-tree-sha1 = "e60321e3f2616584ff98f0a4f18d98ae6f89bbb3"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.14+0"
+version = "1.1.17+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -2201,11 +2680,17 @@ git-tree-sha1 = "03a7a85b76381a3d04c7a1656039197e70eda03d"
 uuid = "5432bcbf-9aad-5242-b902-cca2824c8663"
 version = "0.5.11"
 
+[[deps.Parameters]]
+deps = ["OrderedCollections", "UnPack"]
+git-tree-sha1 = "34c0e9ad262e5f7fc75b10a9952ca7692cfc5fbe"
+uuid = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+version = "0.12.3"
+
 [[deps.Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "1285416549ccfcdf0c50d4997a94331e88d68413"
+git-tree-sha1 = "0044b23da09b5608b4ecacb4e5e6c6332f833a7e"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.3.1"
+version = "2.3.2"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2225,22 +2710,22 @@ uuid = "eebad327-c553-4316-9ea0-9fa01ccd7688"
 version = "0.1.1"
 
 [[deps.PlotThemes]]
-deps = ["PlotUtils", "Requires", "Statistics"]
-git-tree-sha1 = "a3a964ce9dc7898193536002a6dd892b1b5a6f1d"
+deps = ["PlotUtils", "Statistics"]
+git-tree-sha1 = "8162b2f8547bc23876edd0c5181b27702ae58dce"
 uuid = "ccf2f8ad-2431-5c83-bf29-c5338b663b6a"
-version = "2.0.1"
+version = "3.0.0"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "bb16469fd5224100e422f0b027d26c5a25de1200"
+git-tree-sha1 = "9888e59493658e476d3073f1ce24348bdc086660"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.2.0"
+version = "1.3.0"
 
 [[deps.Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "d16070abde61120e01b4f30f6f398496582301d6"
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
+git-tree-sha1 = "79830c17fe30f234931767238c584b3a75b3329d"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.25.12"
+version = "1.31.6"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
@@ -2248,11 +2733,23 @@ git-tree-sha1 = "8d1f54886b9037091edf146b517989fc4a09efec"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 version = "0.7.39"
 
+[[deps.PooledArrays]]
+deps = ["DataAPI", "Future"]
+git-tree-sha1 = "a6062fe4063cdafe78f4a0a81cfffb89721b30e7"
+uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
+version = "1.4.2"
+
 [[deps.Preferences]]
 deps = ["TOML"]
 git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
 version = "1.3.0"
+
+[[deps.PrettyTables]]
+deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
+git-tree-sha1 = "dfb54c4e414caa595a1f2ed759b160f5a3ddcba5"
+uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+version = "1.3.1"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -2282,6 +2779,12 @@ git-tree-sha1 = "16de3b880ffdfbc8fc6707383c00a2e076bb0221"
 uuid = "dca85d43-d64c-5e67-8c65-017450d5d020"
 version = "0.7.4"
 
+[[deps.Quaternions]]
+deps = ["DualNumbers", "LinearAlgebra", "Random"]
+git-tree-sha1 = "b327e4db3f2202a4efafe7569fcbe409106a1f75"
+uuid = "94ee1d12-ae83-5a48-8b1c-48b8ff168ae0"
+version = "0.5.6"
+
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
@@ -2290,6 +2793,17 @@ uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 deps = ["SHA", "Serialization"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
+[[deps.RangeArrays]]
+git-tree-sha1 = "b9039e93773ddcfc828f12aadf7115b4b4d225f5"
+uuid = "b3c3ace0-ae52-54e7-9d0b-2c1406fd6b9d"
+version = "0.3.2"
+
+[[deps.Ratios]]
+deps = ["Requires"]
+git-tree-sha1 = "dc84268fe0e3335a62e315a3a7cf2afa7178a734"
+uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
+version = "0.4.3"
+
 [[deps.RecipesBase]]
 git-tree-sha1 = "6bf3f380ff52ce0832ddd3a2a7b9538ed1bcca7d"
 uuid = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
@@ -2297,20 +2811,26 @@ version = "1.2.1"
 
 [[deps.RecipesPipeline]]
 deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase"]
-git-tree-sha1 = "dc1e451e15d90347a7decc4221842a022b011714"
+git-tree-sha1 = "e7eac76a958f8664f2718508435d058168c7953d"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.5.2"
+version = "0.6.3"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
 
+[[deps.RegionTrees]]
+deps = ["IterTools", "LinearAlgebra", "StaticArrays"]
+git-tree-sha1 = "4618ed0da7a251c7f92e869ae1a19c74a7d2a7f9"
+uuid = "dee08c22-ab7f-5625-9660-a9af2021b33f"
+version = "0.3.2"
+
 [[deps.RelocatableFolders]]
 deps = ["SHA", "Scratch"]
-git-tree-sha1 = "cdbd3b1338c72ce29d9584fdbe9e9b70eeb5adca"
+git-tree-sha1 = "22c5201127d7b243b9ee1de3b43c408879dff60f"
 uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
-version = "0.1.3"
+version = "0.3.0"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
@@ -2318,24 +2838,51 @@ git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
 
+[[deps.Rotations]]
+deps = ["LinearAlgebra", "Quaternions", "Random", "StaticArrays", "Statistics"]
+git-tree-sha1 = "3177100077c68060d63dd71aec209373c3ec339b"
+uuid = "6038ab10-8711-5258-84ad-4b1120ba62dc"
+version = "1.3.1"
+
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
-git-tree-sha1 = "0b4b7f1393cff97c33891da2a0bf69c6ed241fda"
+git-tree-sha1 = "f94f779c94e58bf9ea243e77a37e16d9de9126bd"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+
+[[deps.SharedArrays]]
+deps = ["Distributed", "Mmap", "Random", "Serialization"]
+uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 
 [[deps.Showoff]]
 deps = ["Dates", "Grisu"]
 git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
+
+[[deps.SimpleBufferStream]]
+git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
+uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
+version = "1.1.0"
+
+[[deps.SimpleTraits]]
+deps = ["InteractiveUtils", "MacroTools"]
+git-tree-sha1 = "5d7e3f4e11935503d3ecaf7186eac40602e7d231"
+uuid = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
+version = "0.9.4"
+
+[[deps.SimpleWeightedGraphs]]
+deps = ["Graphs", "LinearAlgebra", "Markdown", "SparseArrays", "Test"]
+git-tree-sha1 = "a6f404cc44d3d3b28c793ec0eb59af709d827e4e"
+uuid = "47aef6b3-ad0c-573a-a1e2-d07658019622"
+version = "1.2.1"
 
 [[deps.Sixel]]
 deps = ["Dates", "FileIO", "ImageCore", "IndirectArrays", "OffsetArrays", "REPL", "libsixel_jll"]
@@ -2358,9 +2905,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "a9e798cae4867e3a41cae2dd9eb60c047f1212db"
+git-tree-sha1 = "d75bda01f8c31ebb72df80a46c88b25d1c79c56d"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.1.6"
+version = "2.1.7"
 
 [[deps.StackViews]]
 deps = ["OffsetArrays"]
@@ -2369,10 +2916,15 @@ uuid = "cae243ae-269e-4f55-b966-ac2d0dc13c15"
 version = "0.1.1"
 
 [[deps.StaticArrays]]
-deps = ["LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "383a578bdf6e6721f480e749d503ebc8405a0b22"
+deps = ["LinearAlgebra", "Random", "StaticArraysCore", "Statistics"]
+git-tree-sha1 = "23368a3313d12a2326ad0035f0db0c0966f438ef"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.4.6"
+version = "1.5.2"
+
+[[deps.StaticArraysCore]]
+git-tree-sha1 = "66fe9eb253f910fe8cf161953880cfdaef01cdf0"
+uuid = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
+version = "1.0.1"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -2380,21 +2932,27 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[deps.StatsAPI]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "2c11d7290036fe7aac9038ff312d3b3a2a5bf89e"
+git-tree-sha1 = "f9af7f195fb13589dd2e2d57fdb401717d2eb1f6"
 uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.4.0"
+version = "1.5.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
+git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.16"
+version = "0.33.21"
+
+[[deps.StringDistances]]
+deps = ["Distances", "StatsAPI"]
+git-tree-sha1 = "ceeef74797d961aee825aabf71446d6aba898acb"
+uuid = "88034a9c-02f8-509d-84a9-84ec65e18404"
+version = "0.11.2"
 
 [[deps.StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
-git-tree-sha1 = "9abba8f8fb8458e9adf07c8a2377a070674a24f1"
+git-tree-sha1 = "ec47fb6069c57f1cee2f67541bf8f23415146de7"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
-version = "0.6.8"
+version = "0.6.11"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -2428,11 +2986,29 @@ version = "0.1.1"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+[[deps.TestImages]]
+deps = ["AxisArrays", "ColorTypes", "FileIO", "ImageIO", "ImageMagick", "OffsetArrays", "Pkg", "StringDistances"]
+git-tree-sha1 = "3cbfd92ae1688129914450ff962acfc9ced42520"
+uuid = "5e47fb64-e119-507b-a336-dd2b206d9990"
+version = "1.7.0"
+
 [[deps.TiffImages]]
 deps = ["ColorTypes", "DataStructures", "DocStringExtensions", "FileIO", "FixedPointNumbers", "IndirectArrays", "Inflate", "OffsetArrays", "PkgVersion", "ProgressMeter", "UUIDs"]
 git-tree-sha1 = "f90022b44b7bf97952756a6b6737d1a0024a3233"
 uuid = "731e570b-9d59-4bfa-96dc-6df516fadf69"
 version = "0.5.5"
+
+[[deps.TiledIteration]]
+deps = ["OffsetArrays"]
+git-tree-sha1 = "5683455224ba92ef59db72d10690690f4a8dc297"
+uuid = "06e1c1a7-607b-532d-9fad-de7d9aa2abac"
+version = "0.3.1"
+
+[[deps.TranscodingStreams]]
+deps = ["Random", "Test"]
+git-tree-sha1 = "216b95ea110b5972db65aa90f88d8d89dcb8851c"
+uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
+version = "0.9.6"
 
 [[deps.Tricks]]
 git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
@@ -2440,13 +3016,18 @@ uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
 version = "0.1.6"
 
 [[deps.URIs]]
-git-tree-sha1 = "97bbe755a53fe859669cd907f2d96aee8d2c1355"
+git-tree-sha1 = "e59ecc5a41b000fa94423a578d29290c7266fc10"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.3.0"
+version = "1.4.0"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
+[[deps.UnPack]]
+git-tree-sha1 = "387c1f73762231e86e0c9c5443ce3b4a0a9a0c2b"
+uuid = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+version = "1.0.2"
 
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
@@ -2473,6 +3054,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
 version = "1.25.0+0"
+
+[[deps.WoodburyMatrices]]
+deps = ["LinearAlgebra", "SparseArrays"]
+git-tree-sha1 = "de67fa59e33ad156a590055375a30b23c40299d3"
+uuid = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
+version = "0.5.5"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
@@ -2615,13 +3202,19 @@ version = "1.4.0+3"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+1"
+version = "1.2.12+3"
 
 [[deps.Zstd_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
 version = "1.5.2+0"
+
+[[deps.libaom_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "3a2ea60308f0996d26f1e5354e10c24e9ef905d4"
+uuid = "a4ae2306-e953-59d6-aa16-d00cac43593b"
+version = "3.4.0+0"
 
 [[deps.libass_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
@@ -2632,7 +3225,7 @@ version = "0.15.1+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.0+0"
+version = "5.1.1+0"
 
 [[deps.libfdk_aac_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2661,12 +3254,12 @@ version = "1.3.7+1"
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
-version = "1.41.0+1"
+version = "1.48.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
-version = "16.2.1+1"
+version = "17.4.0+0"
 
 [[deps.x264_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2682,20 +3275,27 @@ version = "3.5.0+0"
 
 [[deps.xkbcommon_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
-git-tree-sha1 = "ece2350174195bb31de1a63bea3a41ae1aa593b6"
+git-tree-sha1 = "9ebfc140cc56e8c2156a15ceac2f0302e327ac0a"
 uuid = "d8fb68d0-12a3-5cfd-a85a-d49703b185fd"
-version = "0.9.1+5"
+version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
 # ╠═5504aec1-ecb0-41af-ba19-aaa583870875
-# ╟─cb5b4180-7e05-11ec-3b82-cd8631fc57ba
-# ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
+# ╠═337dc12b-49d1-4128-8459-33b04dd8ccce
+# ╠═cb5b4180-7e05-11ec-3b82-cd8631fc57ba
+# ╠═98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╠═b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 # ╟─a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-# ╟─0c2bf16a-92b9-4021-a5f0-ac2334fb986a
-# ╟─3de20f99-af1c-413a-b8f4-dc2d259ece3a
+# ╟─4cdc2af4-872d-4672-87bb-330547d78bca
+# ╟─c393ee0a-5e50-4c00-ad52-ef5851f7d531
+# ╟─044f12d3-35bf-4df0-9ef2-dde49db982f7
+# ╟─aa063ff2-1644-431e-b322-7135b4e9703f
+# ╟─125b5322-fd07-4e4b-bb81-6b7c41e4c60e
+# ╟─54a9e4ab-f823-4e03-8083-f84ec2b8adba
+# ╟─c2a59e8e-bbe2-44c2-8922-6ac7ad4b942b
+# ╟─16c5d3e5-edbe-47cd-a5ab-b09ba4d27104
 # ╟─8d0ad71b-34ca-407c-bd09-3fa191122c70
 # ╟─2fdeb1e8-5811-4dcb-881a-5e857889f6ca
 # ╟─9648cc3d-3e45-4dee-b245-1865b31f3c4c
@@ -2704,28 +3304,21 @@ version = "0.9.1+5"
 # ╠═9205b10a-fcfb-4fa9-88d4-e7d4a8b3e5c3
 # ╠═9a3f3a66-40f1-4eb3-ac3e-5c243a60642d
 # ╠═905e16f4-d98b-461c-8c91-c484f8529eb7
-# ╟─ae8bd2b8-f1a2-4ec4-a688-36be1d74b22f
-# ╟─a01b7bc9-ed73-42a1-af62-40cad8a403a8
+# ╟─663d922d-7db3-4987-b68d-04e3b04dc436
+# ╟─96f83cf6-2627-467e-95e7-f0f6a59a56c1
+# ╟─2dbbf1c4-991f-49f6-a72a-d08f3dcdf62f
+# ╟─6e1ce086-658f-42bf-8dac-e7979a45247e
+# ╟─c2d02cb9-970d-4474-9f82-25a6a941ebfe
+# ╟─2adaf391-6411-4151-b386-5c5c9fa8f905
+# ╟─ac643e46-3174-4ad3-b838-19b8769c86ae
+# ╟─c42dda51-2081-4e14-914e-490c21f736e6
+# ╟─dcdb8afd-56c9-4a1d-84b1-536db820fe7a
+# ╟─3c8304eb-af5c-4bd9-a9e6-3af7196698a8
+# ╟─290c1af6-fa87-4a56-8322-b299e2ea4cd4
+# ╟─fff0fef2-b182-4ff0-8191-022971fd4be3
+# ╟─dc6984d0-ed8a-4f77-a8df-7c9ebc20dc00
+# ╟─76913eb1-31d1-459d-a13a-7dc1ae183b59
 # ╟─b0dca955-16c4-4cd3-8090-02d577624ab6
-# ╟─d5551789-6389-4a4e-be19-2399ece4236b
-# ╟─d553f6c0-364d-4b8c-ba9f-dec14261be06
-# ╟─d81b7910-a720-4233-8d7d-0c34a0369dfb
-# ╟─520539c0-479e-4168-8667-668ef2077a18
-# ╟─fb2795d8-63e4-4d30-bb77-b1e30d59b185
-# ╟─5f76850e-e45e-4765-b91b-e90dcbb737cb
-# ╟─59abb2ae-9614-4ffe-bb2c-c2646629e509
-# ╟─6d78aefc-b2bd-4a50-a1a3-27346d67637b
-# ╟─77cd7684-b0ee-4cb7-a0f7-be9a4cbb3b58
-# ╟─c0e65fa8-2bfc-4d72-9f0f-c1c4e5418370
-# ╟─2bc2ed20-197a-46f5-ac39-ec2a9e3557e8
-# ╠═3c0a921b-c8cc-4e8b-b0a6-3eb5d339fa63
-# ╟─3a417947-eb23-4247-9e79-af925733aabf
-# ╟─aa13c9ca-4b07-4a64-a073-65ea7e0e6c99
-# ╟─576fb1a5-9c1e-46dd-82b9-33563b5cda26
-# ╟─8329c9df-888b-4210-8a1d-c3a206be0a45
-# ╠═af88ebfb-e6bf-4fa0-85c7-79fe09705509
-# ╟─0d1fd69e-9290-43dd-b79d-e78a8aab65b0
-# ╟─7a1eb229-da44-40e0-8365-640a5ce88569
 # ╟─c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
 # ╠═ae6fbc53-26d9-4980-b755-9d2278badfc3
 # ╠═a9873638-7338-414e-8f30-054ba220114d
@@ -2741,7 +3334,7 @@ version = "0.9.1+5"
 # ╠═c07dff77-c850-4f74-a5b6-18a1c7ecb176
 # ╠═f70af9cd-6a95-4d1e-af12-2dd8d52399dc
 # ╠═b198c118-34eb-478e-a2cd-c8e6c19aec93
-# ╟─19e9c605-fb39-450a-a4a2-edf617c72614
+# ╠═19e9c605-fb39-450a-a4a2-edf617c72614
 # ╠═060cb524-7c1d-422d-82ea-7263d829a0cb
 # ╠═856870ec-570a-4fe9-a602-128d8bbe2db0
 # ╠═c7c0a6ba-060b-48c5-82cb-af8845fab924
@@ -2751,8 +3344,6 @@ version = "0.9.1+5"
 # ╠═e10b126b-17ee-4f93-aaeb-a5f1a1b34cb1
 # ╠═4f0deacb-cd05-4786-aec1-4f6bc635b787
 # ╠═b49cf4b8-f690-4768-b27d-0104b0619317
-# ╟─78f0d566-903a-4018-b3e4-b1748e60c10c
-# ╠═a5d67212-6356-4caf-966e-14b0a851b00e
 # ╟─d0f9a0c9-f58d-48fe-81b0-539c14134969
 # ╠═1d01ecdd-6bed-46e7-acbe-684d9806fd40
 # ╠═421dea52-181f-453b-818d-2407f66a1f0b
@@ -2780,11 +3371,13 @@ version = "0.9.1+5"
 # ╠═4fd22565-7443-4f10-baf3-a2881651a2be
 # ╠═556f68f3-481b-4660-b5bd-f1a643676ee2
 # ╠═05c341eb-3db3-42bd-ae08-05f8aa370cb7
+# ╟─d17f883e-0e3f-419d-a45d-0fdde93d280b
 # ╟─2cf6c3c0-0406-49d8-b53b-56983d290188
 # ╟─55fdee4a-3860-4a88-9790-bcfba7ee35fb
 # ╟─28d718bd-610a-4257-91dc-7148e3fe45df
 # ╟─2d3abfe1-8cda-49f8-b5b1-b8b602626d92
-# ╠═b86955b4-9a9f-47c7-bec4-9069fbbd4061
+# ╟─b5f2b6bf-899b-40f4-9d9f-20485f489870
+# ╟─0f41e163-f847-4f57-9968-9a06f47aacd6
 # ╟─346bba70-2209-4d07-8c02-63a74e8c622d
 # ╠═5ed395e8-20c8-4e34-8a15-7d51b1d9949a
 # ╟─e022e5e5-186b-48f8-bd7d-4be9dc6610ab
@@ -2794,16 +3387,19 @@ version = "0.9.1+5"
 # ╠═28ec3f99-0741-478d-b5e0-94b0baefd56c
 # ╠═444147d7-b570-4685-b1b9-cbab58f0bd7b
 # ╠═4e2ca663-4fa4-4d33-96b4-bc495c911871
+# ╟─55f8c2bb-de75-46b6-9bbb-ef8bf7248af9
 # ╟─e36cbcee-5092-4d91-ad44-be63b695ce60
 # ╠═612e0950-320c-4bbc-ae1a-db85307696fc
 # ╠═7e0ce959-5a70-4311-9031-540bf2414dd6
 # ╟─e3d39b29-c0ef-45b1-96a5-e26a1e8763c5
+# ╟─715b31c5-6c13-428a-8595-f8f661ba87ac
 # ╟─1668cb38-6078-4a7f-8ade-96f6d42280b6
 # ╠═d9636375-def7-4693-a2c3-91879d304b81
 # ╠═9023f8f4-2084-4ef6-b9ca-a94e967320e5
 # ╠═01c9e212-8cbc-4fb5-83d3-62dd0bfe48f7
 # ╠═4c42ba85-442d-4ca8-9731-1bf71563e86e
 # ╠═d9a74a15-8867-4b62-a6c3-943f6b6b6179
+# ╟─b6005ec2-c856-4cfb-9de1-fd0d65b957a1
 # ╟─75e91ef3-8893-48fc-a297-e54aa6b6c671
 # ╟─1de74de8-36c5-467f-a749-4cefd0b2acdc
 # ╟─877ef381-df6c-4a5b-bf99-88f8afba0995
@@ -2812,16 +3408,18 @@ version = "0.9.1+5"
 # ╠═b5449b8e-3000-48dc-a788-1d357569a5a9
 # ╟─7ad20af1-a7d6-4092-b982-fad27d6e51ea
 # ╟─ba3404b3-956e-4ca8-93aa-070897bdaa9a
+# ╟─55bbc51f-86ef-41ab-824c-0d5fe4241181
 # ╟─2633b604-7476-48d0-8cdc-05645ea0ed57
-# ╠═41ac05e6-b5a6-4546-9a21-e6694571f672
 # ╟─3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
 # ╟─d50ef757-c687-4695-a4f3-2740a646ccd8
 # ╟─b802bd1c-c590-499c-990f-596159fea135
 # ╠═0872e2b8-386a-40a4-b2cb-48f564c921d8
+# ╟─23a409b4-4299-4c12-a55a-adc438def7ea
 # ╟─a3611641-256e-49e8-9e2e-c78b9efc21ce
 # ╠═541a573c-2e87-49dc-97e7-778a50364e52
 # ╠═dd6f459f-898f-4370-9cc8-35e410a76cc7
 # ╠═f6e62718-42b7-4e0b-b9ab-60fbf3bfa4a6
+# ╟─abf983de-2f8b-42d8-b3ef-54d0eb5f0cde
 # ╟─7516b6a6-1f70-4bab-a320-ae16b028e6be
 # ╠═d1eec44f-5373-4a5c-8013-46434a6679b2
 # ╠═aacf8539-f733-4c1b-a7e6-46c6c81cf256
@@ -2833,19 +3431,24 @@ version = "0.9.1+5"
 # ╟─e19c2e7b-7587-4584-9093-3e8c8563cdc9
 # ╠═20e0521b-1943-4eef-85b2-e46d6fc1d9c0
 # ╟─a10cae47-2b16-421f-9f1c-cdd8a6eda5ad
-# ╟─1798453f-54cc-45e8-b65d-9e5745dbfbd6
-# ╟─78e59b84-97e1-4042-af3a-065f992e1176
+# ╠═1798453f-54cc-45e8-b65d-9e5745dbfbd6
+# ╠═78e59b84-97e1-4042-af3a-065f992e1176
+# ╟─2780a6fa-fc19-40be-93d1-8b092045a071
 # ╟─9a987b58-47e9-4191-8fb7-9225d27d2628
 # ╟─54cbf7b1-95d0-4027-b65f-a5ad5808e4b4
+# ╟─81d40d17-e770-408a-8987-0ab17f40293d
+# ╠═f2c5a261-af9f-4f4a-b854-1dc36bd7ea44
 # ╟─b6036a94-7e1f-40f4-a905-b9081fd25c8a
 # ╠═66fe1bad-ae41-4e10-82ce-64b36d446049
 # ╠═7956a61e-f1c1-44b6-9583-1df552051af6
 # ╠═5a4eb37f-82db-40f3-be2d-0412e473ccb1
 # ╠═b9d3cf7e-942b-4cb3-bda2-c932dcc314a4
+# ╟─725d0c60-a3fa-49ee-9c14-4b950f8b7d53
 # ╟─7c35704a-c6dc-429a-b28f-105764177636
 # ╟─b16906ed-b4ab-446e-a0e8-d79418ef56ca
 # ╟─e4a6e169-925f-490b-b03a-21f277ff0fa5
 # ╟─b0d2fd84-3307-4a6d-af91-32cfdaa375f0
+# ╟─b0a3be42-6aec-4c7d-8798-d62a23aeb01a
 # ╟─ffe0fb93-50f4-4a1d-b73b-e24fb729d043
 # ╠═00653f98-5a3c-4baa-a0b1-405905dd1e69
 # ╠═dc5833d4-b9e6-4ac0-999e-5c86428f6b8a
@@ -2853,8 +3456,16 @@ version = "0.9.1+5"
 # ╟─d29b41b0-f453-4c61-95ac-42695a07187a
 # ╠═3fc7529c-e101-480b-87d6-85400bbebd03
 # ╠═cc0f82bc-096c-444e-a078-37e91d019234
+# ╟─b2d01760-61a1-41b4-99dd-c719c1c6f679
+# ╟─77868858-900b-43a5-8172-49832c339534
 # ╟─3b210f36-33fb-4405-a9cf-9403d65cdce9
+# ╟─c6ca304b-81ab-48c6-93d7-738336e5adbe
+# ╟─66eff877-5530-4da7-8062-68b70d545e37
+# ╠═cab15114-3851-442c-8fb4-d03928dcb082
+# ╟─c2069db6-5737-4fb9-8d85-564cffb48357
+# ╟─c48af5a0-9595-4af1-aaa0-21c38720654b
 # ╟─db20720c-98d2-44b1-a9a3-8acc04ca55b9
+# ╟─62748722-ba68-4bb9-9d87-8d08158e56dd
 # ╟─4778254b-f59f-4080-976b-44c6a8f68adc
 # ╟─52a2d40f-069f-4e4b-9e3d-74d8f5c93632
 # ╟─aed82abb-a91e-4ddc-91d3-9da1f5730459
@@ -2865,15 +3476,21 @@ version = "0.9.1+5"
 # ╠═7a2e4158-cbff-429a-aaea-88a415f8ec3c
 # ╟─f2fbd554-26fa-4f87-819f-0c7b14891764
 # ╟─ec0f0925-e565-47fe-814a-cb6bf8caaee3
+# ╟─bc7d0dc1-251d-4d0b-9813-f4a0fd311a18
 # ╠═2b5cd8bb-7df2-4e59-8956-26b1974d9f0f
 # ╠═6a056c28-bb34-42dc-92c2-c100154685a4
 # ╠═2bc35e57-a5d4-484e-9dd9-ccaa7566eaf7
 # ╠═330a0efe-c14e-4153-bd95-8b1fd9c27e66
 # ╠═88592d8b-6115-4258-bd3f-33e01101e8dc
+# ╟─18a1ec88-f203-46df-9d1d-50a6f10d4275
 # ╟─78dfd8bd-ba3e-47c8-878a-b735a0f5d787
 # ╠═4c3f565a-9938-44e6-9105-f4a949774ea0
 # ╠═fdc5a903-61c4-411f-8726-be012cbd8cfc
+# ╠═f95d08df-20e4-42d4-9afb-8872b33ad1e6
+# ╟─897fbfd2-8282-42b3-93d1-f2d2303f621b
 # ╟─424187c3-f6d3-4642-8d37-6266a2d9c597
+# ╠═53e5a89f-304a-436c-bb64-a60d429994d0
+# ╠═fa32b2ed-8c24-4b32-ad1e-41044b797533
 # ╟─3ee12973-b0ad-409c-a451-bb765ad01cff
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
