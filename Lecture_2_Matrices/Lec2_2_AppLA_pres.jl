@@ -26,6 +26,9 @@ begin
 	using LaTeXStrings
 end
 
+# ╔═╡ 6f7bd689-a558-4287-b25a-15ab016e7b41
+using DataFrames
+
 # ╔═╡ 713f95f2-f406-4f3b-8d3c-c3c221f8b2b0
 using Images,TestImages # Images and TestImages packages will be needed
 
@@ -65,58 +68,762 @@ end
 # ╔═╡ b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 html"<button onclick='present()'>present</button>"
 
+# ╔═╡ 0c7b5d17-323f-4bc7-8495-c6507647a703
+md"""# Applied Linear Algebra for Everyone (Fall 2022)
+**M. İrşadi Aksun**\
+**Electrical and Electronics Engineering**\
+**e-mail: iaksun@ku.edu.tr**
+
+\
+
+#### Recommended Materials:
+
+#### 1. ``\;\;`` William Gilbert Strang from MIT, 
+* **Lectures on _Linear Algebra_, all available on YouTube;**
+
+* **book titled _Linear Algebra for Everyone_**
+
+#### 2. ``\;\;`` Stephen P. Boyd from Stanford University, 
+
+* **lectures on _Introduction to Applied Linear Algebra_ on YouTube;**
+
+* **the course materials on the webpage:  https://stanford.edu/class/engr108;** 
+
+* **textbook _Introduction to Applied Linear Algebra - Vectors, Matrices, and Least Squares_ available online.**
+
+#### 3. ``\;\;`` Grant Sanderson from 3Blue1Brown, 
+
+* **Linear Algebra lectures with exeptional visualizations on YouTube** 
+---
+"""
+
 # ╔═╡ 0c2bf16a-92b9-4021-a5f0-ac2334fb986a
-md"""# Lecture - 2: _Matrices_ (Cont'd)
-``M. \;İrşadi \;Aksun, \;\;September \;xx, \;2022`` 
+md"# Lecture - 2: Matrices (Cont'd)
 
-``Electrical \;and \;Electronics \;Engineering``
+### Content 
 
-`` {\bf e-mail}: iaksun@ku.edu.tr``
+> ##### 2.1. Brief review of matrices
+>> ##### 2.1.1. Terminology
+>> ##### 2.1.2. Matrices for linear equations
 
-``{\bf Tel}:\;1539``
+> ##### 2.2. Linear Equations
+>> ##### 2.2.1. Linear & nonlinear equations
+>> ##### 2.2.2. Solution by ellimination
+>> ##### 2.2.3. No solution and many solutions
+>> ##### 2.2.4. Unique solution
 
-# Brief Review of Matrices
-* ``\color{green} \Large Linear \;Equations``
+> ##### 2.3. Matrices in Julia
+>> ##### 2.3.1. Creating matrices
+>> ##### 2.3.2. Indexing
+>> ##### 2.3.3. Slicing and submatrices
+>> ##### 2.2.4. Special matrices
 
+> ##### 2.4. Matrix operations
+>> ##### 2.4.1. Matrix transpose
+>> ##### 2.4.2. Matrix-Scalar multiplication
+>> ##### 2.4.3. Matrix addition/subtraction
+>> ##### 2.4.4. Matrix-vector multiplication
+>> ##### 2.4.5. Matrix-Matrix multiplication
+>> ##### 2.4.6. Determinant
+>> ##### 2.4.7. Inverse
 
-* ``\color{green} \Large Matrices \;in \;General``
+> ##### $\color{red} \rm \bf 2.5. \;A \;Few \;Applications$
+>> ##### $\color{red} \rm \bf 2.5.1. \;Markov \;processes$
+>> ##### $\color{red} \rm \bf 2.5.2. \;Image \;and \;data \;compression$
 
+---
+"
 
-* ``\color{green} \Large Simple \;Matrix \;Operations``
-  
-  + ``\color{green} Addition``
+# ╔═╡ bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+md"""# 2.5. A Few Applications
 
-  + ``\color{green} Scalar \;Multiplication``
+## 2.5.1. Markov Processes 
 
-  + ``\color{green} Matrix \;Vector \;Multiplications``
+### Example 1: Page Rank[^1] 
+##### Birth of Google's PageRank algorithm:
 
-    + ``\color{green} Multiplication \;by \;Rows \;``
+###### Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
 
-    + ``\color{green} Multiplication \;by \;Columns``
+\
 
-  + ``\color{green} Matrix \;Matrix \;Multiplication``
+###### From a theoretical point of view, the PageRank algorithm relies on the simple but fundamental mathematical notion of **_Markov chains_**.
 
+\
 
-* `` \color{red} \Large A \;Few \;Applications \;(Cont'd)``
+###### PageRank is a function that assigns a real number to each page in the Web that the higher the number, the more **important** it is.
+[^1]: _Introduction to Markov chains: 
+	Definitions, properties and PageRank example_, Joseph Rocca, Published in _Towards Data Science_ in Feb 25, 2019.
+"""
 
-  +   ``\color{green} Markov \;Process``
+# ╔═╡ 19cad43b-de3a-4922-a55a-56a192aca919
+begin
+	pgrank = load("PageRank-hi-res.png");
+	pgrank[1:10:size(pgrank)[1],1:10:size(pgrank)[2]]
+end
 
-    + ``\color{green} Brief \; Into \; to \;Eigenvectors \;and \;eigenvalues``
-    
-  + ``\color{red} Image \;and \;Data \;Compression \;\;(Image, \;Data, \;etc.)``
+# ╔═╡ 3b117d55-f043-4deb-a5d3-66078ace53db
+md"""
+---"""
 
-    + ``\color{red} Brief \;Intro \;to \;Factorization \;and \;SVD``
+# ╔═╡ d8713915-71d6-4498-a587-951d35f915c0
+md"""
+### - What is Markov Chain (or Markov Process)
 
-  + ``\color{red} Regression \;\; (Linear \;and \;non-linear) ``
+#### It is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.[1][2][3] Informally, this may be thought of as, "What happens next depends only on the state of affairs now."
+"""
+
+# ╔═╡ c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
+md"""#
+### - Form the Markov matrix
+"""
+
+# ╔═╡ bcc8866b-5f3e-4a0e-a561-a06c80cc974a
+markov_example = load("markov_fig.gif");
+
+# ╔═╡ 5c9353c9-9926-4630-948e-dfb28060a66a
+TwoColumn(
+plot(markov_example[:,:,1], xmirror=true, title="Website with 7 pages", axis = false, ticks = false, aspect_ratio=1.0, size = (350, 400)),
+md"""
+$\Large Markov \;\;Matrix$
+```math
+ {\bf M} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix}  
+```
+where 
+- '$\cdot$' represents zero,
+- each column represents a page,
+- numbers in the columns represent the transition probabilities
+- sum of the probabilities of transioning from a page to all other pages must be equal to 1.
+"""		
+)
+
+# ╔═╡ b929fc46-a0c5-41b5-aa12-f77f136ab3e0
+M = [0.0 0.0 0.0 0.5 1.0 0.0 0.5;
+	0.25 0.0 0.5 0.0 0.0 0.0 0.0
+	0.0 0.5 0.0 0.0 0.0 0.0 0.0
+	0.0 0.5 0.5 0.0 0.0 0.0 0.5
+	0.25 0.0 0.0 0.0 0.0 0.0 0.0
+	0.25 0.0 0.0 0.0 0.0 0.0 0.0
+	0.25 0.0 0.0 0.5 0.0 1.0 0.0] # "Command + /" to toggle between commented and actived cells
+
+# ╔═╡ f51d50a6-3253-4c41-9f1a-445d28582a4a
+ones(7)' * M # Sum of all columns must be 1 as the total probability can not exceed 1
+
+# ╔═╡ 84f64dbf-3cff-413a-88c9-ad89a372a7d2
+md"""
+---"""
+
+# ╔═╡ ef2d3cb6-aa10-4abb-b4ea-e96768056ebb
+md"""#
+### - Define initial state
+
+##### $\bullet \;\;$ Define an inital state: suppose surfer starts at Page-1, 
+##### $\qquad \qquad {\bf x_0}=[1 \; 0 \; 0 \; 0 \; 0 \; 0 \; 0]'$
+##### $\bullet \;\;$ Next state $\bf x_1 = M x_0$ is given as 
+
+##### $\qquad \qquad {\bf x_1} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cdot \\ 0.25 \\ \cdot \\ \cdot \\ 0.25 \\ 0.25 \\ 0.25 \end{bmatrix}$
+\
 
 """
 
+# ╔═╡ 0a2fdc0e-99d7-42be-9995-f85b0376b81d
+state0 = [1, 0, 0, 0, 0, 0, 0] # [1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7] 
+
+# ╔═╡ ede06a6c-468e-4c26-9467-ab07a17717fd
+state = zeros(7,50); # Initialize the state matrix
+
+# ╔═╡ 7090909f-809b-4ef9-a86d-50ac512ab455
+state[:,1] = M * state0
+
+# ╔═╡ ac1831f6-d7e1-47ac-88ab-f4e3523fa07b
+md"""
+---"""
+
+# ╔═╡ 906b0d37-934e-4aee-aa12-f49b56a62d4b
+md"""#
+### - Find the following states
+##### $\qquad \qquad {\bf x_2 = M x_1} → {\bf x_3 = M x_2} → \cdots → {\bf x_n = M x_{n-1}}$
+
+##### OR
+
+##### $\qquad \qquad {\bf x_n = M^n x_0}$
+
+"""
+
+# ╔═╡ cf299aac-531d-41cb-ae79-ee5fcc0ff011
+state[:,2] = M * state[:,1]
+
+# ╔═╡ 81ee7e6b-0855-4a28-b6b9-f50e0b38e741
+state[:,3] = M * state[:,2]
+
+# ╔═╡ cf0a3a7a-613c-4174-ae2b-1133a604115c
+state[:,4] = M * state[:,3]
+
+# ╔═╡ 11bdc921-d39e-405a-93ee-002b986a2bef
+state[:,5] = M * state[:,4]
+
+# ╔═╡ 53017ff5-8e06-4e23-b027-ee49257aff6b
+state[:,10] = M^10 * state0
+
+# ╔═╡ cc17fd62-e5c2-4a0f-b8dd-506941951803
+state[:,20] = M^20 * state0
+
+# ╔═╡ 5314ec4c-d0ae-4290-b9d6-26eec26e104d
+state[:,30] = M^30 * state0
+
+# ╔═╡ 8de9608c-472d-40a0-8ab2-ba80463c74d8
+md"""#
+### - Properties of Markov Matrix
+#### $\bullet \;\;$ What do you notice from the above computations?
+##### $\qquad \circ\;\;$ States converge;  
+##### $\qquad \qquad -\;\;$ How can we measure the distance between each state, `norm`?  
+ ##### $\qquad \qquad -\;\;$ Steady-state distribution depends on the initial state? NO  
+##### $\qquad \qquad -\;\;$ Is $\bf M^n x_n = x_n$ correct? What is your conclusion from this?
+  
+ ##### $\qquad \qquad -\;\;$ All numbers in each state sum up to '$1$'. True or False?
+
+#### $\bullet \;\;$ How do you interpret the end state after 30 transitions?
+
+##### $\qquad \qquad {\bf x_{30}} = \begin{bmatrix} 0.29 & 0.095 & 0.047 & 0.19 & 0.07 & 0.07 & 0.238 \end{bmatrix}'$
+
+"""
+
+# ╔═╡ 991d9d71-c85f-4fdb-9c9b-b13138c2a692
+bar([i for i in 1:7], state[:,30], legend = false, xlabel ="Pages", ylabel= "PageRank values", size = (600, 350))
+
+# ╔═╡ 58678b29-d37e-4d15-a5da-8a94632900c0
+md"""#
+### - Convergence study (norms)
+
+##### $\bullet \;\;$ Norm is the length of a vector ${\bf v}$ and represented by $\| {\bf v} \|$
+##### $\bullet \;\;$ There are different norm definitions
+##### $\qquad - \;\;$ ``L_1`` norm =  $\| {\bf v} \|_1 = |v_1| + |v_2| + \cdots + |v_n|$ 
+##### $\qquad - \;\;$ ``L_2`` norm (≡ Euclidian norm) = $\| {\bf v} \|_2 = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$ 
+##### $\qquad - \;\;$ ``L_{\infty}`` norm (≡ Max norm) = $\| {\bf v} \|_\infty  = Max[{|v_1|, |v_2|, \cdots, |v_n|}]$
+
+!!! norm
+	##### Throughout this course, mostly Euclidian Norm will be used and subscript '2' will be droped in $\| {\bf v} \|$.
+"""
+
+# ╔═╡ 4402e8ea-c9c6-46fa-8e54-43c94f954148
+begin
+	error_L1 = zeros(20); # distance between iterations error(i) = state(i)-state(i-1)
+	error_L2 = zeros(20);
+	error_Linf = zeros(20);
+	state[:,1] = M * state0
+	error_L1[1] = norm(state[:,1]-state0, 1) # L_1 norm
+	error_L2[1] = norm(state[:,1]-state0, 2) # default L_2 norm 
+	error_Linf[1] = norm(state[:,1]-state0, Inf) # L_inf norm
+ 	for i in 2:20
+		state[:,i] = M * state[:,i-1]
+		error_L1[i] = norm(state[:,i] - state[:,i-1], 1)
+		error_L2[i] = norm(state[:,i] - state[:,i-1], 2)
+		error_Linf[i] = norm(state[:,i] - state[:,i-1], Inf)
+	end
+end
+
+# ╔═╡ 1239b181-6331-4569-8e30-e8831e3a8ff5
+begin
+	plot([1:20], error_L1, xlabel = L"Number \;of \;Transitions", title = L"Distance \;between \;the \;last \;two \;transitions", label = L"L_1 \;Norm", mark = :square, fg_legend = :false)
+	plot!([1:20], error_L2, mark = :circle, label = L"L_2 \;Norm")
+	plot!([1:20], error_Linf, mark = :diamond, label = L"L_{\infty} \;Norm")
+end  	
+
+# ╔═╡ 1f0b8e56-eeb5-462b-a2e6-e7ae89665fbd
+md"""
+---"""
+
+# ╔═╡ e64549f5-15af-4595-a901-c2016eebc80c
+md"""#
+### - Role of Initial State
+##### In Markov matrices, there are few properties that we need to state for the sake of understanding its potential and problems: For Markov Matrices,
+##### $\bullet \;\;$ the sum of each column must be '1'; $\rightarrow [1 \;1 \cdots 1]\; {\bf M} =[1 \;1 \cdots 1]$   
+##### $\bullet \;\;$ if entries postive, called positive Markov matrices,
+##### $\qquad - \;\;$ they always converge to a unique steady-state;
+##### $\bullet \;\;$ if not, that is, if there are zero entries, then
+##### $\qquad - \;\;$ it may still converge to a single steady-state or converge to more 
+##### $\qquad \;\;\;\;$ than one steady-states dependent on the initial state $x_0$; 
+##### $\bullet \;\;$ iterations maintain the sum of the entries of the initial guess, that is
+##### $\qquad Sum({\bf x}_1) = [1 \;1 \cdots 1]\; {\bf x}_1 = \underbrace{[1 \;1 \cdots 1]\; {\bf M}}_{\color{red} [1 \;1 \cdots \; 1]} \;{\bf x}_0 = [1 \;1 \cdots 1]\; {\bf x_0} = Sum({\bf x}_0)$
+"""
+
+# ╔═╡ a078fb5c-2c7b-4893-ba84-72fa05f49e62
+let
+	state0 =[0, 0, 1, 1, 1, 0, 0]
+	state30 = M^30 * state0
+	nstate30 = state30 / sum(state30)
+	bar([i for i in 1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values", title = "30 iterations; Initial state = $(state0[:,1])")
+end
+
+# ╔═╡ 6795cb2d-86f5-48d3-bad0-5f0dc50c550f
+begin
+	nst_i = zeros(7,30)
+	st_0 =rand(0:1:1, 7)
+	nst_i[:,1] = round.(st_0/ sum(st_0); digits=2)# Float16.(st_0/ sum(st_0)) # normalized initial state
+	for i = 2:30
+		nst_i[:,i] = (M^(i-1) * nst_i[:,i-1])
+	end	
+	# barplt = bar([1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values")
+	
+	anim_states = @animate for i in 1:10
+	plot!(bar([1:7], nst_i[:,i], legend = false, xlabel ="Pages", ylabel= "PageRank values"), title = "$(i-1); Initial state = $(nst_i[:,1])")
+	end
+	
+end
+
+# ╔═╡ 82c94279-7723-400e-850b-0c47fe48ea39
+gif(anim_states, "anim_states.gif", fps = 0.5)
+
+# ╔═╡ 138ba645-cea3-4295-8cb4-f127255aaa3f
+md"""#
+#### Is $\bf M^n x_n = x_n$ ?   What is your conclusion?
+
+##### $\bullet \;\;$ Do you remember ${\bf A x}=\lambda {\bf x}$ ? `Eigenvalues` and `Eigenvectors`
+\
+
+##### $\bullet \;\;$ $\bf M^n x_n = x_n$ implies that Markov matrix $\bf M$ has an eigenvalue at $\lambda = 1$ with its eigenvector $\bf x_n$
+\
+
+##### $\bullet \;\;$ So, finding the eigenvector of $\bf M$ corresponding to eigenvalue $\lambda = 1$ will directly give the steady-state:
+"""
+
+# ╔═╡ a3f0c93e-97d3-47b4-8e6c-5417ee77c3e0
+# lambda = eigvals(M) # Eigenvalues of M
+
+# ╔═╡ 608d6169-b6f5-4ce0-a814-d2e69c845e90
+# eigv = eigvecs(M) # Eigenvectors of M in the order of eigenvalues
+
+# ╔═╡ ed4eef8f-ad6b-42f0-b38d-4f5931a33719
+# n_eigenvector = eigv[:,7] / sum(eigv[:,7]) # need to mormalize to the sum of the vector.
+
+# ╔═╡ 6ec103a2-0737-4e58-9f03-39317ffd8b0a
+# norm((eigv[:,7] / sum(eigv[:,7]) - state[:,30]),Inf) # see the distance (norm) between the eigenvector for lambda =1 and the state we have reached after 30 iterations
+
+# ╔═╡ 688838c0-85e8-426f-bd50-8c953da83d44
+md"""
+---"""
+
+# ╔═╡ 91149d9e-3c69-4f52-af82-654aaf8eba98
+md"""
+!!! note \"Project Idea - 1\"
+	Review the PageRank algorithm of Google and find a way to promote your web page.
+"""
+
+# ╔═╡ fffd5112-314b-4c0f-90f4-15e5cc483b4c
+md"""#
+### Example 2: Covid-19 Survival Analysis[^2]
+
+##### The problem was formulated under two infection scenarios:
+
+##### $1. \;\;$ 5% as suggested by CDC (Centers for Desease Control) and 
+##### $2. \;\;$ 10% for aggressive case 
+
+##### with three states as `Non infected`, `Infected` and `Hospitalized` with the following probabilities in Markov matrices:
+\
+
+##### $\qquad {\bf M_1^{CDC}} = \begin{bmatrix} 0.95 & 0.10 & 0.00 \\ 0.05 & 0.70 & 0.30 \\ 0.00 & 0.20 & 0.70  \end{bmatrix} \qquad {\bf M_2^{Agg}} = \begin{bmatrix} 0.90 & 0.12 & 0.00 \\ 0.10 & 0.70 & 0.20 \\ 0.00 & 0.18 & 0.80  \end{bmatrix}$
+
+
+##### where 
+##### $\bullet \;\;$ $1^{st}$ column represents `Non infected` and their transitions to others;
+##### $\bullet \;\;$ $2^{nd}$ column is for `Infected` and their transitions to others;
+##### $\bullet \;\;$ $3^{rd}$ column is for `Hospitalized` and their transitions to other states.
+
+!!! warning \"The goal of this study is to assess\"
+	##### $\bullet \;\;$ the long-run percentages of cases in each of the states, 
+	##### $\bullet \;\;$ the rates at which these states populated 
+
+[^2]: [_A Markov Chain Model for Covid-19 Survival Analysis_] (https://web.cortland.edu/matresearch/MarkovChainCovid2020.pdf), Jorge Luis Romeu, July 17, 2020.
+"""
+
+# ╔═╡ 181512ad-360c-4f3f-8bde-41881f2d886f
+M_covCDC = [0.95 0.10 0.0 ;
+	0.05 0.70 0.30
+	0.0 0.20 0.70]
+
+# ╔═╡ 55d7449c-0b45-46a3-aeb0-c19b3af29cda
+M_covAgg = [0.90 0.12 0.0 ;
+	0.10 0.70 0.20
+	0.0 0.18 0.80]
+
+# ╔═╡ 20d53b4f-7c16-43e9-8818-de16765aa6a3
+md"""
+---"""
+
+# ╔═╡ eeea9419-ee50-4335-b682-6e7cdb28abff
+md"""# 
+### ★ Eigenvalue - Eigenvector analysis
+!!! note
+	##### $\;\; - \;\;$ Largest eigenvalue of the Markov matrix is expected to be '$1$' 
+	##### $\;\; - \;\;$ its corresponding eigenvector is the steady state
+
+"""
+
+# ╔═╡ 7ae0d9ab-c9e5-4d4c-8aaf-39df1548c2ca
+# λ_CDC, v_CDC = eigen(M_covCDC) # just to give you an example of a variable name in greek letter
+
+# ╔═╡ 19d90c1a-196d-495a-b487-63c73086639a
+# lambda_covCDC, eigv_covCDC = eigen(M_covCDC)
+
+# ╔═╡ cb054f29-a7d1-42bc-a904-6a4afd61b1d7
+# lambda_covAgg, eigv_covAgg = eigen(M_covAgg)
+
+# ╔═╡ 46b2064a-a563-404f-b9ed-5f935fd2baf3
+md"""
+#### $\quad \bullet \;\;$ As expected, $\lambda_{max} = 1.0$ and corresponding eigenvectors
+##### $\qquad \;\;\; \rightarrow \;\; [-0.86, -0.43, -0.286]\;$ for the CDC case 
+##### $\qquad \;\;\; \rightarrow \;\; [0.67, 0.55, 0.50]\;$ for the Aggressive case.
+
+\
+
+#### $\quad \bullet \;\;$ Eigenvectors represent the probabilities, so 
+#### $\quad \quad$ they need to be normalized to make the sum of their 
+#### $\quad \quad$ entries unity 
+"""
+
+# ╔═╡ 77e82a01-f253-4d4b-9555-5f0f0170e23e
+# ss_covidCDC = eigv_covCDC[:,3]/ sum(eigv_covCDC[:,3])
+
+# ╔═╡ c37b9b9c-4e85-45d8-909d-a95360e92b2d
+# ss_covidAgg = eigv_covAgg[:,3]/ sum(eigv_covAgg[:,3])
+
+# ╔═╡ 43fd2bdd-8fcf-4eba-a638-6a6f6ee7b720
+md"""
+---"""
+
+# ╔═╡ 2b9be8d2-b389-4c8b-a7ef-70304fe7b45f
+md"""#
+#### $\qquad \qquad \qquad$ Steady state distributions"""
+
+# ╔═╡ 075ba59d-02fc-4015-83f7-801ca7bb8fc9
+TwoColumn(
+	md"""
+#### CDC scenario (5%)
+
+##### $\bullet \;\;$ 54.5% `Non infected`
+##### $\bullet \;\;$ 27.3% `Infected`
+##### $\bullet \;\;$ $\color{red} 18.2\% \;\;Hospitalized$
+""",
+	md""" ####  Aggressive Scenario (10%)
+
+##### $\bullet \;\;$ 38.7% `Non infected`
+##### $\bullet \;\;$ 32.2% `Infected`
+##### $\bullet \;\;$ $\color{red} 29.0\% \;\;Hospitalized$
+"""		
+)
+
+# ╔═╡ 386a3d57-3188-4f52-9be6-59b3c0abc207
+md"""
+\
+
+#### _The steady-state distribution_ represents 
+##### $\qquad -\;$ the long-run percent of cases in each states
+##### $\qquad -\;$ the rates at which the Markov Chain enters the states
+##### $\qquad \qquad \circ\;$ the average time between two successive visit to a state 
+##### $\qquad \quad \quad \;\;$ = 1/ (long-run percent)
+"""
+
+# ╔═╡ 179cd26c-dbee-43e4-9964-aa20beecf8b5
+md"""
+---"""
+
+# ╔═╡ 44ec39d6-e39b-4912-aa20-b07b2c3a41b2
+df_covid = DataFrame(Infection_Rates = ["Efficient (5%)", "Efficient (5%)", "Inefficient (10%)", "Inefficient (10%)"], 
+    Long_run = ["Probabilities", "Times Between", "Probabilities", "Times Between"],
+    Not_Infected = [0.545, 1.834, 0.387, 2.583],
+    Infected_Home = [0.273, 3.667, 0.322, 3.099],
+	Hospitalized = [0.182, 5.50, 0.290, 3.444])
+
+# ╔═╡ abbc6066-6b4a-462f-aa57-7cfb3b7622b1
+md"""
+#### Observations
+##### $\bf \qquad 1.\;$ For 10% infection rates, higher percent of patients hospitalized,
+##### $\qquad \qquad \qquad \qquad$ 29% vs. 18.2%
+##### ⇒ infection rate increase results in saturating the Health Care system
+##### $\bf \qquad 2.\;$ For 5% infection rates, times between two successive visits
+##### $\qquad \quad$ to the Hospital are longer: 5.5 days vs. 3.4 days
+
+---
+"""
+
+# ╔═╡ 92139ad8-970b-4712-82e5-dfc8a4271c62
+md"""#
+### - More Realistic scenario
+
+#### Define the probabilities over five states:
+##### $\qquad \circ \;$ General population → 93% remain uninfected, 7% infected
+##### $\qquad \circ \;$ infected (isolated at home) → 5% recovered, 80% remain isolated, 
+##### $\qquad \quad$ 10% hopitalized, 5% in ICU
+##### $\qquad \circ \;$ hospitalized (after becoming ill) → 15% recovered and sent for  
+##### $\qquad \quad$ isolation, 80% remain hospitalized, 5% in ICU
+##### $\qquad \circ \;$ in the ICU (or ventilators) → 5% recovered and stayed in hospital, 
+##### $\qquad \quad$ 80% remain in ICU, 15% dead
+##### $\qquad \circ \;$ dead (absorbing state)
+
+---
+"""
+
+# ╔═╡ c8912b35-85c4-4fa9-bc1e-da54812b681b
+md"""
+
+#### Based on the data avilable, set up the Markov matrix as
+\
+
+```math
+\large {\bf M} = \begin{bmatrix} {\color{green} 0.93} & {\color{blue} 0.05} & {\color{orange} \cdot} & {\color{red} \cdot} & \cdot \\ 
+						  {\color{green} 0.07} & {\color{blue} 0.80} & {\color{orange} 0.15} & {\color{red} \cdot} & \cdot \\ 
+						 {\color{green} \cdot} & {\color{blue} 0.10} & {\color{orange} 0.80} & {\color{red} 0.05}  & \cdot \\ 
+	   					 {\color{green} \cdot} & {\color{blue} 0.05} & {\color{orange} 0.05} & {\color{red} 0.80}  & \cdot \\ 
+		  				 {\color{green} \cdot} & {\color{blue} \cdot} & {\color{orange} \cdot} & {\color{red} 0.15} & 1.0  \end{bmatrix}  \Leftarrow {\bf Markov \; \; Matrix}
+```
+#### where 
+##### $\qquad \bullet\;\;$  $\color{green} green$ column is for $\color{green} non-infected$
+##### $\qquad \bullet\;\;$   $\color{blue} blue$ column is for $\color{blue} infected$
+##### $\qquad \bullet\;\;$   $\color{orange} orange$ column is for $\color{orange} hospitalized$
+##### $\qquad \bullet\;\;$   $\color{red} red$ column is for $\color{red} ICU$
+##### $\qquad \bullet\;\;$   $\color{black} black$ column is for $\color{black} dead$
+
+!!! warning \"Goal\"
+	##### _Probability of Death_ and _Expected Time to Death_
+---
+"""
+
+# ╔═╡ 13630b66-ad86-4873-811f-2a4d82d630b6
+md"""#
+#### For the Markov model
+##### $\qquad -\;$ the unit time is a day, transitions are from morning to the next
+##### $\qquad -\;$ every transition is an independent trial 
+##### $\qquad -\;$ the data are closer to the cases in Italy or NYC
+
+!!! danger \"Absorbing State\"
+	##### $\;\; -\;$ The last column (dead state) has a single entry with propability '1'
+	##### $\;\; -\;$ It is the final state, _no return_
+"""
+
+# ╔═╡ fd5b6697-09a0-43f5-ba08-a9e8cd167802
+M_cov = [0.93 0.05 0.0 0.0 0.0;
+	0.07 0.80 0.15 0.0 0.0
+	0.0 0.10 0.80 0.05 0.0
+	0.0 0.05 0.05 0.80 0.0
+	0.0 0.0 0.0 0.15 1.0]
+
+# ╔═╡ ebeb4bbf-3192-417c-a853-d8f1f44551e1
+md"""
+
+##### What happens to $\bf x_n = M^n x_0$? 
+##### Where does $\bf M^n$ converges to for $n→∞$?
+
+---
+"""
+
+# ╔═╡ c65c827f-ba05-48d6-a868-8a8fbb1e089e
+md"""#
+$\Large {\bf Brute \;force \;calculation}$
+"""
+
+# ╔═╡ e2583179-509e-4f0a-a6ef-715eb0d9f28e
+M_cov^500 # all columns converge to [0, 0, 0, 0, 1]
+
+# ╔═╡ 792b3254-4d90-4b2c-a0b6-ed324ff87594
+md"
+
+$\Large {\bf Eigenvalue \;and \;eigenvector \;calculation}$
+
+"
+
+# ╔═╡ b3a1f41f-1b08-4de7-b44a-e3239c313336
+lambda_cov, eigv_cov = eigen(M_cov)
+
+# ╔═╡ 7a5bf0e8-ab35-4e13-81fd-1d0862178281
+eigv_cov[:,5] # corresponds to lambda=1, so steady-state seems to be when everyone is dead?
+
+# ╔═╡ cd4adf49-b052-4bf1-8c3f-9348da88666f
+md""" 
+$\Large {\bf In \;steady \;state, \;it \;converges \;to \;the \;aborbing \;state}$
+
+!!! danger 
+	#### Everybody will be dead 🤔
+
+---
+"""
+
+# ╔═╡ b979ac94-fb8a-4575-8b5f-0328128a3ad0
+md"""#
+
+## ★ Working with absorbing states
+
+#### This is a brief overview for curious minds (not included) [^3]
+
+##### Transition matrix for a Markov chain with $l$ absorbing states
+\
+
+```math
+\large {\bf M} = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} 
+```
+##### where 
+##### $\; - \; \bf T$ is a $k \times k$ matrix with transition probabilities from one transient state to another
+##### $\; - \; \bf R$ is an $l \times k$ matrix with transition probabilities from a transient state to an absorbing state
+##### $\; - \; {\bf 0}_{k×l}$ is an $k × l$ matrix of all $0$’s, as moving from an absorbing state to a transient state is impossible.
+##### $\; - \; {\bf I}_l$ is an $l×l$ identity matrix, as transitioning between absorbing states is impossible.
+
+!!! note
+	##### One can always cast the Markov matrix in a similar block form, by intechanging the order of columns and rows.
+ 
+
+[^3][Absorbing Markov Chains] (https://www.math.umd.edu/~immortal/MATH401/book/ch_absorbing_markov_chains.pdf), Allan Yashinski, July 21, 2021
+
+---
+"""
+
+# ╔═╡ b763d610-f777-4d28-85b6-89f1e342796e
+md"""#
+##### → $M^2$, $M^3$, ..., $M^n$ need to be calculated as the system transions 
+```math
+\large {\bf M}^2 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} 
+		  \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} = 
+		  \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
+						  {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
+```
+\
+
+```math
+\large {\bf M}^3 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} & {\bf I}_l  \end{bmatrix} 
+		 \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
+						 {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix} = 
+		  \begin{bmatrix} {\bf T}^3 & {\bf 0}_{k \times l} \\ 
+						  {\bf RT}^2+{\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
+```
+$\large \vdots$
+```math
+\large {\bf M^n} = \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+						  {\bf R}+{\bf RT}+\cdots+{\bf RT}^{n-1} & {\bf I}_l  \end{bmatrix} =
+		  \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix}
+```
+
+\
+
+
+ $\large {\rm For} \;\;n → ∞ \;\;\;\; \sum_{i=0}^{n-1}{\bf T}^i → ({\bf I-T})^{-1}$, 
+##### provided the column sums of $\bf T$ are less than $1$.
+\
+
+#### Let us try it on the covid data: 
+"""
+
+# ╔═╡ e5051924-1c30-48cf-8568-bfea56957a8e
+T = M_cov[1:4,1:4] # Block T (4 x 4), only the transient porton of M
+
+# ╔═╡ 96f3162a-4a1a-46b4-8ba2-fccc00ff41b4
+R = M_cov[5,1:4] # Block R (1 x 4), from transient to absorbing state
+
+# ╔═╡ d520c2bb-7b77-4fba-944b-6ebe44f3cb17
+ones(4)' * T # to check if the column sums are less than 1 => NOT
+
+# ╔═╡ ef115594-908d-4f7a-a199-108a0239cdc5
+ones(4)' * T^5 # However, higher powers of T satisfy this criterion, which would be enough for the approximation
+
+# ╔═╡ fe030af9-6868-4ef4-b858-49ed33d3a9db
+lambda_T = eigvals(T) # eigvals and eigvecs give e-values and e-vectors separately
+
+# ╔═╡ 77a0d2ff-ca16-4da6-ae52-acbb5f194262
+md"""
+---"""
+
+# ╔═╡ a8d4331b-b2b2-4f20-8d80-75213829067b
+md"""#
+#### Therefore, the Markov matrix at steady-state
+\
+
+```math
+\large \lim_{n→∞}{\bf M^n} = \lim_{n→∞} \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
+						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix} \Rightarrow
+				{\bf M^{ss}} = \begin{bmatrix} {\bf 0}_{k \times k} & {\bf 0}_{k \times l} \\ 
+						  {\bf R} ({\bf I-T})^{-1} & {\bf I}_l  \end{bmatrix}
+```
+\
+
+##### → only surviving block is the one showing the transition probabilities 
+##### $\;\;\;$ from transient states to absorbing states: $\qquad {\bf R} ({\bf I-T})^{-1}$
+
+##### $\qquad -\;\; \bf R$: probabilities from transient states to absorbing states
+##### $\qquad -\;\;$ Define $\color{red} {\bf F = (I-T)}^{-1} → \rm \bf Fundamental \;Matrix$
+##### $\qquad -\;\;$ $\color{red} (i, j)^{th} \rm \bf \;entry \;of \;F\;$ is the expected number of times the chain 
+##### $\qquad \quad \;\;$ is in state $j$, given that the chain started in state $i$.
+##### $\qquad -\;\;$ The expected number of steps before being absorbed 
+##### $\qquad \qquad \qquad \qquad {\bf N} = [{\bf 1}^T {\bf F}] = [N_1 \;\;.\;.\;.\;\; N_i \;\;.\;.\;.\;\; N_{l-k}]$
+##### $\qquad \quad \;\;$ where $N_i$ is the number of steps starting in transient state $i$ 
+
+"""
+
+# ╔═╡ 39a3e51e-8bc9-4a55-9bb4-460f750ae0d6
+F = (I(4) - T)^-1 # or inv(I(4)-T) Fundamental Matrix
+
+# ╔═╡ 12ec3ef3-491c-41c8-9e4c-e87445b71a7a
+R' * F # as expected, in steady-state, it goes to the absorbing state
+
+# ╔═╡ fa4945ec-f1f3-4ea1-8c06-0a98c673c7d0
+ones(size(F,1))' * F
+
+# ╔═╡ 5ce07a9d-6817-4be4-ac4a-74db4e821aa3
+md"""
+---"""
+
+# ╔═╡ f8cef7e7-ba70-4220-933c-f0d91b1ec080
+md"""#
+
+##### ${\bf F = (I-T)}^{-1}$ → Average number of days in transient states
+
+```math
+\large {\bf F} = ({\bf I-T})^{-1} = \begin{bmatrix} 26.19 & 11.90 & 9.52 & 2.38 \\ 
+						 16.67 & 16.67 & 13.33 & 3.33 \\ 
+	   					 10.0 & 10.0 & 13.3 & 3.33 \\ 
+		  				 6.67 & 6.67 & 6.67 & 6.67 \end{bmatrix} 
+```
+
+#### Interpretation
+##### The average number of days a _non infected_ person ($1^{st}$ column)
+##### $\qquad -\;$ stays _non infected_ is 26.19 days;
+##### $\qquad -\;$ spends _infected (isolated)_, after being infected, is 16.67 days;
+##### $\qquad -\;$ spends in _hospital_ is 10.0 days
+##### $\qquad -\;$ spends in _ICU_, before passing away, is 6.67 days.
+
+\
+
+##### ⇒ Average number of days it takes for a non infected person to pass away
+$\large 26.19 + 16.66 + 10.00 + 6.66 = 59.52 \; \rm days$
+
+"""
+
+# ╔═╡ 456df6e3-b4cb-4a6b-9b7c-36998859d95a
+M_cov^2 # Probability of dying in 2 days for Healthy is 0.0, for infected is 0.0075, for Hospitalized is 0.0075, for ICU is 0.27
+
+# ╔═╡ b984d4e3-b240-45fb-89b4-6795454b4048
+M_cov^8 # Probability of dying in 8 days for Healthy is 0.018, for infected is 0.118, for Hospitalized is 0.127, for ICU is 0.636
+
+# ╔═╡ e4894761-fcbb-421f-b72f-b542a9ee5ac9
+md"""
+<center><b><p
+style="color:black;font-size:30px;">End of Markov Process</p></b></center>
+"""|>HTML
+
+# ╔═╡ 263953a3-7af9-4b7e-ba44-8d6bbef83eb0
+md"""
+---"""
+
 # ╔═╡ 3de20f99-af1c-413a-b8f4-dc2d259ece3a
-md"## Image and Data Compression
+md"## 2.5.2. Image and Data Compression
 
-Images can be represented and stored in a disk as 3D arrays (≡ Matrices); one dimension stores the color (RGB - Red Green Blue) and the other two dimensions store the number of pixel along $x-$ and $y-$ directions, respectively.
+#### Images can be stored in a disk as 3D arrays (≡ Matrices) 
+##### $\qquad -$ one dimension stores the color (RGB - Red Green Blue) 
+##### $\qquad -$ the other two store the numbers of pixels along x and y
+\
 
-Let us start with a 1D array of random real numbers or 2D array of decimal numbers between $0$ and $1$ (as gray scale maps the color of a pixel between 0 and 1):
+#### Example: 2D array of decimal numbers between 0 and 1 
+##### $\qquad -$ Gray scale maps the color of a pixel between 0 and 1
 "
 
 # ╔═╡ 52f94555-b54b-4e87-894c-d147ee3525ed
@@ -137,34 +844,35 @@ imgg_den = Gray.(img_den1) # Gray.(rand(8,8))
 # ╔═╡ 013b7ebc-4201-4d42-ae02-cacdc2d98908
 img_gray = rand(Gray, 3, 4)
 
+# ╔═╡ 238a92e6-7d7d-441c-9fbb-7d658981b5ea
+md"""
+---"""
+
 # ╔═╡ 0ac852a2-446f-4756-b059-f30fe112a3cc
 md"""#
 
-### Image Representation
+### 1. Image Representation
 
-The quality of an image depends predominantly on two factors,
-- the amount of Pixels Per Inch (PPi), and
-- the color depth. 
-	
-**_The colour depth_** is determined by how many bits (as colors represented by binary numbers, that is, by 1's and 0's) are used to represent the colors in each pixel. For RGB ($\color{red}Red$ $\color{green} Green$ $\color{blue} Blue$) representation, 8 bits used for each color, that is, the color depth is 24 bits, amounting to $2^{24}$ (≊16 Million) different colors for each pixel.
+#### The quality of an image depends on two factors,
+##### $\qquad -$ the amount of Pixels Per inch (PPi)
+##### $\qquad -$ the color depth 
 
-For example, if 4 bits were used, most images would be grey scale, represented with only $2^4$ (=16) different shades possible to represent. 
+\
 
-HEX color systems are commonly used and allow for 255 possible representations (eight 1's in binary, or FF in HEX are 255) for each color, 
-Red, Green and Blue which equates to 8 bits used for each of the 3 colors.
+##### $\color{red} \rm \bf colour \;depth:$ Number of bits used to represent the colors in each pixel
 
-```
-Values |	Red	   |    Green	  |    Blue   |
-----------------------------------------------
-Hex    |     00	   |      00	  |     FF    |
-----------------------------------------------
-Binary |  00000000 |   00000000	  |  11111111 |
-----------------------------------------------
-Denery |     0	   |	  0		  |     255   |
-----------------------------------------------
-```
+
+##### For RGB ($\color{red}Red$ $\color{green} Green$ $\color{blue} Blue$) representation, 8 bits used for each color; 
+
+##### $\qquad -$ The color depth is 24 bits 
+##### $\qquad -$ amounting to $2^{24}$ (≊16 Million) different colors for each pixel
+##### $\qquad -$ The human eye can discriminate up to ten million colors
+##### $\qquad -$ 24-bit is used by virtually every computer and phone display
 
 """
+
+# ╔═╡ f7e8eec5-2867-4053-8767-91839f6a5c56
+2^8 - 1
 
 # ╔═╡ 9742c131-55ad-47da-b600-1a622b90a152
 RGB{Float32}(200,200,0)/255 # have to normalize it by 255 as RGB assumes numbers between 0 and 1. However, if they are larger than 1, the respected color means to be saturated
@@ -180,9 +888,9 @@ csat = RGB{Float32}(8,2,0) # red and green are saturated, so dividing by two wil
 
 # ╔═╡ ce0e742a-1252-4a97-b70b-4601c7cc6cf3
 md"""#
-### Size of an image - Low Resolution
+### 2. Size of an image - Low Resolution
 
-Let us first construct an image with $8 \times 8$ pixel resolution:
+#### Let us first construct an image with $8 \times 8$ pixel resolution:
 
 """
 
@@ -197,9 +905,9 @@ imgc1 = [RGB(1.0,1.0,1.0) .* ones(1,8);
 	RGB(1.0,1.0,1.0) .* ones(1,8)]
 
 # ╔═╡ 757ca38f-5070-4c77-b792-d162b3254a12
-md"
+md"""
 
- *  $\rm RGB(1.0,1.0,1.0)$ ⇒ White Color; $\qquad \rm RGB(0.0,0.0,0.0)$ ⇒ Black Color.
+##### RGB(1.0,1.0,1.0) ⇒ White Color; $\quad$ RGB(0.0,0.0,0.0) ⇒ Black Color.
 
   
 * All indices in an image correspond to locations in the image:
@@ -211,7 +919,7 @@ md"
 
 
 * The functions `channelview` and `colorview` in _`Julia`_ are designed for this purpose.
-"
+"""
 
 # ╔═╡ 0d69ae64-e358-495a-8f60-418f7f6e4e0d
 img_CHW = channelview(imgc1); # 3 x 8 x 8 1st Color, 2nd Height, 3rd Width
@@ -1156,6 +1864,7 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 ColorVectorSpace = "c3611d14-8923-5661-9e6a-0046d554d3a4"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
@@ -1169,18 +1878,19 @@ QuartzImageIO = "dca85d43-d64c-5e67-8c65-017450d5d020"
 TestImages = "5e47fb64-e119-507b-a336-dd2b206d9990"
 
 [compat]
-ColorVectorSpace = "~0.9.8"
+ColorVectorSpace = "~0.9.9"
 Colors = "~0.12.8"
-FileIO = "~1.13.0"
-HypertextLiteral = "~0.9.3"
-ImageIO = "~0.6.1"
-ImageShow = "~0.3.3"
-Images = "~0.25.1"
+DataFrames = "~1.3.4"
+FileIO = "~1.15.0"
+HypertextLiteral = "~0.9.4"
+ImageIO = "~0.6.6"
+ImageShow = "~0.3.6"
+Images = "~0.25.2"
 LaTeXStrings = "~1.3.0"
-Plots = "~1.25.11"
-PlutoUI = "~0.7.34"
+Plots = "~1.32.0"
+PlutoUI = "~0.7.40"
 QuartzImageIO = "~0.7.4"
-TestImages = "~1.6.2"
+TestImages = "~1.7.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -1189,13 +1899,13 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.0"
 manifest_format = "2.0"
-project_hash = "f3b2b4171af32afb64396fba1d26090987453fea"
+project_hash = "e41a4576b90c69c5617f1f74f97c6911ce66fb53"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
-git-tree-sha1 = "6f1d9bc1c08f9f4a8fa92e3ea3cb50153a1b40d4"
+git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.1.0"
+version = "1.2.1"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1205,9 +1915,9 @@ version = "1.1.4"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "af92965fb30777147966f58acb05da51c5616b5f"
+git-tree-sha1 = "195c5505521008abea5aee4f96930717958eac6f"
 uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "3.3.3"
+version = "3.4.0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -1218,12 +1928,6 @@ deps = ["LinearAlgebra", "Random", "StaticArrays"]
 git-tree-sha1 = "62e51b39331de8911e4a7ff6f5aaf38a5f4cc0ae"
 uuid = "ec485272-7323-5ecc-a04f-4719b315124d"
 version = "0.2.0"
-
-[[deps.ArrayInterface]]
-deps = ["Compat", "IfElse", "LinearAlgebra", "Requires", "SparseArrays", "Static"]
-git-tree-sha1 = "745233d77146ad221629590b6d82fe7f1ddb478f"
-uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
-version = "4.0.3"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -1236,9 +1940,9 @@ version = "1.0.1"
 
 [[deps.AxisArrays]]
 deps = ["Dates", "IntervalSets", "IterTools", "RangeArrays"]
-git-tree-sha1 = "d127d5e4d86c7680b20c35d40b503c74b9a39b5e"
+git-tree-sha1 = "1dd4d9f5beebac0c03446918741b1a03dc5e5788"
 uuid = "39de3d68-74b9-583c-8d2d-e117c070f3a9"
-version = "0.4.4"
+version = "0.4.6"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -1250,9 +1954,9 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.CEnum]]
-git-tree-sha1 = "215a9aa4a1f23fbd05b92769fdd62559488d70e9"
+git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
 uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
-version = "0.4.1"
+version = "0.4.2"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -1274,15 +1978,15 @@ version = "0.2.2"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "7dd38532a1115a215de51775f9891f0f3e1bac6a"
+git-tree-sha1 = "80ca332f6dcb2508adba68f22f551adb2d00a624"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.12.1"
+version = "1.15.3"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "bf98fa45a0a4cee295de98d4c1462be26345b9a1"
+git-tree-sha1 = "38f7a08f19d8810338d4f5085211c7dfa5d5bdd8"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.2"
+version = "0.1.4"
 
 [[deps.Clustering]]
 deps = ["Distances", "LinearAlgebra", "NearestNeighbors", "Printf", "SparseArrays", "Statistics", "StatsBase"]
@@ -1290,23 +1994,29 @@ git-tree-sha1 = "75479b7df4167267d75294d14b58244695beb2ac"
 uuid = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
 version = "0.14.2"
 
+[[deps.CodecZlib]]
+deps = ["TranscodingStreams", "Zlib_jll"]
+git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
+uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
+version = "0.7.0"
+
 [[deps.ColorSchemes]]
-deps = ["ColorTypes", "Colors", "FixedPointNumbers", "Random"]
-git-tree-sha1 = "12fc73e5e0af68ad3137b886e3f7c1eacfca2640"
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random"]
+git-tree-sha1 = "1fd869cc3875b57347f7027521f561cf46d1fcd8"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.17.1"
+version = "3.19.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "024fe24d83e4a5bf5fc80501a314ce0d1aa35597"
+git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.0"
+version = "0.11.4"
 
 [[deps.ColorVectorSpace]]
 deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "SpecialFunctions", "Statistics", "TensorCore"]
-git-tree-sha1 = "3f1f500312161f1ae067abe07d13b40f78f32e07"
+git-tree-sha1 = "d08c20eef1f2cbc6e60fd3612ac4340b89fea322"
 uuid = "c3611d14-8923-5661-9e6a-0046d554d3a4"
-version = "0.9.8"
+version = "0.9.9"
 
 [[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
@@ -1316,9 +2026,9 @@ version = "0.12.8"
 
 [[deps.Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "44c37b4636bc54afac5c574d2d02b625349d6582"
+git-tree-sha1 = "78bee250c6826e1cf805a88b7f1e86025275d208"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.41.0"
+version = "3.46.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1331,10 +2041,9 @@ uuid = "ed09eef8-17a6-5b46-8889-db040fac31e3"
 version = "0.3.2"
 
 [[deps.Contour]]
-deps = ["StaticArrays"]
-git-tree-sha1 = "9f02045d934dc030edad45944ea80dbd1f0ebea7"
+git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
-version = "0.5.7"
+version = "0.6.2"
 
 [[deps.CoordinateTransformations]]
 deps = ["LinearAlgebra", "StaticArrays"]
@@ -1342,21 +2051,32 @@ git-tree-sha1 = "681ea870b918e7cff7111da58791d7f718067a19"
 uuid = "150eb455-5306-5404-9cee-2592286d6298"
 version = "0.6.2"
 
+[[deps.Crayons]]
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.1.1"
+
 [[deps.CustomUnitRanges]]
 git-tree-sha1 = "1a3f97f907e6dd8983b744d2642651bb162a3f7a"
 uuid = "dc8bdbbb-1ca9-579f-8c36-e416f6a65cce"
 version = "1.0.2"
 
 [[deps.DataAPI]]
-git-tree-sha1 = "cc70b17275652eb47bc9e5f81635981f13cea5c8"
+git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.9.0"
+version = "1.10.0"
+
+[[deps.DataFrames]]
+deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
+git-tree-sha1 = "daa21eb85147f72e41f6352a57fccea377e310a9"
+uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+version = "1.3.4"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "3daef5523dd2e769dad2365274f760ff5f282c7d"
+git-tree-sha1 = "d1fff3a548102f48987a52a2e0d114fa97d730f0"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.11"
+version = "0.18.13"
 
 [[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -1383,9 +2103,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
-git-tree-sha1 = "b19534d1895d702889b219c382a6e18010797f0b"
+git-tree-sha1 = "5158c2b41018c5f7eb1470d558127ac274eca0c9"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.8.6"
+version = "0.9.1"
 
 [[deps.Downloads]]
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
@@ -1394,9 +2114,9 @@ version = "1.6.0"
 
 [[deps.DualNumbers]]
 deps = ["Calculus", "NaNMath", "SpecialFunctions"]
-git-tree-sha1 = "84f04fe68a3176a583b864e492578b9466d87f1e"
+git-tree-sha1 = "5837a837389fccf076445fce071c8ddaea35a566"
 uuid = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
-version = "0.6.6"
+version = "0.6.8"
 
 [[deps.EarCut_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1404,17 +2124,16 @@ git-tree-sha1 = "3f3a2501fa7236e9b911e0f7a588c657e822bb6d"
 uuid = "5ae413db-bbd1-5e63-b57d-d24a61df00f5"
 version = "2.2.3+0"
 
-[[deps.EllipsisNotation]]
-deps = ["ArrayInterface"]
-git-tree-sha1 = "d7ab55febfd0907b285fbf8dc0c73c0825d9d6aa"
-uuid = "da5c29d0-fa7d-589e-88eb-ea29b0a81949"
-version = "1.3.0"
-
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "ae13fcbc7ab8f16b0856729b050ef0c446aa3492"
+git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.4.4+0"
+version = "2.4.8+0"
+
+[[deps.Extents]]
+git-tree-sha1 = "5e1e4c53fa39afe63a7d356e30452249365fba99"
+uuid = "411431e0-e8b7-467b-b5e0-f676ba4f2910"
+version = "0.1.1"
 
 [[deps.FFMPEG]]
 deps = ["FFMPEG_jll"]
@@ -1423,10 +2142,10 @@ uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 version = "0.4.1"
 
 [[deps.FFMPEG_jll]]
-deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "Pkg", "Zlib_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
-git-tree-sha1 = "d8a578692e3077ac998b50c0217dfd67f21d1e5f"
+deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "Pkg", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
+git-tree-sha1 = "ccd479984c7838684b3ac204b716c89955c76623"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
-version = "4.4.0+0"
+version = "4.4.2+0"
 
 [[deps.FFTViews]]
 deps = ["CustomUnitRanges", "FFTW"]
@@ -1436,9 +2155,9 @@ version = "0.3.2"
 
 [[deps.FFTW]]
 deps = ["AbstractFFTs", "FFTW_jll", "LinearAlgebra", "MKL_jll", "Preferences", "Reexport"]
-git-tree-sha1 = "463cb335fa22c4ebacfd1faba5fde14edb80d96c"
+git-tree-sha1 = "90630efff0894f8142308e334473eba54c433549"
 uuid = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
-version = "1.4.5"
+version = "1.5.0"
 
 [[deps.FFTW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1448,9 +2167,9 @@ version = "3.3.10+0"
 
 [[deps.FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
-git-tree-sha1 = "80ced645013a5dbdc52cf70329399c35ce007fae"
+git-tree-sha1 = "94f5101b96d2d968ace56f7f2db19d0a5f592e28"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.13.0"
+version = "1.15.0"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -1485,29 +2204,39 @@ git-tree-sha1 = "aa31987c2ba8704e23c6c8ba8a4f769d5d7e4f91"
 uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.10+0"
 
+[[deps.Future]]
+deps = ["Random"]
+uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
+
 [[deps.GLFW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
-git-tree-sha1 = "51d2dfe8e590fbd74e7a842cf6d13d8a2f45dc01"
+git-tree-sha1 = "d972031d28c8c8d9d7b41a536ad7bb0c2579caca"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
-version = "3.3.6+0"
+version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
-git-tree-sha1 = "9f836fb62492f4b0f0d3b06f55983f2704ed0883"
+git-tree-sha1 = "cf0a9940f250dc3cb6cc6c6821b4bf8a4286cf9c"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.64.0"
+version = "0.66.2"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "a6c850d77ad5118ad3be4bd188919ce97fffac47"
+git-tree-sha1 = "2d908286d120c584abbe7621756c341707096ba4"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.64.0+0"
+version = "0.66.2+0"
+
+[[deps.GeoInterface]]
+deps = ["Extents"]
+git-tree-sha1 = "fb28b5dc239d0174d7297310ef7b84a11804dfab"
+uuid = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+version = "1.0.1"
 
 [[deps.GeometryBasics]]
-deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
-git-tree-sha1 = "58bcdf5ebc057b085e58d95c138725628dd7453c"
+deps = ["EarCut_jll", "GeoInterface", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
+git-tree-sha1 = "a7a97895780dab1085a97769316aa348830dc991"
 uuid = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
-version = "0.4.1"
+version = "0.4.3"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -1529,9 +2258,9 @@ version = "2.68.3+2"
 
 [[deps.Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
-git-tree-sha1 = "1c5a84319923bea76fa145d49e93aa4394c73fc2"
+git-tree-sha1 = "d61890399bc535850c4bf08e4e0d3a7ad0f21cbd"
 uuid = "a2bd30eb-e257-5431-a919-1863eab51364"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1541,9 +2270,9 @@ version = "1.3.14+0"
 
 [[deps.Graphs]]
 deps = ["ArnoldiMethod", "Compat", "DataStructures", "Distributed", "Inflate", "LinearAlgebra", "Random", "SharedArrays", "SimpleTraits", "SparseArrays", "Statistics"]
-git-tree-sha1 = "57c021de207e234108a6f1454003120a1bf350c4"
+git-tree-sha1 = "a6d30bdc378d340912f48abf01281aab68c0dec8"
 uuid = "86223c79-3864-5bf0-83f7-82e725a168b6"
-version = "1.6.0"
+version = "1.7.2"
 
 [[deps.Grisu]]
 git-tree-sha1 = "53bb909d1151e57e2484c3d1b53e19552b887fb2"
@@ -1551,10 +2280,10 @@ uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
 [[deps.HTTP]]
-deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
-git-tree-sha1 = "0fa77022fe4b511826b39c894c90daf5fce3334a"
+deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "59ba44e0aa49b87a8c7a8920ec76f8afe87ed502"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "0.9.17"
+version = "1.3.3"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -1569,20 +2298,16 @@ uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
 version = "0.0.4"
 
 [[deps.HypertextLiteral]]
-git-tree-sha1 = "2b078b5a615c6c0396c77810d92ee8c6f470d238"
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-version = "0.9.3"
+version = "0.9.4"
 
 [[deps.IOCapture]]
 deps = ["Logging", "Random"]
 git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.2"
-
-[[deps.IfElse]]
-git-tree-sha1 = "debdd00ffef04665ccbb3e150747a77560e8fad1"
-uuid = "615f187c-cbe4-4ef1-ba3b-2fcf58d6d173"
-version = "0.1.1"
 
 [[deps.ImageAxes]]
 deps = ["AxisArrays", "ImageBase", "ImageCore", "Reexport", "SimpleTraits"]
@@ -1604,27 +2329,27 @@ version = "0.3.10"
 
 [[deps.ImageCore]]
 deps = ["AbstractFFTs", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Graphics", "MappedArrays", "MosaicViews", "OffsetArrays", "PaddedViews", "Reexport"]
-git-tree-sha1 = "9a5c62f231e5bba35695a20988fc7cd6de7eeb5a"
+git-tree-sha1 = "acf614720ef026d38400b3817614c45882d75500"
 uuid = "a09fc81d-aa75-5fe9-8630-4744c3626534"
-version = "0.9.3"
+version = "0.9.4"
 
 [[deps.ImageDistances]]
 deps = ["Distances", "ImageCore", "ImageMorphology", "LinearAlgebra", "Statistics"]
-git-tree-sha1 = "7a20463713d239a19cbad3f6991e404aca876bda"
+git-tree-sha1 = "b1798a4a6b9aafb530f8f0c4a7b2eb5501e2f2a3"
 uuid = "51556ac3-7006-55f5-8cb3-34580c88182d"
-version = "0.2.15"
+version = "0.2.16"
 
 [[deps.ImageFiltering]]
 deps = ["CatIndices", "ComputationalResources", "DataStructures", "FFTViews", "FFTW", "ImageBase", "ImageCore", "LinearAlgebra", "OffsetArrays", "Reexport", "SparseArrays", "StaticArrays", "Statistics", "TiledIteration"]
-git-tree-sha1 = "15bd05c1c0d5dbb32a9a3d7e0ad2d50dd6167189"
+git-tree-sha1 = "8b251ec0582187eff1ee5c0220501ef30a59d2f7"
 uuid = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
-version = "0.7.1"
+version = "0.7.2"
 
 [[deps.ImageIO]]
-deps = ["FileIO", "JpegTurbo", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
-git-tree-sha1 = "464bdef044df52e6436f8c018bea2d48c40bb27b"
+deps = ["FileIO", "IndirectArrays", "JpegTurbo", "LazyModules", "Netpbm", "OpenEXR", "PNGFiles", "QOI", "Sixel", "TiffImages", "UUIDs"]
+git-tree-sha1 = "342f789fd041a55166764c351da1710db97ce0e0"
 uuid = "82e4d734-157c-48bb-816b-45c225c6df19"
-version = "0.6.1"
+version = "0.6.6"
 
 [[deps.ImageMagick]]
 deps = ["FileIO", "ImageCore", "ImageMagick_jll", "InteractiveUtils", "Libdl", "Pkg", "Random"]
@@ -1646,15 +2371,15 @@ version = "0.9.8"
 
 [[deps.ImageMorphology]]
 deps = ["ImageCore", "LinearAlgebra", "Requires", "TiledIteration"]
-git-tree-sha1 = "7668b123ecfd39a6ae3fc31c532b588999bdc166"
+git-tree-sha1 = "e7c68ab3df4a75511ba33fc5d8d9098007b579a8"
 uuid = "787d08f9-d448-5407-9aad-5290dd7ab264"
-version = "0.3.1"
+version = "0.3.2"
 
 [[deps.ImageQualityIndexes]]
-deps = ["ImageContrastAdjustment", "ImageCore", "ImageDistances", "ImageFiltering", "OffsetArrays", "Statistics"]
-git-tree-sha1 = "1d2d73b14198d10f7f12bf7f8481fd4b3ff5cd61"
+deps = ["ImageContrastAdjustment", "ImageCore", "ImageDistances", "ImageFiltering", "LazyModules", "OffsetArrays", "Statistics"]
+git-tree-sha1 = "0c703732335a75e683aec7fdfc6d5d1ebd7c596f"
 uuid = "2996bd0c-7a13-11e9-2da2-2f5ce47296a9"
-version = "0.3.0"
+version = "0.3.3"
 
 [[deps.ImageSegmentation]]
 deps = ["Clustering", "DataStructures", "Distances", "Graphs", "ImageCore", "ImageFiltering", "ImageMorphology", "LinearAlgebra", "MetaGraphs", "RegionTrees", "SimpleWeightedGraphs", "StaticArrays", "Statistics"]
@@ -1664,21 +2389,21 @@ version = "1.7.0"
 
 [[deps.ImageShow]]
 deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
-git-tree-sha1 = "d0ac64c9bee0aed6fdbb2bc0e5dfa9a3a78e3acc"
+git-tree-sha1 = "b563cf9ae75a635592fc73d3eb78b86220e55bd8"
 uuid = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
-version = "0.3.3"
+version = "0.3.6"
 
 [[deps.ImageTransformations]]
 deps = ["AxisAlgorithms", "ColorVectorSpace", "CoordinateTransformations", "ImageBase", "ImageCore", "Interpolations", "OffsetArrays", "Rotations", "StaticArrays"]
-git-tree-sha1 = "42fe8de1fe1f80dab37a39d391b6301f7aeaa7b8"
+git-tree-sha1 = "8717482f4a2108c9358e5c3ca903d3a6113badc9"
 uuid = "02fcd773-0e25-5acc-982a-7f6622650795"
-version = "0.9.4"
+version = "0.9.5"
 
 [[deps.Images]]
 deps = ["Base64", "FileIO", "Graphics", "ImageAxes", "ImageBase", "ImageContrastAdjustment", "ImageCore", "ImageDistances", "ImageFiltering", "ImageIO", "ImageMagick", "ImageMetadata", "ImageMorphology", "ImageQualityIndexes", "ImageSegmentation", "ImageShow", "ImageTransformations", "IndirectArrays", "IntegralArrays", "Random", "Reexport", "SparseArrays", "StaticArrays", "Statistics", "StatsBase", "TiledIteration"]
-git-tree-sha1 = "11d268adba1869067620659e7cdf07f5e54b6c76"
+git-tree-sha1 = "03d1301b7ec885b266c0f816f338368c6c0b81bd"
 uuid = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
-version = "0.25.1"
+version = "0.25.2"
 
 [[deps.Imath_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1692,21 +2417,20 @@ uuid = "9b13fd28-a010-5f03-acff-a1bbcff69959"
 version = "1.0.0"
 
 [[deps.Inflate]]
-git-tree-sha1 = "f5fc07d4e706b84f72d54eedcc1c13d92fb0871c"
+git-tree-sha1 = "5cd07aab533df5170988219191dfad0519391428"
 uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
-version = "0.1.2"
+version = "0.1.3"
 
 [[deps.IniFile]]
-deps = ["Test"]
-git-tree-sha1 = "098e4d2c533924c921f9f9847274f2ad89e018b8"
+git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
-version = "0.5.0"
+version = "0.5.1"
 
 [[deps.IntegralArrays]]
 deps = ["ColorTypes", "FixedPointNumbers", "IntervalSets"]
-git-tree-sha1 = "cf737764159c66b95cdbf5c10484929b247fecfe"
+git-tree-sha1 = "be8e690c3973443bec584db3346ddc904d4884eb"
 uuid = "1d092043-8f09-5a30-832f-7509e371ab51"
-version = "0.1.3"
+version = "0.1.5"
 
 [[deps.IntelOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1719,22 +2443,27 @@ deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.Interpolations]]
-deps = ["AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
-git-tree-sha1 = "b15fc0a95c564ca2e0a7ae12c1f095ca848ceb31"
+deps = ["Adapt", "AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
+git-tree-sha1 = "64f138f9453a018c8f3562e7bae54edc059af249"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
-version = "0.13.5"
+version = "0.14.4"
 
 [[deps.IntervalSets]]
-deps = ["Dates", "EllipsisNotation", "Statistics"]
-git-tree-sha1 = "3cc368af3f110a767ac786560045dceddfc16758"
+deps = ["Dates", "Random", "Statistics"]
+git-tree-sha1 = "076bb0da51a8c8d1229936a1af7bdfacd65037e1"
 uuid = "8197267c-284f-5f27-9208-e0e47529a953"
-version = "0.5.3"
+version = "0.7.2"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "a7254c0acd8e62f1ac75ad24d5db43f5f19f3c65"
+git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.2"
+version = "0.1.7"
+
+[[deps.InvertedIndices]]
+git-tree-sha1 = "bee5f1ef5bf65df56bdd2e40447590b272a5471f"
+uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
+version = "1.1.0"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
@@ -1753,9 +2482,9 @@ version = "1.0.0"
 
 [[deps.JLD2]]
 deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "Pkg", "Printf", "Reexport", "TranscodingStreams", "UUIDs"]
-git-tree-sha1 = "28b114b3279cdbac9a61c57b3e6548a572142b34"
+git-tree-sha1 = "81b9477b49402b47fbe7f7ae0b252077f53e4a08"
 uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
-version = "0.4.21"
+version = "0.4.22"
 
 [[deps.JLLWrappers]]
 deps = ["Preferences"]
@@ -1806,13 +2535,18 @@ version = "1.3.0"
 
 [[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
-git-tree-sha1 = "2a8650452c07a9c89e6a58f296fd638fadaca021"
+git-tree-sha1 = "1a43be956d433b5d0321197150c2f94e16c0aaa0"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.11"
+version = "0.15.16"
 
 [[deps.LazyArtifacts]]
 deps = ["Artifacts", "Pkg"]
 uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
+
+[[deps.LazyModules]]
+git-tree-sha1 = "a560dd966b386ac9ae60bdd3a3d3a326062d3c3e"
+uuid = "8cdb02fc-e678-4876-92c5-9defec4f444e"
+version = "0.3.1"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -1874,9 +2608,9 @@ version = "2.35.0+0"
 
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "Pkg", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "c9551dd26e31ab17b86cbd00c2ede019c08758eb"
+git-tree-sha1 = "3eb79b0ca5764d4799c06699573fd8f533259713"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.3.0+1"
+version = "4.4.0+0"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1890,18 +2624,24 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "e5718a00af0ab9756305a0392832c8952c7426c1"
+git-tree-sha1 = "94d9c52ca447e23eac0c0f074effbcd38830deb5"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.6"
+version = "0.3.18"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.LoggingExtras]]
+deps = ["Dates", "Logging"]
+git-tree-sha1 = "5d4d2d9904227b8bd66386c1138cf4d5ffa826bf"
+uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+version = "0.4.9"
+
 [[deps.MKL_jll]]
 deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
-git-tree-sha1 = "5455aef09b40e5020e1520f551fa3135040d4ed0"
+git-tree-sha1 = "41d162ae9c868218b1f3fe78cba878aa348c2d26"
 uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
-version = "2021.1.1+2"
+version = "2022.1.0+0"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -1919,10 +2659,10 @@ deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [[deps.MbedTLS]]
-deps = ["Dates", "MbedTLS_jll", "Random", "Sockets"]
-git-tree-sha1 = "1c38e51c3d08ef2278062ebceade0e46cefc96fe"
+deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
+git-tree-sha1 = "ae6676d5f576ccd21b6789c2cbe2ba24fcc8075d"
 uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
-version = "1.0.3"
+version = "1.1.5"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -1960,15 +2700,16 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "b086b7ea07f8e38cf122f5016af580881ac914fe"
+deps = ["OpenLibm_jll"]
+git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "0.3.7"
+version = "1.0.1"
 
 [[deps.NearestNeighbors]]
 deps = ["Distances", "StaticArrays"]
-git-tree-sha1 = "16baacfdc8758bc374882566c9187e785e85c2f0"
+git-tree-sha1 = "0e353ed734b1747fc20cd4cba0edd9ac027eff6a"
 uuid = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
-version = "0.4.9"
+version = "0.4.11"
 
 [[deps.Netpbm]]
 deps = ["FileIO", "ImageCore"]
@@ -1982,9 +2723,9 @@ version = "1.2.0"
 
 [[deps.OffsetArrays]]
 deps = ["Adapt"]
-git-tree-sha1 = "043017e0bdeff61cfbb7afeb558ab29536bbb5ed"
+git-tree-sha1 = "1ea784113a6aa054c5ebd95945fa5e52c2f378e7"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.10.8"
+version = "1.12.7"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2016,9 +2757,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "648107615c15d4e09f7eca16307bc821c1f718d8"
+git-tree-sha1 = "e60321e3f2616584ff98f0a4f18d98ae6f89bbb3"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.13+0"
+version = "1.1.17+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -2045,9 +2786,9 @@ version = "8.44.0+0"
 
 [[deps.PNGFiles]]
 deps = ["Base64", "CEnum", "ImageCore", "IndirectArrays", "OffsetArrays", "libpng_jll"]
-git-tree-sha1 = "eb4dbb8139f6125471aa3da98fb70f02dc58e49c"
+git-tree-sha1 = "e925a64b8585aa9f4e3047b8d2cdc3f0e79fd4e4"
 uuid = "f57f5aa1-a3ce-4bc8-8ab9-96f992907883"
-version = "0.3.14"
+version = "0.3.16"
 
 [[deps.PaddedViews]]
 deps = ["OffsetArrays"]
@@ -2063,9 +2804,9 @@ version = "0.12.3"
 
 [[deps.Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "13468f237353112a01b2d6b32f3d0f80219944aa"
+git-tree-sha1 = "3d5bf43e3e8b412656404ed9466f1dcbf7c50269"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.2.2"
+version = "2.4.0"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -2080,39 +2821,51 @@ version = "1.8.0"
 
 [[deps.PkgVersion]]
 deps = ["Pkg"]
-git-tree-sha1 = "a7a7e1a88853564e551e4eba8650f8c38df79b37"
+git-tree-sha1 = "f6cf8e7944e50901594838951729a1861e668cb8"
 uuid = "eebad327-c553-4316-9ea0-9fa01ccd7688"
-version = "0.1.1"
+version = "0.3.2"
 
 [[deps.PlotThemes]]
-deps = ["PlotUtils", "Requires", "Statistics"]
-git-tree-sha1 = "a3a964ce9dc7898193536002a6dd892b1b5a6f1d"
+deps = ["PlotUtils", "Statistics"]
+git-tree-sha1 = "8162b2f8547bc23876edd0c5181b27702ae58dce"
 uuid = "ccf2f8ad-2431-5c83-bf29-c5338b663b6a"
-version = "2.0.1"
+version = "3.0.0"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "6f1b25e8ea06279b5689263cc538f51331d7ca17"
+git-tree-sha1 = "9888e59493658e476d3073f1ce24348bdc086660"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.1.3"
+version = "1.3.0"
 
 [[deps.Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "5c907bdee5966a9adb8a106807b7c387e51e4d6c"
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
+git-tree-sha1 = "3f9b0706d6051d8edf9959e2422666703080722a"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.25.11"
+version = "1.32.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "8979e9802b4ac3d58c503a20f2824ad67f9074dd"
+git-tree-sha1 = "a602d7b0babfca89005da04d89223b867b55319f"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.34"
+version = "0.7.40"
+
+[[deps.PooledArrays]]
+deps = ["DataAPI", "Future"]
+git-tree-sha1 = "a6062fe4063cdafe78f4a0a81cfffb89721b30e7"
+uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
+version = "1.4.2"
 
 [[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "2cf929d64681236a2e074ffafb8d568733d2e6af"
+git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.2.3"
+version = "1.3.0"
+
+[[deps.PrettyTables]]
+deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
+git-tree-sha1 = "dfb54c4e414caa595a1f2ed759b160f5a3ddcba5"
+uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+version = "1.3.1"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -2120,9 +2873,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.ProgressMeter]]
 deps = ["Distributed", "Printf"]
-git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+git-tree-sha1 = "d7a7aef8f8f2d537104f170139553b14dfe39fe9"
 uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
-version = "1.7.1"
+version = "1.7.2"
 
 [[deps.QOI]]
 deps = ["ColorTypes", "FileIO", "FixedPointNumbers"]
@@ -2144,9 +2897,9 @@ version = "0.7.4"
 
 [[deps.Quaternions]]
 deps = ["DualNumbers", "LinearAlgebra", "Random"]
-git-tree-sha1 = "f9b070eb99740b5dd998865d4da8726bea5fa3e0"
+git-tree-sha1 = "b327e4db3f2202a4efafe7569fcbe409106a1f75"
 uuid = "94ee1d12-ae83-5a48-8b1c-48b8ff168ae0"
-version = "0.4.6"
+version = "0.5.6"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -2163,9 +2916,9 @@ version = "0.3.2"
 
 [[deps.Ratios]]
 deps = ["Requires"]
-git-tree-sha1 = "01d341f502250e81f6fec0afe662aa861392a3aa"
+git-tree-sha1 = "dc84268fe0e3335a62e315a3a7cf2afa7178a734"
 uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
-version = "0.4.2"
+version = "0.4.3"
 
 [[deps.RecipesBase]]
 git-tree-sha1 = "6bf3f380ff52ce0832ddd3a2a7b9538ed1bcca7d"
@@ -2174,9 +2927,9 @@ version = "1.2.1"
 
 [[deps.RecipesPipeline]]
 deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase"]
-git-tree-sha1 = "37c1631cb3cc36a535105e6d5557864c82cd8c2b"
+git-tree-sha1 = "e7eac76a958f8664f2718508435d058168c7953d"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.5.0"
+version = "0.6.3"
 
 [[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
@@ -2191,9 +2944,9 @@ version = "0.3.2"
 
 [[deps.RelocatableFolders]]
 deps = ["SHA", "Scratch"]
-git-tree-sha1 = "cdbd3b1338c72ce29d9584fdbe9e9b70eeb5adca"
+git-tree-sha1 = "22c5201127d7b243b9ee1de3b43c408879dff60f"
 uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
-version = "0.1.3"
+version = "0.3.0"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
@@ -2203,9 +2956,9 @@ version = "1.3.0"
 
 [[deps.Rotations]]
 deps = ["LinearAlgebra", "Quaternions", "Random", "StaticArrays", "Statistics"]
-git-tree-sha1 = "405148000e80f70b31e7732ea93288aecb1793fa"
+git-tree-sha1 = "3177100077c68060d63dd71aec209373c3ec339b"
 uuid = "6038ab10-8711-5258-84ad-4b1120ba62dc"
-version = "1.2.0"
+version = "1.3.1"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -2213,9 +2966,9 @@ version = "0.7.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
-git-tree-sha1 = "0b4b7f1393cff97c33891da2a0bf69c6ed241fda"
+git-tree-sha1 = "f94f779c94e58bf9ea243e77a37e16d9de9126bd"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -2229,6 +2982,11 @@ deps = ["Dates", "Grisu"]
 git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
+
+[[deps.SimpleBufferStream]]
+git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
+uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
+version = "1.1.0"
 
 [[deps.SimpleTraits]]
 deps = ["InteractiveUtils", "MacroTools"]
@@ -2263,9 +3021,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "85e5b185ed647b8ee89aa25a7788a2b43aa8a74f"
+git-tree-sha1 = "d75bda01f8c31ebb72df80a46c88b25d1c79c56d"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.1.3"
+version = "2.1.7"
 
 [[deps.StackViews]]
 deps = ["OffsetArrays"]
@@ -2273,17 +3031,16 @@ git-tree-sha1 = "46e589465204cd0c08b4bd97385e4fa79a0c770c"
 uuid = "cae243ae-269e-4f55-b966-ac2d0dc13c15"
 version = "0.1.1"
 
-[[deps.Static]]
-deps = ["IfElse"]
-git-tree-sha1 = "00b725fffc9a7e9aac8850e4ed75b4c1acbe8cd2"
-uuid = "aedffcd0-7271-4cad-89d0-dc628f76c6d3"
-version = "0.5.5"
-
 [[deps.StaticArrays]]
-deps = ["LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "95c6a5d0e8c69555842fc4a927fc485040ccc31c"
+deps = ["LinearAlgebra", "Random", "StaticArraysCore", "Statistics"]
+git-tree-sha1 = "dfec37b90740e3b9aa5dc2613892a3fc155c3b42"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.3.5"
+version = "1.5.6"
+
+[[deps.StaticArraysCore]]
+git-tree-sha1 = "ec2bd695e905a3c755b33026954b119ea17f2d22"
+uuid = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
+version = "1.3.0"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -2291,15 +3048,15 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[deps.StatsAPI]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "c3d8ba7f3fa0625b062b82853a7d5229cb728b6b"
+git-tree-sha1 = "f9af7f195fb13589dd2e2d57fdb401717d2eb1f6"
 uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.2.1"
+version = "1.5.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
+git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.16"
+version = "0.33.21"
 
 [[deps.StringDistances]]
 deps = ["Distances", "StatsAPI"]
@@ -2308,10 +3065,10 @@ uuid = "88034a9c-02f8-509d-84a9-84ec65e18404"
 version = "0.11.2"
 
 [[deps.StructArrays]]
-deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
-git-tree-sha1 = "57617b34fa34f91d536eb265df67c2d4519b8b98"
+deps = ["Adapt", "DataAPI", "StaticArraysCore", "Tables"]
+git-tree-sha1 = "8c6ac65ec9ab781af05b08ff305ddc727c25f680"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
-version = "0.6.5"
+version = "0.6.12"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -2325,10 +3082,10 @@ uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 version = "1.0.1"
 
 [[deps.Tables]]
-deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "bb1064c9a84c52e277f1096cf41434b675cd368b"
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "OrderedCollections", "TableTraits", "Test"]
+git-tree-sha1 = "5ce79ce186cc678bbb5c5681ca3379d1ddae11a1"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.6.1"
+version = "1.7.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
@@ -2346,16 +3103,16 @@ deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TestImages]]
-deps = ["AxisArrays", "ColorTypes", "FileIO", "OffsetArrays", "Pkg", "StringDistances"]
-git-tree-sha1 = "f91d170645a8ba6fbaa3ac2879eca5da3d92a31a"
+deps = ["AxisArrays", "ColorTypes", "FileIO", "ImageIO", "ImageMagick", "OffsetArrays", "Pkg", "StringDistances"]
+git-tree-sha1 = "3cbfd92ae1688129914450ff962acfc9ced42520"
 uuid = "5e47fb64-e119-507b-a336-dd2b206d9990"
-version = "1.6.2"
+version = "1.7.0"
 
 [[deps.TiffImages]]
-deps = ["ColorTypes", "DataStructures", "DocStringExtensions", "FileIO", "FixedPointNumbers", "IndirectArrays", "Inflate", "OffsetArrays", "PkgVersion", "ProgressMeter", "UUIDs"]
-git-tree-sha1 = "991d34bbff0d9125d93ba15887d6594e8e84b305"
+deps = ["ColorTypes", "DataStructures", "DocStringExtensions", "FileIO", "FixedPointNumbers", "IndirectArrays", "Inflate", "Mmap", "OffsetArrays", "PkgVersion", "ProgressMeter", "UUIDs"]
+git-tree-sha1 = "70e6d2da9210371c927176cb7a56d41ef1260db7"
 uuid = "731e570b-9d59-4bfa-96dc-6df516fadf69"
-version = "0.5.3"
+version = "0.6.1"
 
 [[deps.TiledIteration]]
 deps = ["OffsetArrays"]
@@ -2365,14 +3122,19 @@ version = "0.3.1"
 
 [[deps.TranscodingStreams]]
 deps = ["Random", "Test"]
-git-tree-sha1 = "216b95ea110b5972db65aa90f88d8d89dcb8851c"
+git-tree-sha1 = "8a75929dcd3c38611db2f8d08546decb514fcadf"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.9.6"
+version = "0.9.9"
+
+[[deps.Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
 
 [[deps.URIs]]
-git-tree-sha1 = "97bbe755a53fe859669cd907f2d96aee8d2c1355"
+git-tree-sha1 = "e59ecc5a41b000fa94423a578d29290c7266fc10"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.3.0"
+version = "1.4.0"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -2393,9 +3155,9 @@ uuid = "1cfade01-22cf-5700-b092-accc4b62d6e1"
 version = "0.4.1"
 
 [[deps.Unzip]]
-git-tree-sha1 = "34db80951901073501137bdbc3d5a8e7bbd06670"
+git-tree-sha1 = "ca0969166a028236229f63514992fc073799bb78"
 uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
-version = "0.1.2"
+version = "0.2.0"
 
 [[deps.Wayland_jll]]
 deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
@@ -2405,9 +3167,9 @@ version = "1.19.0+0"
 
 [[deps.Wayland_protocols_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "66d72dc6fcc86352f01676e8f0f698562e60510f"
+git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
-version = "1.23.0+0"
+version = "1.25.0+0"
 
 [[deps.WoodburyMatrices]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -2417,9 +3179,9 @@ version = "0.5.5"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "1acf5bdf07aa0907e0a37d3718bb88d4b687b74a"
+git-tree-sha1 = "58443b63fb7e465a8a7210828c91c08b92132dff"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.9.12+0"
+version = "2.9.14+0"
 
 [[deps.XSLT_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
@@ -2564,6 +3326,12 @@ git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
 version = "1.5.2+0"
 
+[[deps.libaom_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "3a2ea60308f0996d26f1e5354e10c24e9ef905d4"
+uuid = "a4ae2306-e953-59d6-aa16-d00cac43593b"
+version = "3.4.0+0"
+
 [[deps.libass_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
 git-tree-sha1 = "5982a94fcba20f02f42ace44b9894ee2b140fe47"
@@ -2623,9 +3391,9 @@ version = "3.5.0+0"
 
 [[deps.xkbcommon_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
-git-tree-sha1 = "ece2350174195bb31de1a63bea3a41ae1aa593b6"
+git-tree-sha1 = "9ebfc140cc56e8c2156a15ceac2f0302e327ac0a"
 uuid = "d8fb68d0-12a3-5cfd-a85a-d49703b185fd"
-version = "0.9.1+5"
+version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
@@ -2634,7 +3402,96 @@ version = "0.9.1+5"
 # ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
+# ╟─0c7b5d17-323f-4bc7-8495-c6507647a703
 # ╟─0c2bf16a-92b9-4021-a5f0-ac2334fb986a
+# ╠═bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+# ╟─19cad43b-de3a-4922-a55a-56a192aca919
+# ╟─3b117d55-f043-4deb-a5d3-66078ace53db
+# ╠═d8713915-71d6-4498-a587-951d35f915c0
+# ╟─c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
+# ╠═bcc8866b-5f3e-4a0e-a561-a06c80cc974a
+# ╟─5c9353c9-9926-4630-948e-dfb28060a66a
+# ╟─b929fc46-a0c5-41b5-aa12-f77f136ab3e0
+# ╠═f51d50a6-3253-4c41-9f1a-445d28582a4a
+# ╟─84f64dbf-3cff-413a-88c9-ad89a372a7d2
+# ╟─ef2d3cb6-aa10-4abb-b4ea-e96768056ebb
+# ╠═0a2fdc0e-99d7-42be-9995-f85b0376b81d
+# ╠═ede06a6c-468e-4c26-9467-ab07a17717fd
+# ╠═7090909f-809b-4ef9-a86d-50ac512ab455
+# ╟─ac1831f6-d7e1-47ac-88ab-f4e3523fa07b
+# ╟─906b0d37-934e-4aee-aa12-f49b56a62d4b
+# ╠═cf299aac-531d-41cb-ae79-ee5fcc0ff011
+# ╠═81ee7e6b-0855-4a28-b6b9-f50e0b38e741
+# ╠═cf0a3a7a-613c-4174-ae2b-1133a604115c
+# ╠═11bdc921-d39e-405a-93ee-002b986a2bef
+# ╠═53017ff5-8e06-4e23-b027-ee49257aff6b
+# ╠═cc17fd62-e5c2-4a0f-b8dd-506941951803
+# ╠═5314ec4c-d0ae-4290-b9d6-26eec26e104d
+# ╠═8de9608c-472d-40a0-8ab2-ba80463c74d8
+# ╠═991d9d71-c85f-4fdb-9c9b-b13138c2a692
+# ╟─58678b29-d37e-4d15-a5da-8a94632900c0
+# ╟─4402e8ea-c9c6-46fa-8e54-43c94f954148
+# ╟─1239b181-6331-4569-8e30-e8831e3a8ff5
+# ╟─1f0b8e56-eeb5-462b-a2e6-e7ae89665fbd
+# ╟─e64549f5-15af-4595-a901-c2016eebc80c
+# ╟─a078fb5c-2c7b-4893-ba84-72fa05f49e62
+# ╟─6795cb2d-86f5-48d3-bad0-5f0dc50c550f
+# ╠═82c94279-7723-400e-850b-0c47fe48ea39
+# ╟─138ba645-cea3-4295-8cb4-f127255aaa3f
+# ╠═a3f0c93e-97d3-47b4-8e6c-5417ee77c3e0
+# ╠═608d6169-b6f5-4ce0-a814-d2e69c845e90
+# ╠═ed4eef8f-ad6b-42f0-b38d-4f5931a33719
+# ╠═6ec103a2-0737-4e58-9f03-39317ffd8b0a
+# ╟─688838c0-85e8-426f-bd50-8c953da83d44
+# ╟─91149d9e-3c69-4f52-af82-654aaf8eba98
+# ╟─fffd5112-314b-4c0f-90f4-15e5cc483b4c
+# ╠═181512ad-360c-4f3f-8bde-41881f2d886f
+# ╠═55d7449c-0b45-46a3-aeb0-c19b3af29cda
+# ╟─20d53b4f-7c16-43e9-8818-de16765aa6a3
+# ╟─eeea9419-ee50-4335-b682-6e7cdb28abff
+# ╠═7ae0d9ab-c9e5-4d4c-8aaf-39df1548c2ca
+# ╠═19d90c1a-196d-495a-b487-63c73086639a
+# ╠═cb054f29-a7d1-42bc-a904-6a4afd61b1d7
+# ╟─46b2064a-a563-404f-b9ed-5f935fd2baf3
+# ╠═77e82a01-f253-4d4b-9555-5f0f0170e23e
+# ╠═c37b9b9c-4e85-45d8-909d-a95360e92b2d
+# ╟─43fd2bdd-8fcf-4eba-a638-6a6f6ee7b720
+# ╟─2b9be8d2-b389-4c8b-a7ef-70304fe7b45f
+# ╟─075ba59d-02fc-4015-83f7-801ca7bb8fc9
+# ╟─386a3d57-3188-4f52-9be6-59b3c0abc207
+# ╟─179cd26c-dbee-43e4-9964-aa20beecf8b5
+# ╠═6f7bd689-a558-4287-b25a-15ab016e7b41
+# ╟─44ec39d6-e39b-4912-aa20-b07b2c3a41b2
+# ╟─abbc6066-6b4a-462f-aa57-7cfb3b7622b1
+# ╟─92139ad8-970b-4712-82e5-dfc8a4271c62
+# ╟─c8912b35-85c4-4fa9-bc1e-da54812b681b
+# ╟─13630b66-ad86-4873-811f-2a4d82d630b6
+# ╠═fd5b6697-09a0-43f5-ba08-a9e8cd167802
+# ╟─ebeb4bbf-3192-417c-a853-d8f1f44551e1
+# ╟─c65c827f-ba05-48d6-a868-8a8fbb1e089e
+# ╠═e2583179-509e-4f0a-a6ef-715eb0d9f28e
+# ╟─792b3254-4d90-4b2c-a0b6-ed324ff87594
+# ╠═b3a1f41f-1b08-4de7-b44a-e3239c313336
+# ╠═7a5bf0e8-ab35-4e13-81fd-1d0862178281
+# ╟─cd4adf49-b052-4bf1-8c3f-9348da88666f
+# ╟─b979ac94-fb8a-4575-8b5f-0328128a3ad0
+# ╟─b763d610-f777-4d28-85b6-89f1e342796e
+# ╠═e5051924-1c30-48cf-8568-bfea56957a8e
+# ╠═96f3162a-4a1a-46b4-8ba2-fccc00ff41b4
+# ╠═d520c2bb-7b77-4fba-944b-6ebe44f3cb17
+# ╠═ef115594-908d-4f7a-a199-108a0239cdc5
+# ╠═fe030af9-6868-4ef4-b858-49ed33d3a9db
+# ╟─77a0d2ff-ca16-4da6-ae52-acbb5f194262
+# ╟─a8d4331b-b2b2-4f20-8d80-75213829067b
+# ╠═39a3e51e-8bc9-4a55-9bb4-460f750ae0d6
+# ╠═12ec3ef3-491c-41c8-9e4c-e87445b71a7a
+# ╠═fa4945ec-f1f3-4ea1-8c06-0a98c673c7d0
+# ╟─5ce07a9d-6817-4be4-ac4a-74db4e821aa3
+# ╟─f8cef7e7-ba70-4220-933c-f0d91b1ec080
+# ╠═456df6e3-b4cb-4a6b-9b7c-36998859d95a
+# ╠═b984d4e3-b240-45fb-89b4-6795454b4048
+# ╟─e4894761-fcbb-421f-b72f-b542a9ee5ac9
+# ╟─263953a3-7af9-4b7e-ba44-8d6bbef83eb0
 # ╠═713f95f2-f406-4f3b-8d3c-c3c221f8b2b0
 # ╟─3de20f99-af1c-413a-b8f4-dc2d259ece3a
 # ╠═52f94555-b54b-4e87-894c-d147ee3525ed
@@ -2643,14 +3500,16 @@ version = "0.9.1+5"
 # ╠═165e212a-4037-455e-9b76-f605bd7fde37
 # ╠═5859511e-55e8-4e77-b208-39d2c8151de2
 # ╠═013b7ebc-4201-4d42-ae02-cacdc2d98908
+# ╟─238a92e6-7d7d-441c-9fbb-7d658981b5ea
 # ╟─0ac852a2-446f-4756-b059-f30fe112a3cc
+# ╠═f7e8eec5-2867-4053-8767-91839f6a5c56
 # ╠═9742c131-55ad-47da-b600-1a622b90a152
 # ╠═307a0345-2621-430a-802e-c4150f289436
 # ╠═b52f4f54-66a8-41c4-9afc-c72a25e30b23
 # ╠═ebe4c9de-96fb-456a-973b-9222238bce7e
 # ╟─ce0e742a-1252-4a97-b70b-4601c7cc6cf3
-# ╠═28227637-f954-4fb9-a286-28dbcc33950e
-# ╟─757ca38f-5070-4c77-b792-d162b3254a12
+# ╟─28227637-f954-4fb9-a286-28dbcc33950e
+# ╠═757ca38f-5070-4c77-b792-d162b3254a12
 # ╠═0d69ae64-e358-495a-8f60-418f7f6e4e0d
 # ╟─314fd69f-4a2b-49f3-9ae4-ccdaf7c47482
 # ╠═0947c623-7ea2-4ecc-a971-adbf5982fd0d

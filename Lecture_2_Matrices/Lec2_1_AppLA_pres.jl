@@ -27,12 +27,6 @@ end
 # ╔═╡ b5f2b6bf-899b-40f4-9d9f-20485f489870
 using Images, TestImages, OffsetArrays
 
-# ╔═╡ b5449b8e-3000-48dc-a788-1d357569a5a9
-using QuartzImageIO # required to load a gif file
-
-# ╔═╡ cab15114-3851-442c-8fb4-d03928dcb082
-using DataFrames
-
 # ╔═╡ 5504aec1-ecb0-41af-ba19-aaa583870875
 PlutoUI.TableOfContents(aside=true)
 
@@ -131,9 +125,6 @@ md"# Lecture - 2: Matrices
 >> ##### 2.4.5. Matrix-Matrix multiplication
 >> ##### 2.4.6. Determinant
 >> ##### 2.4.7. Inverse
-
-> ##### 2.5. A Few Applications
->> ##### 2.5.1. Markov processes
 
 ---
 "
@@ -1062,691 +1053,6 @@ md"""
 ---
 """
 
-# ╔═╡ 2d036e2e-6850-46d8-bbb5-21856403ecc8
-md"""# 2.5. A Few Applications
-\
-`` \bullet \Large \bf  \;\; Markov \;\; Process``
-
-`` 	\qquad - \large PageRank``
-
-``  \qquad - \large Covid-19 \;\; Survival \;\; Analysis ``
-
-\
-
-`` \bullet \Large \bf \;\;Compression \;\;(Image, \;Data, \;etc.) ``
-
-`` \qquad - \large A \;sample \;image \;and \;compression \;via \;SVD ``
-
-\
-
- `` \bullet \Large \bf \;\;Regression ``
-
- `` \qquad - \large Linear \;and \;non-linear ``
-
----
-"""
-
-# ╔═╡ 7ad20af1-a7d6-4092-b982-fad27d6e51ea
-md"## 2.5.1. Markov Processes 
-
-### Example 1: Page Rank[^1] 
-##### Birth of Google's PageRank algorithm:
-
-###### Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
-
-\
-
-###### From a theoretical point of view, the PageRank algorithm relies on the simple but fundamental mathematical notion of **_Markov chains_**.
-
-\
-
-###### PageRank is a function that assigns a real number to each page in the Web that the higher the number, the more **important** it is.
-[^1]: _Introduction to Markov chains: 
-	Definitions, properties and PageRank example_, Joseph Rocca, Published in _Towards Data Science_ in Feb 25, 2019.
-"
-
-# ╔═╡ ba3404b3-956e-4ca8-93aa-070897bdaa9a
-begin
-	pgrank = load("PageRank-hi-res.png");
-	pgrank[1:10:size(pgrank)[1],1:10:size(pgrank)[2]]
-end
-
-# ╔═╡ 55bbc51f-86ef-41ab-824c-0d5fe4241181
-md"""
----"""
-
-# ╔═╡ 2633b604-7476-48d0-8cdc-05645ea0ed57
-md"#
-### - Form the Markov matrix
-"
-
-# ╔═╡ 3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
-markov_example = load("markov_fig.gif");
-
-# ╔═╡ d50ef757-c687-4695-a4f3-2740a646ccd8
-TwoColumn(
-plot(markov_example[:,:,1], xmirror=true, title="Website with 7 pages", axis = false, ticks = false, aspect_ratio=1.0, size = (350, 400)),
-md"""
-$\Large Markov \;\;Matrix$
-```math
- {\bf M} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix}  
-```
-where 
-- '$\cdot$' represents zero,
-- each column represents a page,
-- numbers in the columns represent the transition probabilities
-- sum of the probabilities of transioning from a page to all other pages must be equal to 1.
-"""		
-)
-
-# ╔═╡ b802bd1c-c590-499c-990f-596159fea135
-M = [0.0 0.0 0.0 0.5 1.0 0.0 0.5;
-	0.25 0.0 0.5 0.0 0.0 0.0 0.0
-	0.0 0.5 0.0 0.0 0.0 0.0 0.0
-	0.0 0.5 0.5 0.0 0.0 0.0 0.5
-	0.25 0.0 0.0 0.0 0.0 0.0 0.0
-	0.25 0.0 0.0 0.0 0.0 0.0 0.0
-	0.25 0.0 0.0 0.5 0.0 1.0 0.0] # "Command + /" to toggle between commented and actived cells
-
-# ╔═╡ 0872e2b8-386a-40a4-b2cb-48f564c921d8
-ones(7)' * M # Sum of all columns must be 1 as the total probability can not exceed 1
-
-# ╔═╡ 23a409b4-4299-4c12-a55a-adc438def7ea
-md"""
----"""
-
-# ╔═╡ a3611641-256e-49e8-9e2e-c78b9efc21ce
-md"""#
-### - Define initial state
-
-##### $\bullet \;\;$ Define an inital state: suppose surfer starts at Page-1, 
-##### $\qquad \qquad {\bf x_0}=[1 \; 0 \; 0 \; 0 \; 0 \; 0 \; 0]'$
-##### $\bullet \;\;$ Next state $\bf x_1 = M x_0$ is given as 
-
-##### $\qquad \qquad {\bf x_1} = \begin{bmatrix} \cdot & \cdot & \cdot & 0.5 & 1.0 & \cdot & 0.5 \\ 0.25 & \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & \cdot & \cdot & \cdot & \cdot & \cdot \\ \cdot & 0.5 & 0.5 & \cdot & \cdot & \cdot & 0.5 \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\ 0.25 & \cdot & \cdot & 0.5 & \cdot & 1.0 & \cdot \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cdot \\ 0.25 \\ \cdot \\ \cdot \\ 0.25 \\ 0.25 \\ 0.25 \end{bmatrix}$
-\
-
-"""
-
-# ╔═╡ 541a573c-2e87-49dc-97e7-778a50364e52
-state0 = [1, 0, 0, 0, 0, 0, 0] # [1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7] 
-
-# ╔═╡ dd6f459f-898f-4370-9cc8-35e410a76cc7
-state = zeros(7,50); # Initialize the state matrix
-
-# ╔═╡ f6e62718-42b7-4e0b-b9ab-60fbf3bfa4a6
-state[:,1] = M * state0
-
-# ╔═╡ abf983de-2f8b-42d8-b3ef-54d0eb5f0cde
-md"""
----"""
-
-# ╔═╡ 7516b6a6-1f70-4bab-a320-ae16b028e6be
-md"""#
-### - Find the following states
-##### $\qquad \qquad {\bf x_2 = M x_1} → {\bf x_3 = M x_2} → \cdots → {\bf x_n = M x_{n-1}}$
-
-##### OR
-
-##### $\qquad \qquad {\bf x_n = M^n x_0}$
-
-"""
-
-# ╔═╡ d1eec44f-5373-4a5c-8013-46434a6679b2
-state[:,2] = M * state[:,1]
-
-# ╔═╡ aacf8539-f733-4c1b-a7e6-46c6c81cf256
-state[:,3] = M * state[:,2]
-
-# ╔═╡ 091d6eae-ec41-4957-8955-09ec7647a574
-state[:,4] = M * state[:,3]
-
-# ╔═╡ fc9d1dad-596a-432f-bbaf-6cff95986dd0
-state[:,5] = M * state[:,4]
-
-# ╔═╡ 2818d860-77a3-4a53-8db3-a9d6cba8909a
-state[:,10] = M^10 * state0
-
-# ╔═╡ fb77bfcc-0d99-4ebd-aa4e-a96e5d190de9
-state[:,20] = M^20 * state0
-
-# ╔═╡ 9bc38bf4-7428-4190-aa07-42f03df542e3
-state[:,30] = M^30 * state0
-
-# ╔═╡ e19c2e7b-7587-4584-9093-3e8c8563cdc9
-md"""#
-### - Properties of Markov Matrix
-#### $\bullet \;\;$ What do you notice from the above computations?
-##### $\qquad \circ\;\;$ States converge;  
-##### $\qquad \qquad -\;\;$ How can we measure the distance between each state, `norm`?  
- ##### $\qquad \qquad -\;\;$ Steady-state distribution depends on the initial state? NO  
-##### $\qquad \qquad -\;\;$ Is $\bf M^n x_n = x_n$ correct? What is your conclusion from this?
-  
- ##### $\qquad \qquad -\;\;$ All numbers in each state sum up to '$1$'. True or False?
-
-#### $\bullet \;\;$ How do you interpret the end state after 30 transitions?
-
-##### $\qquad \qquad {\bf x_{30}} = \begin{bmatrix} 0.29 & 0.095 & 0.047 & 0.19 & 0.07 & 0.07 & 0.238 \end{bmatrix}'$
-
-"""
-
-# ╔═╡ 20e0521b-1943-4eef-85b2-e46d6fc1d9c0
-bar([i for i in 1:7], state[:,30], legend = false, xlabel ="Pages", ylabel= "PageRank values", size = (600, 350))
-
-# ╔═╡ a10cae47-2b16-421f-9f1c-cdd8a6eda5ad
-md"""#
-### - Convergence study (norms)
-
-##### $\bullet \;\;$ Norm is the length of a vector ${\bf v}$ and represented by $\| {\bf v} \|$
-##### $\bullet \;\;$ There are different norm definitions
-##### $\qquad - \;\;$ ``L_1`` norm =  $\| {\bf v} \|_1 = |v_1| + |v_2| + \cdots + |v_n|$ 
-##### $\qquad - \;\;$ ``L_2`` norm (≡ Euclidian norm) = $\| {\bf v} \|_2 = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$ 
-##### $\qquad - \;\;$ ``L_{\infty}`` norm (≡ Max norm) = $\| {\bf v} \|_\infty  = Max[{|v_1|, |v_2|, \cdots, |v_n|}]$
-
-!!! norm
-	##### Throughout this course, mostly Euclidian Norm will be used and subscript '2' will be droped in $\| {\bf v} \|$.
-"""
-
-# ╔═╡ 1798453f-54cc-45e8-b65d-9e5745dbfbd6
-begin
-	error_L1 = zeros(20); # distance between iterations error(i) = state(i)-state(i-1)
-	error_L2 = zeros(20);
-	error_Linf = zeros(20);
-	state[:,1] = M * state0
-	error_L1[1] = norm(state[:,1]-state0, 1) # L_1 norm
-	error_L2[1] = norm(state[:,1]-state0, 2) # default L_2 norm 
-	error_Linf[1] = norm(state[:,1]-state0, Inf) # L_inf norm
- 	for i in 2:20
-		state[:,i] = M * state[:,i-1]
-		error_L1[i] = norm(state[:,i] - state[:,i-1], 1)
-		error_L2[i] = norm(state[:,i] - state[:,i-1], 2)
-		error_Linf[i] = norm(state[:,i] - state[:,i-1], Inf)
-	end
-end
-
-# ╔═╡ 78e59b84-97e1-4042-af3a-065f992e1176
-begin
-	plot([1:20], error_L1, xlabel = L"Number \;of \;Transitions", title = L"Distance \;between \;the \;last \;two \;transitions", label = L"L_1 \;Norm", mark = :square, fg_legend = :false)
-	plot!([1:20], error_L2, mark = :circle, label = L"L_2 \;Norm")
-	plot!([1:20], error_Linf, mark = :diamond, label = L"L_{\infty} \;Norm")
-end  	
-
-# ╔═╡ 2780a6fa-fc19-40be-93d1-8b092045a071
-md"""
----"""
-
-# ╔═╡ 9a987b58-47e9-4191-8fb7-9225d27d2628
-md"#
-### - Role of Initial State
-##### In Markov matrices, there are few properties that we need to state for the sake of understanding its potential and problems: For Markov Matrices,
-##### $\bullet \;\;$ the sum of each column must be '1'; $\rightarrow [1 \;1 \cdots 1]\; {\bf M} =[1 \;1 \cdots 1]$   
-##### $\bullet \;\;$ if entries postive, called positive Markov matrices,
-##### $\qquad - \;\;$ they always converge to a unique steady-state;
-##### $\bullet \;\;$ if not, that is, if there are zero entries, then
-##### $\qquad - \;\;$ it may still converge to a single steady-state or converge to more 
-##### $\qquad \;\;\;\;$ than one steady-states dependent on the initial state $x_0$; 
-##### $\bullet \;\;$ iterations maintain the sum of the entries of the initial guess, that is
-##### $\qquad Sum({\bf x}_1) = [1 \;1 \cdots 1]\; {\bf x}_1 = \underbrace{[1 \;1 \cdots 1]\; {\bf M}}_{\color{red} [1 \;1 \cdots \; 1]} \;{\bf x}_0 = [1 \;1 \cdots 1]\; {\bf x_0} = Sum({\bf x}_0)$
-"
-
-# ╔═╡ 54cbf7b1-95d0-4027-b65f-a5ad5808e4b4
-let
-	state0 =[0, 0, 1, 1, 1, 0, 0]
-	state30 = M^30 * state0
-	nstate30 = state30 / sum(state30)
-	bar([i for i in 1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values", title = "30 iterations; Initial state = $(state0[:,1])")
-end
-
-# ╔═╡ 81d40d17-e770-408a-8987-0ab17f40293d
-begin
-	nst_i = zeros(7,30)
-	st_0 =rand(0:1:1, 7)
-	nst_i[:,1] = round.(st_0/ sum(st_0); digits=2)# Float16.(st_0/ sum(st_0)) # normalized initial state
-	for i = 2:30
-		nst_i[:,i] = (M^(i-1) * nst_i[:,i-1])
-	end	
-	# barplt = bar([1:7], nstate30, legend = false, xlabel ="Pages", ylabel= "PageRank values")
-	
-	anim_states = @animate for i in 1:10
-	plot!(bar([1:7], nst_i[:,i], legend = false, xlabel ="Pages", ylabel= "PageRank values"), title = "$(i-1); Initial state = $(nst_i[:,1])")
-	end
-	
-end
-
-# ╔═╡ f2c5a261-af9f-4f4a-b854-1dc36bd7ea44
-gif(anim_states, "anim_states.gif", fps = 0.5)
-
-# ╔═╡ b6036a94-7e1f-40f4-a905-b9081fd25c8a
-md"""#
-#### Is $\bf M^n x_n = x_n$ ?   What is your conclusion?
-
-##### $\bullet \;\;$ Do you remember ${\bf A x}=\lambda {\bf x}$ ? `Eigenvalues` and `Eigenvectors`
-\
-
-##### $\bullet \;\;$ $\bf M^n x_n = x_n$ implies that Markov matrix $\bf M$ has an eigenvalue at $\lambda = 1$ with its eigenvector $\bf x_n$
-\
-
-##### $\bullet \;\;$ So, finding the eigenvector of $\bf M$ corresponding to eigenvalue $\lambda = 1$ will directly give the steady-state:
-"""
-
-# ╔═╡ 66fe1bad-ae41-4e10-82ce-64b36d446049
-# lambda = eigvals(M) # Eigenvalues of M
-
-# ╔═╡ 7956a61e-f1c1-44b6-9583-1df552051af6
-# eigv = eigvecs(M) # Eigenvectors of M in the order of eigenvalues
-
-# ╔═╡ 5a4eb37f-82db-40f3-be2d-0412e473ccb1
-# n_eigenvector = eigv[:,7] / sum(eigv[:,7]) # need to mormalize to the sum of the vector.
-
-# ╔═╡ b9d3cf7e-942b-4cb3-bda2-c932dcc314a4
-# norm((eigv[:,7] / sum(eigv[:,7]) - state[:,30]),Inf) # see the distance (norm) between the eigenvector for lambda =1 and the state we have reached after 30 iterations
-
-# ╔═╡ 725d0c60-a3fa-49ee-9c14-4b950f8b7d53
-md"""
----"""
-
-# ╔═╡ 7c35704a-c6dc-429a-b28f-105764177636
-md"""
-!!! note \"Project Idea - 1\"
-	Review the PageRank algorithm of Google and find a way to promote your web page.
-"""
-
-# ╔═╡ b16906ed-b4ab-446e-a0e8-d79418ef56ca
-md"""#
-### Example 2: Covid-19 Survival Analysis[^2]
-
-##### The problem was formulated under two infection scenarios:
-
-##### $1. \;\;$ 5% as suggested by CDC (Centers for Desease Control) and 
-##### $2. \;\;$ 10% for aggressive case 
-
-##### with three states as `Non infected`, `Infected` and `Hospitalized` with the following probabilities in Markov matrices:
-\
-
-##### $\qquad {\bf M_1^{CDC}} = \begin{bmatrix} 0.95 & 0.10 & 0.00 \\ 0.05 & 0.70 & 0.30 \\ 0.00 & 0.20 & 0.70  \end{bmatrix} \qquad {\bf M_2^{Agg}} = \begin{bmatrix} 0.90 & 0.12 & 0.00 \\ 0.10 & 0.70 & 0.20 \\ 0.00 & 0.18 & 0.80  \end{bmatrix}$
-
-
-##### where 
-##### $\bullet \;\;$ $1^{st}$ column represents `Non infected` and their transitions to others;
-##### $\bullet \;\;$ $2^{nd}$ column is for `Infected` and their transitions to others;
-##### $\bullet \;\;$ $3^{rd}$ column is for `Hospitalized` and their transitions to other states.
-
-!!! warning \"The goal of this study is to assess\"
-	##### $\bullet \;\;$ the long-run percentages of cases in each of the states, 
-	##### $\bullet \;\;$ the rates at which these states populated 
-
-[^2]: [_A Markov Chain Model for Covid-19 Survival Analysis_] (https://web.cortland.edu/matresearch/MarkovChainCovid2020.pdf), Jorge Luis Romeu, July 17, 2020.
-"""
-
-# ╔═╡ e4a6e169-925f-490b-b03a-21f277ff0fa5
-M_covCDC = [0.95 0.10 0.0 ;
-	0.05 0.70 0.30
-	0.0 0.20 0.70]
-
-# ╔═╡ b0d2fd84-3307-4a6d-af91-32cfdaa375f0
-M_covAgg = [0.90 0.12 0.0 ;
-	0.10 0.70 0.20
-	0.0 0.18 0.80]
-
-# ╔═╡ b0a3be42-6aec-4c7d-8798-d62a23aeb01a
-md"""
----"""
-
-# ╔═╡ ffe0fb93-50f4-4a1d-b73b-e24fb729d043
-md"""# 
-### ★ Eigenvalue - Eigenvector analysis
-!!! note
-	##### $\;\; - \;\;$ Largest eigenvalue of the Markov matrix is expected to be '$1$' 
-	##### $\;\; - \;\;$ its corresponding eigenvector is the steady state
-
-"""
-
-# ╔═╡ 00653f98-5a3c-4baa-a0b1-405905dd1e69
-# λ_CDC, v_CDC = eigen(M_covCDC) # just to give you an example of a variable name in greek letter
-
-# ╔═╡ dc5833d4-b9e6-4ac0-999e-5c86428f6b8a
-# lambda_covCDC, eigv_covCDC = eigen(M_covCDC)
-
-# ╔═╡ 16f24a88-91f8-455c-b415-c33f27224fc0
-# lambda_covAgg, eigv_covAgg = eigen(M_covAgg)
-
-# ╔═╡ d29b41b0-f453-4c61-95ac-42695a07187a
-md"""
-#### $\quad \bullet \;\;$ As expected, $\lambda_{max} = 1.0$ and corresponding eigenvectors
-##### $\qquad \;\;\; \rightarrow \;\; [-0.86, -0.43, -0.286]\;$ for the CDC case 
-##### $\qquad \;\;\; \rightarrow \;\; [0.67, 0.55, 0.50]\;$ for the Aggressive case.
-
-\
-
-#### $\quad \bullet \;\;$ Eigenvectors represent the probabilities, so 
-#### $\quad \quad$ they need to be normalized to make the sum of their 
-#### $\quad \quad$ entries unity 
-"""
-
-# ╔═╡ 3fc7529c-e101-480b-87d6-85400bbebd03
-# ss_covidCDC = eigv_covCDC[:,3]/ sum(eigv_covCDC[:,3])
-
-# ╔═╡ cc0f82bc-096c-444e-a078-37e91d019234
-# ss_covidAgg = eigv_covAgg[:,3]/ sum(eigv_covAgg[:,3])
-
-# ╔═╡ b2d01760-61a1-41b4-99dd-c719c1c6f679
-md"""
----"""
-
-# ╔═╡ 77868858-900b-43a5-8172-49832c339534
-md"""#
-#### $\qquad \qquad \qquad$ Steady state distributions"""
-
-# ╔═╡ 3b210f36-33fb-4405-a9cf-9403d65cdce9
-TwoColumn(
-	md"""
-#### CDC scenario (5%)
-
-##### $\bullet \;\;$ 54.5% `Non infected`
-##### $\bullet \;\;$ 27.3% `Infected`
-##### $\bullet \;\;$ $\color{red} 18.2\% \;\;Hospitalized$
-""",
-	md""" ####  Aggressive Scenario (10%)
-
-##### $\bullet \;\;$ 38.7% `Non infected`
-##### $\bullet \;\;$ 32.2% `Infected`
-##### $\bullet \;\;$ $\color{red} 29.0\% \;\;Hospitalized$
-"""		
-)
-
-# ╔═╡ c6ca304b-81ab-48c6-93d7-738336e5adbe
-md"""
-\
-
-#### _The steady-state distribution_ represents 
-##### $\qquad -\;$ the long-run percent of cases in each states
-##### $\qquad -\;$ the rates at which the Markov Chain enters the states
-##### $\qquad \qquad \circ\;$ the average time between two successive visit to a state 
-##### $\qquad \quad \quad \;\;$ = 1/ (long-run percent)
-"""
-
-# ╔═╡ 66eff877-5530-4da7-8062-68b70d545e37
-md"""
----"""
-
-# ╔═╡ c2069db6-5737-4fb9-8d85-564cffb48357
-df_covid = DataFrame(Infection_Rates = ["Efficient (5%)", "Efficient (5%)", "Inefficient (10%)", "Inefficient (10%)"], 
-    Long_run = ["Probabilities", "Times Between", "Probabilities", "Times Between"],
-    Not_Infected = [0.545, 1.834, 0.387, 2.583],
-    Infected_Home = [0.273, 3.667, 0.322, 3.099],
-	Hospitalized = [0.182, 5.50, 0.290, 3.444])
-
-# ╔═╡ c48af5a0-9595-4af1-aaa0-21c38720654b
-md"""
-#### Observations
-##### $\bf \qquad 1.\;$ For 10% infection rates, higher percent of patients hospitalized,
-##### $\qquad \qquad \qquad \qquad$ 29% vs. 18.2%
-##### ⇒ infection rate increase results in saturating the Health Care system
-##### $\bf \qquad 2.\;$ For 5% infection rates, times between two successive visits
-##### $\qquad \quad$ to the Hospital are longer: 5.5 days vs. 3.4 days
-
----
-"""
-
-# ╔═╡ db20720c-98d2-44b1-a9a3-8acc04ca55b9
-md"""#
-### - More Realistic scenario
-
-#### Define the probabilities over five states:
-##### $\qquad \circ \;$ General population → 93% remain uninfected, 7% infected
-##### $\qquad \circ \;$ infected (isolated at home) → 5% recovered, 80% remain isolated, 
-##### $\qquad \quad$ 10% hopitalized, 5% in ICU
-##### $\qquad \circ \;$ hospitalized (after becoming ill) → 15% recovered and sent for  
-##### $\qquad \quad$ isolation, 80% remain hospitalized, 5% in ICU
-##### $\qquad \circ \;$ in the ICU (or ventilators) → 5% recovered and stayed in hospital, 
-##### $\qquad \quad$ 80% remain in ICU, 15% dead
-##### $\qquad \circ \;$ dead (absorbing state)
-
----
-"""
-
-# ╔═╡ 62748722-ba68-4bb9-9d87-8d08158e56dd
-md"""
-
-#### Based on the data avilable, set up the Markov matrix as
-\
-
-```math
-\large {\bf M} = \begin{bmatrix} {\color{green} 0.93} & {\color{blue} 0.05} & {\color{orange} \cdot} & {\color{red} \cdot} & \cdot \\ 
-						  {\color{green} 0.07} & {\color{blue} 0.80} & {\color{orange} 0.15} & {\color{red} \cdot} & \cdot \\ 
-						 {\color{green} \cdot} & {\color{blue} 0.10} & {\color{orange} 0.80} & {\color{red} 0.05}  & \cdot \\ 
-	   					 {\color{green} \cdot} & {\color{blue} 0.05} & {\color{orange} 0.05} & {\color{red} 0.80}  & \cdot \\ 
-		  				 {\color{green} \cdot} & {\color{blue} \cdot} & {\color{orange} \cdot} & {\color{red} 0.15} & 1.0  \end{bmatrix}  \Leftarrow {\bf Markov \; \; Matrix}
-```
-#### where 
-##### $\qquad \bullet\;\;$  $\color{green} green$ column is for $\color{green} non-infected$
-##### $\qquad \bullet\;\;$   $\color{blue} blue$ column is for $\color{blue} infected$
-##### $\qquad \bullet\;\;$   $\color{orange} orange$ column is for $\color{orange} hospitalized$
-##### $\qquad \bullet\;\;$   $\color{red} red$ column is for $\color{red} ICU$
-##### $\qquad \bullet\;\;$   $\color{black} black$ column is for $\color{black} dead$
-
-!!! warning \"Goal\"
-	##### _Probability of Death_ and _Expected Time to Death_
----
-"""
-
-# ╔═╡ 4778254b-f59f-4080-976b-44c6a8f68adc
-md"""#
-#### For the Markov model
-##### $\qquad -\;$ the unit time is a day, transitions are from morning to the next
-##### $\qquad -\;$ every transition is an independent trial 
-##### $\qquad -\;$ the data are closer to the cases in Italy or NYC
-
-!!! danger \"Absorbing State\"
-	##### $\;\; -\;$ The last column (dead state) has a single entry with propability '1'
-	##### $\;\; -\;$ It is the final state, _no return_
-"""
-
-# ╔═╡ 52a2d40f-069f-4e4b-9e3d-74d8f5c93632
-M_cov = [0.93 0.05 0.0 0.0 0.0;
-	0.07 0.80 0.15 0.0 0.0
-	0.0 0.10 0.80 0.05 0.0
-	0.0 0.05 0.05 0.80 0.0
-	0.0 0.0 0.0 0.15 1.0]
-
-# ╔═╡ aed82abb-a91e-4ddc-91d3-9da1f5730459
-md"""
-
-##### What happens to $\bf x_n = M^n x_0$? 
-##### Where does $\bf M^n$ converges to for $n→∞$?
-
----
-"""
-
-# ╔═╡ e8f7eb00-8e18-4b31-8e4a-493cf81acb92
-md"""#
-$\Large {\bf Brute \;force \;calculation}$
-"""
-
-# ╔═╡ 58646f88-df1a-488c-a951-1f942714ef5d
-M_cov^500 # all columns converge to [0, 0, 0, 0, 1]
-
-# ╔═╡ 00f6f985-8d07-4909-8e64-9db412ae816b
-md"
-
-$\Large {\bf Eigenvalue \;and \;eigenvector \;calculation}$
-
-"
-
-# ╔═╡ 4ae8ce86-13de-4c3d-9f9c-06460d907c23
-lambda_cov, eigv_cov = eigen(M_cov)
-
-# ╔═╡ 7a2e4158-cbff-429a-aaea-88a415f8ec3c
-eigv_cov[:,5] # corresponds to lambda=1, so steady-state seems to be when everyone is dead?
-
-# ╔═╡ f2fbd554-26fa-4f87-819f-0c7b14891764
-md""" 
-$\Large {\bf In \;steady \;state, \;it \;converges \;to \;the \;aborbing \;state}$
-
-!!! danger 
-	#### Everybody will be dead 🤔
-
----
-"""
-
-# ╔═╡ ec0f0925-e565-47fe-814a-cb6bf8caaee3
-md"""#
-
-## ★ Working with absorbing states
-
-#### This is a brief overview for curious minds (not included) [^3]
-
-##### Transition matrix for a Markov chain with $k$ absorbing states
-\
-
-```math
-\large {\bf M} = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
-						  {\bf R} & {\bf I}_l  \end{bmatrix} 
-```
-##### where 
-##### $\; - \; \bf T$ is a $k \times k$ matrix with transition probabilities from one transient state to another
-##### $\; - \; \bf R$ is an $l \times k$ matrix with transition probabilities from a transient state to an absorbing state
-##### $\; - \; {\bf 0}_{k×l}$ is an $k × l$ matrix of all $0$’s, as moving from an absorbing state to a transient state is impossible.
-##### $\; - \; {\bf I}_l$ is an $l×l$ identity matrix, as transitioning between absorbing states is impossible.
-
-!!! note
-	##### One can always cast the Markov matrix in a similar block form, by intechanging the order of columns and rows.
- 
-
-[^3][Absorbing Markov Chains] (https://www.math.umd.edu/~immortal/MATH401/book/ch_absorbing_markov_chains.pdf), Allan Yashinski, July 21, 2021
-
----
-"""
-
-# ╔═╡ bc7d0dc1-251d-4d0b-9813-f4a0fd311a18
-md"""#
-##### → $M^2$, $M^3$, ..., $M^n$ need to be calculated as the system transions 
-```math
-\large {\bf M}^2 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
-						  {\bf R} & {\bf I}_l  \end{bmatrix} 
-		  \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
-						  {\bf R} & {\bf I}_l  \end{bmatrix} = 
-		  \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
-						  {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
-```
-\
-
-```math
-\large {\bf M}^3 = \begin{bmatrix} {\bf T} & {\bf 0}_{k \times l} \\ 
-						  {\bf R} & {\bf I}_l  \end{bmatrix} 
-		 \begin{bmatrix} {\bf T}^2 & {\bf 0}_{k \times l} \\ 
-						 {\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix} = 
-		  \begin{bmatrix} {\bf T}^3 & {\bf 0}_{k \times l} \\ 
-						  {\bf RT}^2+{\bf RT}+{\bf R} & {\bf I}_l  \end{bmatrix}
-```
-$\large \vdots$
-```math
-\large {\bf M^n} = \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
-						  {\bf R}+{\bf RT}+\cdots+{\bf RT}^{n-1} & {\bf I}_l  \end{bmatrix} =
-		  \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
-						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix}
-```
-
-\
-
-
- $\large {\rm For} \;\;n → ∞ \;\;\;\; \sum_{i=0}^{n-1}{\bf T}^i → ({\bf I-T})^{-1}$, 
-##### provided the column sums of $\bf T$ are less than $1$.
-\
-
-#### Let us try it on the covid data: 
-"""
-
-# ╔═╡ 2b5cd8bb-7df2-4e59-8956-26b1974d9f0f
-T = M_cov[1:4,1:4] # Block T (4 x 4), only the transient porton of M
-
-# ╔═╡ 6a056c28-bb34-42dc-92c2-c100154685a4
-R = M_cov[5,1:4] # Block R (1 x 4), from transient to absorbing state
-
-# ╔═╡ 2bc35e57-a5d4-484e-9dd9-ccaa7566eaf7
-ones(4)' * T # to check if the column sums are less than 1 => NOT
-
-# ╔═╡ 330a0efe-c14e-4153-bd95-8b1fd9c27e66
-ones(4)' * T^5 # However, higher powers of T satisfy this criterion, which would be enough for the approximation
-
-# ╔═╡ 88592d8b-6115-4258-bd3f-33e01101e8dc
-lambda_T = eigvals(T) # eigvals and eigvecs give e-values and e-vectors separately
-
-# ╔═╡ 18a1ec88-f203-46df-9d1d-50a6f10d4275
-md"""
----"""
-
-# ╔═╡ 78dfd8bd-ba3e-47c8-878a-b735a0f5d787
-md"""#
-#### Therefore, the Markov matrix at steady-state
-\
-
-```math
-\large \lim_{n→∞}{\bf M^n} = \lim_{n→∞} \begin{bmatrix} {\bf T}^n & {\bf 0}_{k \times l} \\ 
-						  {\bf R} \sum_{i=0}^{n-1}{\bf T}^i & {\bf I}_l  \end{bmatrix} \Rightarrow
-				{\bf M^{ss}} = \begin{bmatrix} {\bf 0}_{k \times k} & {\bf 0}_{k \times l} \\ 
-						  {\bf R} ({\bf I-T})^{-1} & {\bf I}_l  \end{bmatrix}
-```
-\
-
-##### → only surviving block is the one showing the transition probabilities 
-##### $\;\;\;$ from transient states to absorbing states: $\qquad {\bf R} ({\bf I-T})^{-1}$
-
-##### $\qquad -\;\; \bf R$: probabilities from transient states to absorbing states
-##### $\qquad -\;\;$ Define $\color{red} {\bf F = (I-T)}^{-1} → \rm \bf Fundamental \;Matrix$
-##### $\qquad -\;\;$ $\color{red} (i, j)^{th} \rm \bf \;entry \;of \;F\;$ is the expected number of times the chain 
-##### $\qquad \quad \;\;$ is in state $j$, given that the chain started in state $i$.
-##### $\qquad -\;\;$ The expected number of steps before being absorbed 
-##### $\qquad \qquad \qquad \qquad {\bf N} = [{\bf 1}^T {\bf F}] = [N_1 \;\;.\;.\;.\;\; N_i \;\;.\;.\;.\;\; N_{l-k}]$
-##### $\qquad \quad \;\;$ where $N_i$ is the number of steps starting in transient state $i$ 
-
-"""
-
-# ╔═╡ 4c3f565a-9938-44e6-9105-f4a949774ea0
-F = (I(4) - T)^-1 # or inv(I(4)-T) Fundamental Matrix
-
-# ╔═╡ fdc5a903-61c4-411f-8726-be012cbd8cfc
-R' * F # as expected, in steady-state, it goes to the absorbing state
-
-# ╔═╡ f95d08df-20e4-42d4-9afb-8872b33ad1e6
-ones(size(F,1))' * F
-
-# ╔═╡ 897fbfd2-8282-42b3-93d1-f2d2303f621b
-md"""
----"""
-
-# ╔═╡ 424187c3-f6d3-4642-8d37-6266a2d9c597
-md"""#
-
-##### ${\bf F = (I-T)}^{-1}$ → Average number of days in transient states
-
-```math
-\large {\bf F} = ({\bf I-T})^{-1} = \begin{bmatrix} 26.19 & 11.90 & 9.52 & 2.38 \\ 
-						 16.67 & 16.67 & 13.33 & 3.33 \\ 
-	   					 10.0 & 10.0 & 13.3 & 3.33 \\ 
-		  				 6.67 & 6.67 & 6.67 & 6.67 \end{bmatrix} 
-```
-
-#### Interpretation
-##### The average number of days a _non infected_ person ($1^{st}$ column)
-##### $\qquad -\;$ stays _non infected_ is 26.19 days;
-##### $\qquad -\;$ spends _infected (isolated)_, after being infected, is 16.67 days;
-##### $\qquad -\;$ spends in _hospital_ is 10.0 days
-##### $\qquad -\;$ spends in _ICU_, before passing away, is 6.67 days.
-
-\
-
-##### ⇒ Average number of days it takes for a non infected person to pass away
-$\large 26.19 + 16.66 + 10.00 + 6.66 = 59.52 \; \rm days$
-
-"""
-
-# ╔═╡ 53e5a89f-304a-436c-bb64-a60d429994d0
-M_cov^2 # Probability of dyiing in 2 days for Healthy is 0.0, for infected is 0.0075, for Hospitalized is 0.0075, for ICU is 0.27
-
-# ╔═╡ fa32b2ed-8c24-4b32-ad1e-41044b797533
-M_cov^8 # Probability of dyiing in 8 days for Healthy is 0.018, for infected is 0.118, for Hospitalized is 0.127, for ICU is 0.636
-
 # ╔═╡ 3ee12973-b0ad-409c-a451-bb765ad01cff
 md"""
 <center><b><p
@@ -1758,7 +1064,6 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 ColorVectorSpace = "c3611d14-8923-5661-9e6a-0046d554d3a4"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
-DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
@@ -1769,13 +1074,11 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-QuartzImageIO = "dca85d43-d64c-5e67-8c65-017450d5d020"
 TestImages = "5e47fb64-e119-507b-a336-dd2b206d9990"
 
 [compat]
 ColorVectorSpace = "~0.9.8"
 Colors = "~0.12.8"
-DataFrames = "~1.3.4"
 FileIO = "~1.13.0"
 HypertextLiteral = "~0.9.3"
 ImageIO = "~0.6.1"
@@ -1785,7 +1088,6 @@ LaTeXStrings = "~1.3.0"
 OffsetArrays = "~1.12.7"
 Plots = "~1.31.6"
 PlutoUI = "~0.7.34"
-QuartzImageIO = "~0.7.4"
 TestImages = "~1.7.0"
 """
 
@@ -1795,7 +1097,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.0"
 manifest_format = "2.0"
-project_hash = "af22e4ad53cb4d7bdfed68be490d0638a0a6bd67"
+project_hash = "f8aaf55c3eb0694c4a026d09912c92ab79ef44a8"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1947,11 +1249,6 @@ git-tree-sha1 = "681ea870b918e7cff7111da58791d7f718067a19"
 uuid = "150eb455-5306-5404-9cee-2592286d6298"
 version = "0.6.2"
 
-[[deps.Crayons]]
-git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
-uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
-version = "4.1.1"
-
 [[deps.CustomUnitRanges]]
 git-tree-sha1 = "1a3f97f907e6dd8983b744d2642651bb162a3f7a"
 uuid = "dc8bdbbb-1ca9-579f-8c36-e416f6a65cce"
@@ -1961,12 +1258,6 @@ version = "1.0.2"
 git-tree-sha1 = "fb5f5316dd3fd4c5e7c30a24d50643b73e37cd40"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 version = "1.10.0"
-
-[[deps.DataFrames]]
-deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
-git-tree-sha1 = "daa21eb85147f72e41f6352a57fccea377e310a9"
-uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.3.4"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -2099,10 +1390,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "aa31987c2ba8704e23c6c8ba8a4f769d5d7e4f91"
 uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.10+0"
-
-[[deps.Future]]
-deps = ["Random"]
-uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 
 [[deps.GLFW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
@@ -2355,11 +1642,6 @@ deps = ["Test"]
 git-tree-sha1 = "b3364212fb5d870f724876ffcd34dd8ec6d98918"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
 version = "0.1.7"
-
-[[deps.InvertedIndices]]
-git-tree-sha1 = "bee5f1ef5bf65df56bdd2e40447590b272a5471f"
-uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
-version = "1.1.0"
 
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
@@ -2745,23 +2027,11 @@ git-tree-sha1 = "8d1f54886b9037091edf146b517989fc4a09efec"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 version = "0.7.39"
 
-[[deps.PooledArrays]]
-deps = ["DataAPI", "Future"]
-git-tree-sha1 = "a6062fe4063cdafe78f4a0a81cfffb89721b30e7"
-uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
-version = "1.4.2"
-
 [[deps.Preferences]]
 deps = ["TOML"]
 git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
 version = "1.3.0"
-
-[[deps.PrettyTables]]
-deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
-git-tree-sha1 = "dfb54c4e414caa595a1f2ed759b160f5a3ddcba5"
-uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
-version = "1.3.1"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -2784,12 +2054,6 @@ deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll
 git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+1"
-
-[[deps.QuartzImageIO]]
-deps = ["FileIO", "ImageCore", "Libdl"]
-git-tree-sha1 = "16de3b880ffdfbc8fc6707383c00a2e076bb0221"
-uuid = "dca85d43-d64c-5e67-8c65-017450d5d020"
-version = "0.7.4"
 
 [[deps.Quaternions]]
 deps = ["DualNumbers", "LinearAlgebra", "Random"]
@@ -3416,93 +2680,6 @@ version = "1.4.1+0"
 # ╟─1de74de8-36c5-467f-a749-4cefd0b2acdc
 # ╟─877ef381-df6c-4a5b-bf99-88f8afba0995
 # ╟─3a8ef338-38a4-4954-862c-6ce50e80f2fe
-# ╟─2d036e2e-6850-46d8-bbb5-21856403ecc8
-# ╠═b5449b8e-3000-48dc-a788-1d357569a5a9
-# ╠═7ad20af1-a7d6-4092-b982-fad27d6e51ea
-# ╟─ba3404b3-956e-4ca8-93aa-070897bdaa9a
-# ╟─55bbc51f-86ef-41ab-824c-0d5fe4241181
-# ╟─2633b604-7476-48d0-8cdc-05645ea0ed57
-# ╟─3e93d41f-e465-42c4-b18e-e6dc99a3d1ad
-# ╟─d50ef757-c687-4695-a4f3-2740a646ccd8
-# ╟─b802bd1c-c590-499c-990f-596159fea135
-# ╠═0872e2b8-386a-40a4-b2cb-48f564c921d8
-# ╟─23a409b4-4299-4c12-a55a-adc438def7ea
-# ╟─a3611641-256e-49e8-9e2e-c78b9efc21ce
-# ╠═541a573c-2e87-49dc-97e7-778a50364e52
-# ╠═dd6f459f-898f-4370-9cc8-35e410a76cc7
-# ╠═f6e62718-42b7-4e0b-b9ab-60fbf3bfa4a6
-# ╟─abf983de-2f8b-42d8-b3ef-54d0eb5f0cde
-# ╟─7516b6a6-1f70-4bab-a320-ae16b028e6be
-# ╠═d1eec44f-5373-4a5c-8013-46434a6679b2
-# ╠═aacf8539-f733-4c1b-a7e6-46c6c81cf256
-# ╠═091d6eae-ec41-4957-8955-09ec7647a574
-# ╠═fc9d1dad-596a-432f-bbaf-6cff95986dd0
-# ╠═2818d860-77a3-4a53-8db3-a9d6cba8909a
-# ╠═fb77bfcc-0d99-4ebd-aa4e-a96e5d190de9
-# ╠═9bc38bf4-7428-4190-aa07-42f03df542e3
-# ╟─e19c2e7b-7587-4584-9093-3e8c8563cdc9
-# ╠═20e0521b-1943-4eef-85b2-e46d6fc1d9c0
-# ╟─a10cae47-2b16-421f-9f1c-cdd8a6eda5ad
-# ╠═1798453f-54cc-45e8-b65d-9e5745dbfbd6
-# ╠═78e59b84-97e1-4042-af3a-065f992e1176
-# ╟─2780a6fa-fc19-40be-93d1-8b092045a071
-# ╟─9a987b58-47e9-4191-8fb7-9225d27d2628
-# ╟─54cbf7b1-95d0-4027-b65f-a5ad5808e4b4
-# ╟─81d40d17-e770-408a-8987-0ab17f40293d
-# ╠═f2c5a261-af9f-4f4a-b854-1dc36bd7ea44
-# ╟─b6036a94-7e1f-40f4-a905-b9081fd25c8a
-# ╠═66fe1bad-ae41-4e10-82ce-64b36d446049
-# ╠═7956a61e-f1c1-44b6-9583-1df552051af6
-# ╠═5a4eb37f-82db-40f3-be2d-0412e473ccb1
-# ╠═b9d3cf7e-942b-4cb3-bda2-c932dcc314a4
-# ╟─725d0c60-a3fa-49ee-9c14-4b950f8b7d53
-# ╟─7c35704a-c6dc-429a-b28f-105764177636
-# ╟─b16906ed-b4ab-446e-a0e8-d79418ef56ca
-# ╟─e4a6e169-925f-490b-b03a-21f277ff0fa5
-# ╟─b0d2fd84-3307-4a6d-af91-32cfdaa375f0
-# ╟─b0a3be42-6aec-4c7d-8798-d62a23aeb01a
-# ╟─ffe0fb93-50f4-4a1d-b73b-e24fb729d043
-# ╠═00653f98-5a3c-4baa-a0b1-405905dd1e69
-# ╠═dc5833d4-b9e6-4ac0-999e-5c86428f6b8a
-# ╠═16f24a88-91f8-455c-b415-c33f27224fc0
-# ╟─d29b41b0-f453-4c61-95ac-42695a07187a
-# ╠═3fc7529c-e101-480b-87d6-85400bbebd03
-# ╠═cc0f82bc-096c-444e-a078-37e91d019234
-# ╟─b2d01760-61a1-41b4-99dd-c719c1c6f679
-# ╟─77868858-900b-43a5-8172-49832c339534
-# ╟─3b210f36-33fb-4405-a9cf-9403d65cdce9
-# ╟─c6ca304b-81ab-48c6-93d7-738336e5adbe
-# ╟─66eff877-5530-4da7-8062-68b70d545e37
-# ╠═cab15114-3851-442c-8fb4-d03928dcb082
-# ╟─c2069db6-5737-4fb9-8d85-564cffb48357
-# ╟─c48af5a0-9595-4af1-aaa0-21c38720654b
-# ╟─db20720c-98d2-44b1-a9a3-8acc04ca55b9
-# ╟─62748722-ba68-4bb9-9d87-8d08158e56dd
-# ╟─4778254b-f59f-4080-976b-44c6a8f68adc
-# ╟─52a2d40f-069f-4e4b-9e3d-74d8f5c93632
-# ╟─aed82abb-a91e-4ddc-91d3-9da1f5730459
-# ╟─e8f7eb00-8e18-4b31-8e4a-493cf81acb92
-# ╠═58646f88-df1a-488c-a951-1f942714ef5d
-# ╟─00f6f985-8d07-4909-8e64-9db412ae816b
-# ╠═4ae8ce86-13de-4c3d-9f9c-06460d907c23
-# ╠═7a2e4158-cbff-429a-aaea-88a415f8ec3c
-# ╟─f2fbd554-26fa-4f87-819f-0c7b14891764
-# ╟─ec0f0925-e565-47fe-814a-cb6bf8caaee3
-# ╟─bc7d0dc1-251d-4d0b-9813-f4a0fd311a18
-# ╠═2b5cd8bb-7df2-4e59-8956-26b1974d9f0f
-# ╠═6a056c28-bb34-42dc-92c2-c100154685a4
-# ╠═2bc35e57-a5d4-484e-9dd9-ccaa7566eaf7
-# ╠═330a0efe-c14e-4153-bd95-8b1fd9c27e66
-# ╠═88592d8b-6115-4258-bd3f-33e01101e8dc
-# ╟─18a1ec88-f203-46df-9d1d-50a6f10d4275
-# ╟─78dfd8bd-ba3e-47c8-878a-b735a0f5d787
-# ╠═4c3f565a-9938-44e6-9105-f4a949774ea0
-# ╠═fdc5a903-61c4-411f-8726-be012cbd8cfc
-# ╠═f95d08df-20e4-42d4-9afb-8872b33ad1e6
-# ╟─897fbfd2-8282-42b3-93d1-f2d2303f621b
-# ╟─424187c3-f6d3-4642-8d37-6266a2d9c597
-# ╠═53e5a89f-304a-436c-bb64-a60d429994d0
-# ╠═fa32b2ed-8c24-4b32-ad1e-41044b797533
 # ╟─3ee12973-b0ad-409c-a451-bb765ad01cff
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
