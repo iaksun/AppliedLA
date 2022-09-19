@@ -263,7 +263,7 @@ md"""# Requirements
 
 
 
-!!! note \" For the sake of clarity \"
+!!! note \" For Koc University students \"
 
 	##### This course covers less mathematics than a typical LA course and 
 	##### it is complementary to Math 107
@@ -1474,8 +1474,8 @@ md"""
 
 ##### $\qquad$ d. $\;\sqrt{{\bf v} \cdot \bf v}$
 
-!!! note \" length in Julia \"
-	##### $-\;\;$ Don't use `length` to find the length of a vector 
+!!! note \" ''length'' in Julia \"
+	##### $-\;\;$ Don't use `length` to find the magnitude of a vector 
 	##### $-\;\;$ `length` gives the dimension (size) of the vector
 
 """
@@ -3459,7 +3459,7 @@ version = "0.9.1+5"
 # ╠═f7c985b3-731b-4c56-afdb-4c67f47d9c94
 # ╠═b4b7ed3f-43f4-479a-9913-519706c02a2f
 # ╠═a272d501-5f4f-4f65-9f0d-8e7397935646
-# ╠═b8171bbb-d3f4-4236-9d77-3ccffd6d4613
+# ╟─b8171bbb-d3f4-4236-9d77-3ccffd6d4613
 # ╟─48c65f48-f31b-4d5d-acf5-bfa4c36f6a95
 # ╟─d6c8c0b8-fd89-4a7e-98c3-f1741aa057a1
 # ╟─40ddf96c-cbfd-42c0-9f1f-a05fb0f550cf
@@ -3498,7 +3498,7 @@ version = "0.9.1+5"
 # ╟─394bc307-b090-422b-aeb3-51bb420c6834
 # ╟─534234e3-e8a3-4d8d-a905-9dc6c59baf8d
 # ╟─01797703-30fb-42e7-893a-faa5883fea10
-# ╠═c4dec3a3-6d20-4c09-85a8-f753cd3dc094
+# ╟─c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 # ╟─70f17fd5-c54d-4888-b745-9ac48bf7efb9
 # ╟─001b6077-9659-472c-8975-192465264100
 # ╟─69add601-4db0-4ed9-8e33-f06b0153c938
@@ -3676,7 +3676,7 @@ version = "0.9.1+5"
 # ╠═f1638480-d63e-418e-af69-1201e8e7137e
 # ╠═f91f7995-cf8d-4719-80fa-6fe11a0c9dbd
 # ╠═c6988b6d-876d-4ec4-8d89-3793e0b68b32
-# ╟─f6b8a949-98de-4cb1-ab08-fb1c6acde394
+# ╠═f6b8a949-98de-4cb1-ab08-fb1c6acde394
 # ╟─b122876e-ee78-47ed-822d-4019cf3b5125
 # ╟─624ea283-b640-4241-befc-73ca3c529111
 # ╟─aec34b14-0c8e-4331-89f2-ed7d28bdd881

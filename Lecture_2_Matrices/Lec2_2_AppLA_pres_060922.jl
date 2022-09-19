@@ -98,9 +98,9 @@ md"""# Applied Linear Algebra for Everyone (Fall 2022)
 """
 
 # ╔═╡ 0c2bf16a-92b9-4021-a5f0-ac2334fb986a
-md"# Lecture - 2: Matrices (Cont'd)
+md"""# Lecture - 2: Matrices (Cont'd)
 
-### Content 
+### $\rm \bf Content: \;Part \;1 \;- \;Matrices \;and \;Operations$
 
 > ##### 2.1. Brief review of matrices
 >> ##### 2.1.1. Terminology
@@ -118,6 +118,11 @@ md"# Lecture - 2: Matrices (Cont'd)
 >> ##### 2.3.3. Slicing and submatrices
 >> ##### 2.2.4. Special matrices
 
+---
+"""
+
+# ╔═╡ 3c474013-48d1-44e5-bfad-6a1f9b542b3c
+md"""#
 > ##### 2.4. Matrix operations
 >> ##### 2.4.1. Matrix transpose
 >> ##### 2.4.2. Matrix-Scalar multiplication
@@ -127,19 +132,64 @@ md"# Lecture - 2: Matrices (Cont'd)
 >> ##### 2.4.6. Determinant
 >> ##### 2.4.7. Inverse
 
+### $\color{red} \rm \bf Content: \;Part \;2 \;- \;Applications$
+
 > ##### $\color{red} \rm \bf 2.5. \;A \;Few \;Applications$
 >> ##### $\color{red} \rm \bf 2.5.1. \;Markov \;processes$
 >> ##### $\color{red} \rm \bf 2.5.2. \;Image \;and \;data \;compression$
 
 ---
-"
+"""
 
-# ╔═╡ bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+# ╔═╡ 371fc8fa-6866-4e62-93c3-58469f22a5d8
 md"""# 2.5. A Few Applications
 
-## 2.5.1. Markov Processes 
+#### Examples and applications presented throughout this course 
 
-### Example 1: Page Rank[^1] 
+#### will involve
+##### $\quad \circ \;$ one or many uses of matrix operations,
+
+##### $\quad \circ \;$ LA methods that extensively use matrix operations.
+\
+
+#### Just to showcase the use of the operations, two practical examples[^1], 
+##### $\quad \circ \;$ Markov process
+##### $\quad \circ \;$ Image compression
+
+#### are selected. 
+
+\
+
+[^1]: Involve a few LA methods that will be introduced in due time.
+
+---
+"""
+
+# ╔═╡ bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+md"""
+## 2.5.1. Markov Process 
+
+### What is Markov Process?
+
+##### $\qquad - \;$ It is a stochastic model 
+##### $\qquad - \;$ It describes a sequence of possible events 
+##### $\qquad - \;$ The probability of each event depends only on the previous event
+
+$\color{red} \large ''What \;happens \;next \;depends \;only \;on \;the \;state \;now''$
+\
+
+#### "_Markov chain_" is usually reserved for a process with a discrete set of times
+
+#### Changes of state of the system are called _transitions_
+
+#### Probabilities associated with state changes are called _transition probabilities_
+
+---
+"""
+
+# ╔═╡ fe255021-3935-44dc-85e9-bedd6f1360eb
+md"""#
+### Example 1: Page Rank[^2] 
 ##### Birth of Google's PageRank algorithm:
 
 ###### Lawrence Page, Sergey Brin, Rajeev Motwani and Terry Winograd published [“The PageRank Citation Ranking: Bringing Order to the Web”](http://ilpubs.stanford.edu:8090/422/), in 1998, and it has been the bedrock of the now famous PageRank algorithm at the origin of Google. 
@@ -151,8 +201,10 @@ md"""# 2.5. A Few Applications
 \
 
 ###### PageRank is a function that assigns a real number to each page in the Web that the higher the number, the more **important** it is.
-[^1]: _Introduction to Markov chains: 
+[^2]: _Introduction to Markov chains: 
 	Definitions, properties and PageRank example_, Joseph Rocca, Published in _Towards Data Science_ in Feb 25, 2019.
+
+---
 """
 
 # ╔═╡ 19cad43b-de3a-4922-a55a-56a192aca919
@@ -164,13 +216,6 @@ end
 # ╔═╡ 3b117d55-f043-4deb-a5d3-66078ace53db
 md"""
 ---"""
-
-# ╔═╡ d8713915-71d6-4498-a587-951d35f915c0
-md"""
-### - What is Markov Chain (or Markov Process)
-
-#### It is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.[1][2][3] Informally, this may be thought of as, "What happens next depends only on the state of affairs now."
-"""
 
 # ╔═╡ c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
 md"""#
@@ -2359,9 +2404,9 @@ version = "1.2.1"
 
 [[deps.ImageMagick_jll]]
 deps = ["Artifacts", "Ghostscript_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "f025b79883f361fa1bd80ad132773161d231fd9f"
+git-tree-sha1 = "124626988534986113cfd876e3093e4a03890f58"
 uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
-version = "6.9.12+2"
+version = "6.9.12+3"
 
 [[deps.ImageMetadata]]
 deps = ["AxisArrays", "ImageAxes", "ImageBase", "ImageCore"]
@@ -3397,17 +3442,19 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═5504aec1-ecb0-41af-ba19-aaa583870875
-# ╠═cb5b4180-7e05-11ec-3b82-cd8631fc57ba
+# ╟─5504aec1-ecb0-41af-ba19-aaa583870875
+# ╟─cb5b4180-7e05-11ec-3b82-cd8631fc57ba
 # ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 # ╟─0c7b5d17-323f-4bc7-8495-c6507647a703
 # ╟─0c2bf16a-92b9-4021-a5f0-ac2334fb986a
+# ╟─3c474013-48d1-44e5-bfad-6a1f9b542b3c
+# ╟─371fc8fa-6866-4e62-93c3-58469f22a5d8
 # ╠═bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+# ╟─fe255021-3935-44dc-85e9-bedd6f1360eb
 # ╟─19cad43b-de3a-4922-a55a-56a192aca919
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db
-# ╠═d8713915-71d6-4498-a587-951d35f915c0
 # ╟─c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
 # ╠═bcc8866b-5f3e-4a0e-a561-a06c80cc974a
 # ╟─5c9353c9-9926-4630-948e-dfb28060a66a

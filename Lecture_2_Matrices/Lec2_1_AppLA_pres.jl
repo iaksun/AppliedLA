@@ -97,9 +97,9 @@ md"""# Applied Linear Algebra for Everyone (Fall 2022)
 """
 
 # ╔═╡ 4cdc2af4-872d-4672-87bb-330547d78bca
-md"# Lecture - 2: Matrices
+md"""# Lecture - 2: Matrices
 
-### Content 
+### $\rm \bf Content: \;Part \;1 \;- \;Matrices \;and \;Operations$
 
 > ##### 2.1. Brief review of matrices
 >> ##### 2.1.1. Terminology
@@ -117,6 +117,11 @@ md"# Lecture - 2: Matrices
 >> ##### 2.3.3. Slicing and submatrices
 >> ##### 2.2.4. Special matrices
 
+---
+"""
+
+# ╔═╡ 24d7f6fe-ea94-4502-b49e-6e4c7770a7ce
+md"""#
 > ##### 2.4. Matrix operations
 >> ##### 2.4.1. Matrix transpose
 >> ##### 2.4.2. Matrix-Scalar multiplication
@@ -126,8 +131,14 @@ md"# Lecture - 2: Matrices
 >> ##### 2.4.6. Determinant
 >> ##### 2.4.7. Inverse
 
+### $\color{red} \rm \bf Content: \;Part \;2 \;- \;Applications$
+
+> ##### $\color{red} \rm \bf 2.5. \;A \;Few \;Applications$
+>> ##### $\color{red} \rm \bf 2.5.1. \;Markov \;processes$
+>> ##### $\color{red} \rm \bf 2.5.2. \;Image \;and \;data \;compression$
+
 ---
-"
+"""
 
 # ╔═╡ c393ee0a-5e50-4c00-ad52-ef5851f7d531
 md"""# 2.1 Brief review of matrices
@@ -289,6 +300,7 @@ md"""## 2.2.2. Solution by ellimination
 
 #### ⇒ The approach is know as _Gaussian ellimination_
 
+---
 """
 
 # ╔═╡ 8d0ad71b-34ca-407c-bd09-3fa191122c70
@@ -389,6 +401,10 @@ html"""
 </details>
 """
 
+# ╔═╡ 25a3e21d-d79e-4967-9521-07dc8aacd457
+md"""
+---"""
+
 # ╔═╡ 2adaf391-6411-4151-b386-5c5c9fa8f905
 md"""#
 ##### Plot the equations
@@ -424,12 +440,12 @@ md"""
 md"""#
 ##### What happens after the ellimination step
 
-${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
-${\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad  {\color{red} 2 x_1 + 4 x_2 = 6}$
-$\Downarrow \qquad \qquad \qquad \qquad \Downarrow$
+$\large {\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
+$\large {\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad  {\color{red} 2 x_1 + 4 x_2 = 6}$
+$\Large {\color{blue} \Downarrow} \qquad \qquad \qquad \qquad {\color{red} \Downarrow}$
 
-${\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
-${\color{blue} 0 + 0 = -5} \qquad \qquad  {\color{red} 0 + 0 = 0}$
+$\large {\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad  {\color{red} x_1 + 2 x_2 = 3}$
+$\large {\color{blue} 0 + 0 = -5} \qquad \qquad  {\color{red} 0 + 0 = 0}$
 
 ##### After ellimination,
 
@@ -500,10 +516,30 @@ md"
 ---"
 
 # ╔═╡ c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
-md"# 2.3. Matrices in Julia
+md"""# 2.3. Matrices in Julia
 
+#### A few facts:
+
+#### $\quad - \;$ Matrices are multi-dimensional arrays
+
+#### $\quad - \;$ An array is a collection of objects 
+##### $\qquad \quad \circ\;$ stored in a multi-dimensional grid 
+
+#### $\quad - \;$ An array may contain objects of type "_Any_" 
+##### $\qquad \quad \circ\;$ Type _Any_ is the union of all types
+
+#### $\quad - \;$ For computational purposes, 
+##### $\qquad \quad \circ\;$ arrays mostly contain objects of _Float64_ or _Int32_
+
+#### $\quad - \;$ _Julia_ provides a first-class array implementation
+
+---
+"""
+
+# ╔═╡ 41b7b0e6-75ba-4c8f-9474-f60120909a5e
+md"""
 ## 2.3.1. Creating matrices from the entries
-"
+"""
 
 # ╔═╡ ae6fbc53-26d9-4980-b755-9d2278badfc3
 A_34 = [0.0 1.0 -2.3 0.1;
@@ -521,6 +557,10 @@ A_77 = rand((0:4), 7, 7)
 
 # ╔═╡ cc0a9986-b370-4243-9611-4dd21e246c6a
 A_77[:,2]
+
+# ╔═╡ bceb6079-b630-4df8-8a86-bc796941fe3a
+md"""
+---"""
 
 # ╔═╡ 8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
 md"""#
@@ -558,12 +598,16 @@ a = [ -2.1 -3 0 ] # A 3-row vector or 1x3 matrix
 # ╔═╡ b198c118-34eb-478e-a2cd-c8e6c19aec93
 b = [ -2.1; -3; 0 ] # A 3-vector or 3x1 matrix
 
+# ╔═╡ 7d55f53e-90fb-42b7-a61f-05b2fe695d2c
+md"""
+---"""
+
 # ╔═╡ 19e9c605-fb39-450a-a4a2-edf617c72614
-md"#
+md"""#
 ## 2.3.3. Slicing and Submatrices
 
-##### $\qquad -\;$ Using column notation you can extract a submatrix
-"
+##### $\qquad -\;$ Using colon (:) notation you can extract a submatrix
+"""
 
 # ╔═╡ 060cb524-7c1d-422d-82ea-7263d829a0cb
 A = [ -1 0 1 0 ; 2 -3 0 1 ; 0 4 -2 1]
@@ -591,6 +635,10 @@ rand(2,3); # rand(m,n) generates an mxn matrix of random numbers between -1 and 
 
 # ╔═╡ b49cf4b8-f690-4768-b27d-0104b0619317
 rand((-3:3),2,3); #rand((k:step:l), m,n) generates an mxn matrix of random numbers between -k and l with step size 'step' (the default step size is 1)
+
+# ╔═╡ a1a31727-078d-4c0b-8c2e-9e127fbfcd92
+md"""
+---"""
 
 # ╔═╡ d0f9a0c9-f58d-48fe-81b0-539c14134969
 md"""#
@@ -651,6 +699,10 @@ UnitLowerTriangular(A_uptr)
 # ╔═╡ 115539ad-8b9c-4b38-8b23-b8064164ddc2
 UnitUpperTriangular(A_uptr)
 
+# ╔═╡ 37c711bf-92ac-4b1e-9d72-bf1c03d2b500
+md"""
+---"""
+
 # ╔═╡ f3838d6f-0b17-48fe-b90a-0053f7ce74dc
 md"""# 2.4. Matrix Operations
 
@@ -707,6 +759,10 @@ A_exT = rand(-3:3, 3,2)
 # ╔═╡ eec8c31c-5324-44a4-8e55-3fed81d9dbd8
 A_exT'# Transposing a matrix twice results in the original matrix
 
+# ╔═╡ 2cf171c3-36bd-4acc-a8fc-a19944d6d8be
+md"""
+---"""
+
 # ╔═╡ ba787e69-7f86-4f41-87f5-b20d9e8831c6
 md"
 
@@ -720,7 +776,7 @@ md"
 
 !!! julia
 	```math
-	c {\bf A} = [c*{\bf A}[i,j] \;for \;i \;in \;1:m, \;j \;in \;1:n]
+	\large c {\bf A} = [c*{\bf A}[i,j] \;for \;i \;in \;1:m, \;j \;in \;1:n]
 	```
 
 "
@@ -739,6 +795,10 @@ md"
 
 # ╔═╡ 45ced395-a8a2-465b-9552-186806b0e6e1
 # cA1 == cA2 # elementwise comparison ".=="
+
+# ╔═╡ e304d866-f12a-402f-ae02-b20a786beacd
+md"""
+---"""
 
 # ╔═╡ f130d717-bedc-4ebd-bba5-3908d54c07bc
 md"""
@@ -849,6 +909,10 @@ y_rot = A_rot * y₀
      xticks = -1:0.5:1, yticks = -1:0.5:1,
      framestyle = :origin)
 end
+
+# ╔═╡ 11092c1b-1ae1-4635-bde3-b1786510be4e
+md"""
+---"""
 
 # ╔═╡ a55816f3-1c24-4e6f-b35f-2aba8f8e8194
 md"""#
@@ -972,19 +1036,19 @@ md"""
 """
 
 # ╔═╡ d9636375-def7-4693-a2c3-91879d304b81
-#A3 = rand((-2:2), 3,3)
+# A3 = rand((-2:2), 3,3)
 
 # ╔═╡ 9023f8f4-2084-4ef6-b9ca-a94e967320e5
-#B3 = rand((-2:2), 3,5)
+# B3 = rand((-2:2), 3,5)
 
 # ╔═╡ 01c9e212-8cbc-4fb5-83d3-62dd0bfe48f7
-#A3 * B3
+# A3 * B3
 
 # ╔═╡ 4c42ba85-442d-4ca8-9731-1bf71563e86e
-#AB = [A3[i,:] ⋅ B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
+# AB = [A3[i,:] ⋅ B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
 
 # ╔═╡ d9a74a15-8867-4b62-a6c3-943f6b6b6179
-#AB2 = [A3[i,:]' * B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
+# AB2 = [A3[i,:]' * B3[:,j] for i in (1:size(A3)[1]), j in (1:size(B3)[2])]
 
 # ╔═╡ b6005ec2-c856-4cfb-9de1-fd0d65b957a1
 md"""
@@ -1004,6 +1068,10 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/Ip3X9LOh2dk" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
+# ╔═╡ 95b7654a-6273-4093-888a-f2824cd2af01
+md"""
+---"""
+
 # ╔═╡ 877ef381-df6c-4a5b-bf99-88f8afba0995
 md"""#
 ### Properties
@@ -1013,19 +1081,103 @@ md"""#
 ##### 4. Two equal rows => $det = 0$.
 ##### 5. if a multiple of a row is added to another row, the determinant does not change.
 ##### 6. Row of zeros leads to zero determinant.
+
+"""
+
+# ╔═╡ 3b986917-d5f7-4bcd-9b14-eb4de9a8bab1
+det(1.0*I(4)) # 1.
+
+# ╔═╡ e9e74abf-e61d-4131-bb5b-6cbd9a01f92b
+A1_det = rand((-2:2), 3,3);
+
+# ╔═╡ 386b8f40-a1d2-4d7c-8ebe-20e3aec56140
+det(A1_det)
+
+# ╔═╡ 6cadfa25-38ac-4352-a2ca-50768a24eb70
+A1_xch = [A1_det[2,:]'; A1_det[1,:]'; A1_det[3,:]'];
+
+# ╔═╡ 9dac3a05-b565-409b-9687-f5ad0ebde93c
+det(A1_xch) # 2.
+
+# ╔═╡ e645097e-657f-4586-b306-1ec151151550
+A1_rowsort = sortslices(A1_det, dims=1); # sort based on the first entries of each row in ascending order
+
+# ╔═╡ 778c180b-1b10-4a5e-8c17-328b4d2512e4
+A1_clmnsort = sortslices(A1_det, dims=2); # sort based on the first entries of each column in ascending order
+
+# ╔═╡ 5e800b8e-713c-444b-ab3d-6077f7590eed
+det(A1_rowsort) == det(A1_clmnsort) #2.
+
+# ╔═╡ 14832a30-6bad-4476-bf5a-4b1b7d776d2f
+det(A1_det * Diagonal([1,1,3])) # 3. det(multiple of a row by c)=c*det
+
+# ╔═╡ c3890082-8551-415e-a8a1-2df73b07746b
+A1_eqrows = [A1_det[1,:]'; A1_det[1,:]'; A1_det[3,:]'];
+
+# ╔═╡ aa8b8ab6-11e3-4a75-82d1-1639b7f7c377
+det(A1_eqrows) # 4. det(two or more equal rows) = zero
+
+# ╔═╡ cf4606e3-c29c-4776-aa2f-0d115852668d
+El_matrix = [1 0 0; 2 1 0; 0 1 1]; # Elementary matrix performing multiplication of the first row and adding to the second row
+
+# ╔═╡ 61cf79bb-4ac5-47f9-abc0-b3f8d0da0b8a
+det(El_matrix * A1_det) - det(A1_det) # 5. det(mult. of row added to another) = det
+
+# ╔═╡ 2727cacb-53d3-4286-8bdc-b2847c30f0b0
+El_r10 = [0 0 0; 0 1 0; 0 0 1] * A1_det 
+
+# ╔═╡ 3fd25139-db9a-4b1c-b1a3-b3abc6610f20
+det(El_r10) # 6.
+
+# ╔═╡ ce07c1b2-d042-4d75-8d40-fa17f68ab585
+md"""
+---"""
+
+# ╔═╡ df50e552-234d-4cec-b3d5-712a08ca5996
+md"""#
 ##### 7. Determinant of upper triangular matrix:
 ##### $\qquad det \begin{bmatrix} d_1 & * & \cdots & * \\ 0 & d_2 & \cdots & * \\ \vdots & \vdots & \cdots & \vdots \\ 0 & 0 & \cdots & d_n \end{bmatrix} = d_1 d_2 \cdots d_n$
 
-##### 9.  $\;det \;{\bf A} = 0\;$ when $\bf A$ is singular
-##### 10.  $\;det \;{\bf A} = det \;{\bf A}^𝑇$ → (All the properties are also valid for the columns)
-##### 12.  $\;det \;{\bf A\;B} = (det \;{\bf A}) (\;det \;{\bf B})$
+##### 8.  $\;det \;{\bf A} = 0\;$ when $\bf A$ is singular (by definition)
+##### 9.  $\;det \;{\bf A} = det \;{\bf A}^𝑇$ → (All the properties are also valid for the columns)
+##### 10.  $\;det \;{\bf A\;B} = (det \;{\bf A}) (\;det \;{\bf B})$
 ##### $\qquad \rightarrow  \;det (\;{\bf A\;A}^{-1})=det \;{\bf I} \Rightarrow det \;{\bf A}^{-1}=1/det \;{\bf A}$
 ##### $\qquad \rightarrow  \;det \;{\bf A}^2 = (det \;{\bf A})^2$
-##### 13. $\;$ It is easy to calculate the determinant for $2 \times 2$ matrices,
+##### 11. $\;$ It is easy to calculate the determinant for $2 \times 2$ matrices,
 ##### $\qquad \qquad {\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow det({\bf A}) = {ad - bc}$
 
----
 """
+
+# ╔═╡ a81fcfe3-2938-4010-858d-b5b4af62b59f
+# A1_tri = rand(-3:3, 3,3)
+
+# ╔═╡ 806e676a-40a1-4cbd-a8a0-708368776727
+# A1_utri = UpperTriangular(A1_tri) 
+
+# ╔═╡ 15a62d85-6b26-4cd7-b504-f5575bde703d
+# det(A1_utri) # 7. 
+
+# ╔═╡ d6dfc823-7eea-4c52-b5f3-1ac3c66f4f1c
+# A1_ltri = LowerTriangular(A1_tri)
+
+# ╔═╡ 0ace79fc-5e9c-4bc3-9406-db4743350a74
+# det(A1_ltri) # 7. 
+
+# ╔═╡ 91c1e2fe-b95c-4457-a9a8-c382f930a527
+# det(A1_tri') == det(A1_tri) # 9. 
+
+# ╔═╡ 90fb61d9-fff6-443d-a264-552a5e98282e
+# det(A1_det * A1_tri) - det(A1_det) * det(A1_tri) # 10.
+
+# ╔═╡ 56b950d2-bd4f-47fe-b7ad-5bfab9f68b37
+# A_22 = rand(-3:3, 2,2)
+
+# ╔═╡ c0d41eca-8d44-44fa-89bc-5a8bc41f51e0
+# det(A_22)
+
+# ╔═╡ f2d1bbe8-6853-482e-adc5-428746f92166
+md"""
+---"""
 
 # ╔═╡ 3a8ef338-38a4-4954-862c-6ce50e80f2fe
 md"""
@@ -1050,13 +1202,26 @@ md"""
 
 ##### $- \;$ is easy to find for $2 \times 2$ matrices,
 ##### $\qquad {\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}.$
----
+
 """
+
+# ╔═╡ 2d1ab27e-103e-4d11-84f1-4a03b0a0cba9
+A2_inv = rand((-2:2), 2,2)
+
+# ╔═╡ d883f35f-b2c1-45bb-8518-7a447ba0d605
+inv(A2_inv)
+
+# ╔═╡ 06d668db-4dd2-46a6-922a-75d793fcfa53
+A2_inv * inv(A2_inv)
+
+# ╔═╡ 5a59f5ec-b79a-44da-8118-8eb101f539de
+md"""
+---"""
 
 # ╔═╡ 3ee12973-b0ad-409c-a451-bb765ad01cff
 md"""
 <center><b><p
-style="color:black;font-size:40px;">END</p></b></center>
+style="color:black;font-size:40px;">END of Lecture-2, Part 1</p></b></center>
 """|>HTML
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -1542,9 +1707,9 @@ version = "1.2.1"
 
 [[deps.ImageMagick_jll]]
 deps = ["Artifacts", "Ghostscript_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "f025b79883f361fa1bd80ad132773161d231fd9f"
+git-tree-sha1 = "124626988534986113cfd876e3093e4a03890f58"
 uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
-version = "6.9.12+2"
+version = "6.9.12+3"
 
 [[deps.ImageMetadata]]
 deps = ["AxisArrays", "ImageAxes", "ImageBase", "ImageCore"]
@@ -2557,14 +2722,15 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═5504aec1-ecb0-41af-ba19-aaa583870875
-# ╠═337dc12b-49d1-4128-8459-33b04dd8ccce
-# ╠═cb5b4180-7e05-11ec-3b82-cd8631fc57ba
-# ╠═98ddb325-2d12-44b5-90b6-61e7eb55bd68
+# ╟─5504aec1-ecb0-41af-ba19-aaa583870875
+# ╟─337dc12b-49d1-4128-8459-33b04dd8ccce
+# ╟─cb5b4180-7e05-11ec-3b82-cd8631fc57ba
+# ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
-# ╠═b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
+# ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
 # ╟─a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-# ╠═4cdc2af4-872d-4672-87bb-330547d78bca
+# ╟─4cdc2af4-872d-4672-87bb-330547d78bca
+# ╟─24d7f6fe-ea94-4502-b49e-6e4c7770a7ce
 # ╟─c393ee0a-5e50-4c00-ad52-ef5851f7d531
 # ╟─044f12d3-35bf-4df0-9ef2-dde49db982f7
 # ╟─aa063ff2-1644-431e-b322-7135b4e9703f
@@ -2585,6 +2751,7 @@ version = "1.4.1+0"
 # ╟─2dbbf1c4-991f-49f6-a72a-d08f3dcdf62f
 # ╟─6e1ce086-658f-42bf-8dac-e7979a45247e
 # ╟─c2d02cb9-970d-4474-9f82-25a6a941ebfe
+# ╟─25a3e21d-d79e-4967-9521-07dc8aacd457
 # ╟─2adaf391-6411-4151-b386-5c5c9fa8f905
 # ╟─ac643e46-3174-4ad3-b838-19b8769c86ae
 # ╟─c42dda51-2081-4e14-914e-490c21f736e6
@@ -2595,12 +2762,14 @@ version = "1.4.1+0"
 # ╟─dc6984d0-ed8a-4f77-a8df-7c9ebc20dc00
 # ╟─76913eb1-31d1-459d-a13a-7dc1ae183b59
 # ╟─b0dca955-16c4-4cd3-8090-02d577624ab6
-# ╠═c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
+# ╟─c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
+# ╟─41b7b0e6-75ba-4c8f-9474-f60120909a5e
 # ╠═ae6fbc53-26d9-4980-b755-9d2278badfc3
 # ╠═a9873638-7338-414e-8f30-054ba220114d
 # ╠═2b9984b3-b38e-498b-9a05-3df4f56c525e
 # ╠═356a6388-9778-4892-97ce-77ebff7429eb
 # ╠═cc0a9986-b370-4243-9611-4dd21e246c6a
+# ╟─bceb6079-b630-4df8-8a86-bc796941fe3a
 # ╟─8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
 # ╠═19adef74-4e28-4aab-9f05-92bcfde1bf73
 # ╠═e4df508d-9f85-41a1-8cae-45d1505784b9
@@ -2610,6 +2779,7 @@ version = "1.4.1+0"
 # ╠═c07dff77-c850-4f74-a5b6-18a1c7ecb176
 # ╠═f70af9cd-6a95-4d1e-af12-2dd8d52399dc
 # ╠═b198c118-34eb-478e-a2cd-c8e6c19aec93
+# ╟─7d55f53e-90fb-42b7-a61f-05b2fe695d2c
 # ╟─19e9c605-fb39-450a-a4a2-edf617c72614
 # ╠═060cb524-7c1d-422d-82ea-7263d829a0cb
 # ╠═856870ec-570a-4fe9-a602-128d8bbe2db0
@@ -2620,6 +2790,7 @@ version = "1.4.1+0"
 # ╠═e10b126b-17ee-4f93-aaeb-a5f1a1b34cb1
 # ╠═4f0deacb-cd05-4786-aec1-4f6bc635b787
 # ╠═b49cf4b8-f690-4768-b27d-0104b0619317
+# ╟─a1a31727-078d-4c0b-8c2e-9e127fbfcd92
 # ╟─d0f9a0c9-f58d-48fe-81b0-539c14134969
 # ╠═1d01ecdd-6bed-46e7-acbe-684d9806fd40
 # ╠═421dea52-181f-453b-818d-2407f66a1f0b
@@ -2633,16 +2804,19 @@ version = "1.4.1+0"
 # ╠═3d2bd49e-aef4-4795-8ea5-b5975d011087
 # ╠═d31061b4-93a9-4e35-90d2-2977c70e8d05
 # ╠═115539ad-8b9c-4b38-8b23-b8064164ddc2
+# ╟─37c711bf-92ac-4b1e-9d72-bf1c03d2b500
 # ╟─f3838d6f-0b17-48fe-b90a-0053f7ce74dc
 # ╟─ad2961bc-cf04-4206-a86f-1307416a3fe2
 # ╠═dc5e390f-ece4-4e27-9b25-023a731cc633
 # ╠═eec8c31c-5324-44a4-8e55-3fed81d9dbd8
+# ╟─2cf171c3-36bd-4acc-a8fc-a19944d6d8be
 # ╟─ba787e69-7f86-4f41-87f5-b20d9e8831c6
 # ╠═144114a0-20f1-4fee-8d7b-331274442bfb
 # ╠═8ead573c-e4a3-41e7-9d5e-8494f53ca6e4
 # ╠═2efcc362-ebb1-41d7-a899-7854efa215ca
 # ╠═f190b01d-9268-4c44-ae01-cc17f927704e
 # ╠═45ced395-a8a2-465b-9552-186806b0e6e1
+# ╟─e304d866-f12a-402f-ae02-b20a786beacd
 # ╟─f130d717-bedc-4ebd-bba5-3908d54c07bc
 # ╠═4fd22565-7443-4f10-baf3-a2881651a2be
 # ╠═556f68f3-481b-4660-b5bd-f1a643676ee2
@@ -2657,6 +2831,7 @@ version = "1.4.1+0"
 # ╟─346bba70-2209-4d07-8c02-63a74e8c622d
 # ╠═5ed395e8-20c8-4e34-8a15-7d51b1d9949a
 # ╟─e022e5e5-186b-48f8-bd7d-4be9dc6610ab
+# ╟─11092c1b-1ae1-4635-bde3-b1786510be4e
 # ╟─a55816f3-1c24-4e6f-b35f-2aba8f8e8194
 # ╠═c7f02d62-d81c-4cf0-860c-79ea6b5fd7ab
 # ╠═7f367404-7275-4e35-9242-ebec5ac0668d
@@ -2678,8 +2853,40 @@ version = "1.4.1+0"
 # ╟─b6005ec2-c856-4cfb-9de1-fd0d65b957a1
 # ╟─75e91ef3-8893-48fc-a297-e54aa6b6c671
 # ╟─1de74de8-36c5-467f-a749-4cefd0b2acdc
+# ╟─95b7654a-6273-4093-888a-f2824cd2af01
 # ╟─877ef381-df6c-4a5b-bf99-88f8afba0995
+# ╠═3b986917-d5f7-4bcd-9b14-eb4de9a8bab1
+# ╠═e9e74abf-e61d-4131-bb5b-6cbd9a01f92b
+# ╠═386b8f40-a1d2-4d7c-8ebe-20e3aec56140
+# ╠═6cadfa25-38ac-4352-a2ca-50768a24eb70
+# ╠═9dac3a05-b565-409b-9687-f5ad0ebde93c
+# ╠═e645097e-657f-4586-b306-1ec151151550
+# ╠═778c180b-1b10-4a5e-8c17-328b4d2512e4
+# ╠═5e800b8e-713c-444b-ab3d-6077f7590eed
+# ╠═14832a30-6bad-4476-bf5a-4b1b7d776d2f
+# ╠═c3890082-8551-415e-a8a1-2df73b07746b
+# ╠═aa8b8ab6-11e3-4a75-82d1-1639b7f7c377
+# ╠═cf4606e3-c29c-4776-aa2f-0d115852668d
+# ╠═61cf79bb-4ac5-47f9-abc0-b3f8d0da0b8a
+# ╠═2727cacb-53d3-4286-8bdc-b2847c30f0b0
+# ╠═3fd25139-db9a-4b1c-b1a3-b3abc6610f20
+# ╟─ce07c1b2-d042-4d75-8d40-fa17f68ab585
+# ╟─df50e552-234d-4cec-b3d5-712a08ca5996
+# ╠═a81fcfe3-2938-4010-858d-b5b4af62b59f
+# ╠═806e676a-40a1-4cbd-a8a0-708368776727
+# ╠═15a62d85-6b26-4cd7-b504-f5575bde703d
+# ╠═d6dfc823-7eea-4c52-b5f3-1ac3c66f4f1c
+# ╠═0ace79fc-5e9c-4bc3-9406-db4743350a74
+# ╠═91c1e2fe-b95c-4457-a9a8-c382f930a527
+# ╠═90fb61d9-fff6-443d-a264-552a5e98282e
+# ╠═56b950d2-bd4f-47fe-b7ad-5bfab9f68b37
+# ╠═c0d41eca-8d44-44fa-89bc-5a8bc41f51e0
+# ╟─f2d1bbe8-6853-482e-adc5-428746f92166
 # ╟─3a8ef338-38a4-4954-862c-6ce50e80f2fe
+# ╠═2d1ab27e-103e-4d11-84f1-4a03b0a0cba9
+# ╠═d883f35f-b2c1-45bb-8518-7a447ba0d605
+# ╠═06d668db-4dd2-46a6-922a-75d793fcfa53
+# ╟─5a59f5ec-b79a-44da-8118-8eb101f539de
 # ╟─3ee12973-b0ad-409c-a451-bb765ad01cff
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
