@@ -178,11 +178,31 @@ md"""
 $\color{red} \large ''What \;happens \;next \;depends \;only \;on \;the \;state \;now''$
 \
 
-#### "_Markov chain_" is usually reserved for a process with a discrete set of times
+### Terminology
 
-#### Changes of state of the system are called _transitions_
+##### "_Markov chain_" is usually reserved for a process with a discrete set of times
 
-#### Probabilities associated with state changes are called _transition probabilities_
+##### Changes of state of the system are called "_transitions_"
+
+##### Probabilities associated with state changes are called "_transition probabilities_"
+
+---
+"""
+
+# ╔═╡ 065e786d-c6d6-400b-a47d-f0d194fce920
+md"""
+### Simple examples
+
+#### Example 1: Weather forecast
+##### Based on long time observations, we are confident for the following assumptions: 
+##### $\qquad - \;$ we never have two nice days in a row, 
+##### $\qquad - \;$ for a nice day, it is as likely to have snow as rain the next day, 
+##### $\qquad - \;$ if it snows or rains, 
+##### $\qquad \qquad \circ \;$ there is an even chance of having the same the next day, 
+##### $\qquad - \;$ If there is change from snow or rain, 
+##### $\qquad \qquad \circ \;$ only half of the time is this a change to a nice day. 
+
+With this information we form a Markov chain as follows. We take as states the kinds of weather R, N, and S. From the above information we determine the transition probabilities. These are most conveniently represented in a square array as
 
 ---
 """
@@ -3452,6 +3472,7 @@ version = "1.4.1+0"
 # ╟─3c474013-48d1-44e5-bfad-6a1f9b542b3c
 # ╟─371fc8fa-6866-4e62-93c3-58469f22a5d8
 # ╠═bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+# ╠═065e786d-c6d6-400b-a47d-f0d194fce920
 # ╟─fe255021-3935-44dc-85e9-bedd6f1360eb
 # ╟─19cad43b-de3a-4922-a55a-56a192aca919
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db
