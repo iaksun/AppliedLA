@@ -446,7 +446,7 @@ begin
 end
 
 # ╔═╡ 82c94279-7723-400e-850b-0c47fe48ea39
-gif(anim_states, "anim_states.gif", fps = 0.5)
+# gif(anim_states, "anim_states.gif", fps = 0.5)
 
 # ╔═╡ 138ba645-cea3-4295-8cb4-f127255aaa3f
 md"""#
@@ -3482,7 +3482,7 @@ version = "1.4.1+0"
 # ╟─3c474013-48d1-44e5-bfad-6a1f9b542b3c
 # ╟─371fc8fa-6866-4e62-93c3-58469f22a5d8
 # ╟─bdcf9a8d-2204-4d79-8319-e3b6df8c5446
-# ╠═065e786d-c6d6-400b-a47d-f0d194fce920
+# ╟─065e786d-c6d6-400b-a47d-f0d194fce920
 # ╟─fe255021-3935-44dc-85e9-bedd6f1360eb
 # ╟─19cad43b-de3a-4922-a55a-56a192aca919
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db

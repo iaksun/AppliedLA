@@ -444,7 +444,7 @@ begin
 end
 
 # ╔═╡ 82c94279-7723-400e-850b-0c47fe48ea39
-gif(anim_states, "anim_states.gif", fps = 0.5)
+# gif(anim_states, "anim_states.gif", fps = 0.5)
 
 # ╔═╡ 138ba645-cea3-4295-8cb4-f127255aaa3f
 md"""#
