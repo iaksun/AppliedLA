@@ -364,8 +364,8 @@ $\large x_1 + 2 x_2 = 3 \qquad \qquad \qquad 4 x_1 + 5 x_2 = 6$
 
 \
 
-##### ⇒ Let us modify the second equation as follows:
-
+##### ⇒ Let us change the second equation:
+$\large  {\color{blue} \underline{1^{st} set}} \qquad \qquad \qquad {\color{red} \underline{2^{nd} set}}$
 $\large {\color{blue} x_1 + 2 x_2 = 3} \qquad \qquad \qquad {\color{red} x_1 + 2 x_2 = 3}$
 $\large {\color{blue} 2 x_1 + 4 x_2 = 1} \qquad \qquad \qquad {\color{red} 2 x_1 + 4 x_2 = 6}$
 
@@ -563,7 +563,7 @@ md"""
 ---"""
 
 # ╔═╡ 8c39de20-0c8e-4d02-bcf6-b8f89dd83a8f
-md"""#
+md"""
 ## 2.3.2. Indexing entries
 ##### $\qquad -\;$ Access the $(i,j)^{th}$ entry of a matrix A ⇒ A[i,j] 
 ##### $\qquad -\;$ Assign a new value to any entry ⇒ A[i,j] = "_value_"
@@ -603,7 +603,7 @@ md"""
 ---"""
 
 # ╔═╡ 19e9c605-fb39-450a-a4a2-edf617c72614
-md"""#
+md"""
 ## 2.3.3. Slicing and Submatrices
 
 ##### $\qquad -\;$ Using colon (:) notation you can extract a submatrix
@@ -641,8 +641,7 @@ md"""
 ---"""
 
 # ╔═╡ d0f9a0c9-f58d-48fe-81b0-539c14134969
-md"""#
-
+md"""
 ## 2.3.4. Special Matrices
 
 ##### $\;\; -\;\;$ Zero matrix ($\bf 0$): A matrix with all entries are zero
@@ -725,7 +724,7 @@ md"""# 2.4. Matrix Operations
 ##### $\qquad -$  matrix-vector multiplication: $\bf A x$, $\bf y B$, ...
 ##### $\qquad -$ matrix-matrix multiplication $\bf A B$, $\bf B Y$, ...
 ##### $\qquad -$ determinant: $det({\bf A}) ≡ |{\bf A}|$, $|{\bf X}|$, ... $\color{red} \Leftarrow Square\;matrices$
-##### $\qquad -$ transpose: ${\bf A}^T$, ${\bf x}^T$, ...
+##### $\qquad -$ transpose: ${\bf A}^T$, ${\bf x}^T$, ... $\color{red} \Leftarrow {\bf A}',\;{\bf x}' \;may \; be \; used \; instead$
 ##### $\qquad -$ inverse: ${\bf A}^{-1}$, ${\bf X}^{-1}$, ... $\color{red} \Leftarrow Square\;matrices,\;\; det(A) \ne 0$
 
 ---
@@ -742,11 +741,11 @@ md"""
 
 #### $\;\;\;$ For example,
 
-##### $\;\;{\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^T = \begin{bmatrix} a & c \\ b & d \end{bmatrix};\qquad {\bf Z} = \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \Rightarrow \bf Z' = \begin{bmatrix} a & c & e \\ b & d & f \end{bmatrix}$
+##### $\;\;{\bf A} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow {\bf A}^T = \begin{bmatrix} a & c \\ b & d \end{bmatrix};\qquad {\bf Z} = \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \Rightarrow {\bf Z}^T = \begin{bmatrix} a & c & e \\ b & d & f \end{bmatrix}$
 
 \
 
-##### $\qquad {\bf x} = \begin{bmatrix} a \\ b \\ c \end{bmatrix} \Rightarrow \bf x' = \begin{bmatrix} a & b & c \end{bmatrix}; \qquad {\bf y} = \begin{bmatrix} α & β & γ \end{bmatrix} \Rightarrow {\bf y'} = \begin{bmatrix} α \\ β \\ γ \end{bmatrix}$
+##### $\qquad {\bf x} = \begin{bmatrix} a \\ b \\ c \end{bmatrix} \Rightarrow {\bf x}^T = \begin{bmatrix} a & b & c \end{bmatrix}; \qquad {\bf y} = \begin{bmatrix} α & β & γ \end{bmatrix} \Rightarrow {\bf y}^T = \begin{bmatrix} α \\ β \\ γ \end{bmatrix}$
 
 \
 
@@ -1209,7 +1208,7 @@ md"""
 A2_inv = rand((-2:2), 2,2)
 
 # ╔═╡ d883f35f-b2c1-45bb-8518-7a447ba0d605
-inv(A2_inv)
+inv(A2_inv) # If A is singular, it gives error messages
 
 # ╔═╡ 06d668db-4dd2-46a6-922a-75d793fcfa53
 A2_inv * inv(A2_inv)
@@ -1260,7 +1259,7 @@ TestImages = "~1.7.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.1"
 manifest_format = "2.0"
 project_hash = "f8aaf55c3eb0694c4a026d09912c92ab79ef44a8"
 
@@ -2760,7 +2759,7 @@ version = "1.4.1+0"
 # ╟─290c1af6-fa87-4a56-8322-b299e2ea4cd4
 # ╟─fff0fef2-b182-4ff0-8191-022971fd4be3
 # ╟─dc6984d0-ed8a-4f77-a8df-7c9ebc20dc00
-# ╟─76913eb1-31d1-459d-a13a-7dc1ae183b59
+# ╠═76913eb1-31d1-459d-a13a-7dc1ae183b59
 # ╟─b0dca955-16c4-4cd3-8090-02d577624ab6
 # ╟─c72c74f8-d5e5-4ebb-a0e5-384fc00a13e6
 # ╟─41b7b0e6-75ba-4c8f-9474-f60120909a5e
