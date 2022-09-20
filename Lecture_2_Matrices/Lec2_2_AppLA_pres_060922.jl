@@ -152,13 +152,11 @@ md"""# 2.5. A Few Applications
 ##### $\quad \circ \;$ LA methods that extensively use matrix operations.
 \
 
-#### Two practical methods[^1], namely
+#### Just to showcase the use of the operations, two practical examples[^1], 
 ##### $\quad \circ \;$ Markov process
 ##### $\quad \circ \;$ Image compression
 
-#### are selected 
-##### $\quad \circ \;$ to demonstrate the use of the matrix operations, and
-##### $\quad \circ \;$ to introduce the methods themselves.
+#### are selected. 
 
 \
 
@@ -173,7 +171,7 @@ md"""
 
 ### What is Markov Process?
 
-##### $\qquad - \;$ It is a stochastic ($\equiv$ random) model 
+##### $\qquad - \;$ It is a stochastic model 
 ##### $\qquad - \;$ It describes a sequence of possible events 
 ##### $\qquad - \;$ The probability of each event depends only on the previous event
 
@@ -182,11 +180,11 @@ $\color{red} \large ''What \;happens \;next \;depends \;only \;on \;the \;state 
 
 ### Terminology
 
-##### _Markov chain_: usually reserved for processes with discrete set of times
+##### "_Markov chain_" is usually reserved for a process with a discrete set of times
 
-##### _Transition_: Changes of state of the system 
+##### Changes of state of the system are called "_transitions_"
 
-##### _Transition Probabilities_: Probabilities associated with state changes 
+##### Probabilities associated with state changes are called "_transition probabilities_"
 
 ---
 """
@@ -197,15 +195,23 @@ md"""
 
 #### Example 1: Weather forecast
 ##### Based on long time observations, we are confident for the following assumptions: 
-##### $\qquad - \;$ we never have two nice days in a row, 
-##### $\qquad - \;$ for a nice day, it is as likely to have snow as rain the next day, 
+##### $\qquad - \;$ we never have two Nice (N) days in a row, 
+##### $\qquad - \;$ for N, it is equally likely to have Snow (S) or Rain (R) the next day, 
 ##### $\qquad - \;$ if it snows or rains, 
 ##### $\qquad \qquad \circ \;$ there is an even chance of having the same the next day, 
 ##### $\qquad - \;$ If there is change from snow or rain, 
 ##### $\qquad \qquad \circ \;$ only half of the time is this a change to a nice day. 
 
-With this information we form a Markov chain as follows. We take as states the kinds of weather R, N, and S. From the above information we determine the transition probabilities. These are most conveniently represented in a square array as
+#### Form a Markov chain (≡ Transition matrix): 
+$\large \begin{matrix} \qquad \qquad R\downarrow &  N\downarrow &  S\downarrow \end{matrix}$
+$\large {\bf M} = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 1/2 & 1/2 & 1/4 \\
+						1/4 & 0 & 1/4 \\
+						1/4 & 1/2 & 1/2 \end{bmatrix}$
 
+##### $\qquad - \;$ Numbers show the transition probabilities
+##### $\qquad - \;$ Each column adds up to 1
+
+> The $ij^{th}$ entry of $M^n$ gives the probability that the Markov chain, starting in state sj, will be in state si after n steps.
 ---
 """
 
@@ -1964,7 +1970,7 @@ TestImages = "~1.7.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.1"
+julia_version = "1.8.0"
 manifest_format = "2.0"
 project_hash = "e41a4576b90c69c5617f1f74f97c6911ce66fb53"
 
@@ -3473,14 +3479,14 @@ version = "1.4.1+0"
 # ╟─0c2bf16a-92b9-4021-a5f0-ac2334fb986a
 # ╟─3c474013-48d1-44e5-bfad-6a1f9b542b3c
 # ╟─371fc8fa-6866-4e62-93c3-58469f22a5d8
-# ╟─bdcf9a8d-2204-4d79-8319-e3b6df8c5446
+# ╠═bdcf9a8d-2204-4d79-8319-e3b6df8c5446
 # ╠═065e786d-c6d6-400b-a47d-f0d194fce920
 # ╟─fe255021-3935-44dc-85e9-bedd6f1360eb
 # ╟─19cad43b-de3a-4922-a55a-56a192aca919
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db
 # ╟─c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
 # ╠═bcc8866b-5f3e-4a0e-a561-a06c80cc974a
-# ╟─5c9353c9-9926-4630-948e-dfb28060a66a
+# ╠═5c9353c9-9926-4630-948e-dfb28060a66a
 # ╟─b929fc46-a0c5-41b5-aa12-f77f136ab3e0
 # ╠═f51d50a6-3253-4c41-9f1a-445d28582a4a
 # ╟─84f64dbf-3cff-413a-88c9-ad89a372a7d2
