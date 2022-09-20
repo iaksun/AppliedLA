@@ -195,15 +195,23 @@ md"""
 
 #### Example 1: Weather forecast
 ##### Based on long time observations, we are confident for the following assumptions: 
-##### $\qquad - \;$ we never have two nice days in a row, 
-##### $\qquad - \;$ for a nice day, it is as likely to have snow as rain the next day, 
+##### $\qquad - \;$ we never have two Nice (N) days in a row, 
+##### $\qquad - \;$ for N, it is equally likely to have Snow (S) or Rain (R) the next day, 
 ##### $\qquad - \;$ if it snows or rains, 
 ##### $\qquad \qquad \circ \;$ there is an even chance of having the same the next day, 
 ##### $\qquad - \;$ If there is change from snow or rain, 
 ##### $\qquad \qquad \circ \;$ only half of the time is this a change to a nice day. 
 
-With this information we form a Markov chain as follows. We take as states the kinds of weather R, N, and S. From the above information we determine the transition probabilities. These are most conveniently represented in a square array as
+#### Form a Markov chain (≡ Transition matrix): 
+$\large \begin{matrix} \qquad \qquad R\downarrow &  N\downarrow &  S\downarrow \end{matrix}$
+$\large {\bf M} = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 1/2 & 1/2 & 1/4 \\
+						1/4 & 0 & 1/4 \\
+						1/4 & 1/2 & 1/2 \end{bmatrix}$
 
+##### $\qquad - \;$ Numbers show the transition probabilities
+##### $\qquad - \;$ Each column adds up to 1
+
+> The $ij^{th}$ entry of $M^n$ gives the probability that the Markov chain, starting in state sj, will be in state si after n steps.
 ---
 """
 
@@ -3478,7 +3486,7 @@ version = "1.4.1+0"
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db
 # ╟─c4d7eeef-6528-4cb4-8fcd-887eb7f1f091
 # ╠═bcc8866b-5f3e-4a0e-a561-a06c80cc974a
-# ╟─5c9353c9-9926-4630-948e-dfb28060a66a
+# ╠═5c9353c9-9926-4630-948e-dfb28060a66a
 # ╟─b929fc46-a0c5-41b5-aa12-f77f136ab3e0
 # ╠═f51d50a6-3253-4c41-9f1a-445d28582a4a
 # ╟─84f64dbf-3cff-413a-88c9-ad89a372a7d2
