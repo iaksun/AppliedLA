@@ -1208,7 +1208,7 @@ md"""
 A2_inv = rand((-2:2), 2,2)
 
 # ╔═╡ d883f35f-b2c1-45bb-8518-7a447ba0d605
-inv(A2_inv)
+inv(A2_inv) # If A is singular, it gives error messages
 
 # ╔═╡ 06d668db-4dd2-46a6-922a-75d793fcfa53
 A2_inv * inv(A2_inv)
