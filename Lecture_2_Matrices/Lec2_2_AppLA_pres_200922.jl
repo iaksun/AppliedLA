@@ -197,15 +197,23 @@ md"""
 
 #### Example 1: Weather forecast
 ##### Based on long time observations, we are confident for the following assumptions: 
-##### $\qquad - \;$ we never have two nice days in a row, 
-##### $\qquad - \;$ for a nice day, it is as likely to have snow as rain the next day, 
+##### $\qquad - \;$ we never have two Nice (N) days in a row, 
+##### $\qquad - \;$ for N, it is equally likely to have Snow (S) or Rain (R) the next day, 
 ##### $\qquad - \;$ if it snows or rains, 
 ##### $\qquad \qquad \circ \;$ there is an even chance of having the same the next day, 
 ##### $\qquad - \;$ If there is change from snow or rain, 
 ##### $\qquad \qquad \circ \;$ only half of the time is this a change to a nice day. 
 
-With this information we form a Markov chain as follows. We take as states the kinds of weather R, N, and S. From the above information we determine the transition probabilities. These are most conveniently represented in a square array as
+#### Form a Markov chain (≡ Transition matrix): 
+$\large \begin{matrix} \qquad \qquad R\downarrow &  N\downarrow &  S\downarrow \end{matrix}$
+$\large {\bf M} = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 1/2 & 1/2 & 1/4 \\
+						1/4 & 0 & 1/4 \\
+						1/4 & 1/2 & 1/2 \end{bmatrix}$
 
+##### $\qquad - \;$ Numbers show the transition probabilities
+##### $\qquad - \;$ Each column adds up to 1
+
+> The $ij^{th}$ entry of $M^n$ gives the probability that the Markov chain, starting in state sj, will be in state si after n steps.
 ---
 """
 
@@ -1964,7 +1972,7 @@ TestImages = "~1.7.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.1"
+julia_version = "1.8.0"
 manifest_format = "2.0"
 project_hash = "e41a4576b90c69c5617f1f74f97c6911ce66fb53"
 
