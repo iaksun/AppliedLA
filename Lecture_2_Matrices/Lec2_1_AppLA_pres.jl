@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.11
+# v0.19.12
 
 using Markdown
 using InteractiveUtils
@@ -2727,10 +2727,10 @@ version = "1.4.1+0"
 # ╟─98ddb325-2d12-44b5-90b6-61e7eb55bd68
 # ╟─1c5063ab-e965-4c3b-a0d9-7cf2b272ad48
 # ╟─b1eefcd2-3d91-42e5-91e8-edc2ed3a5aa8
-# ╟─a9c98903-3f39-4d69-84cb-2e41f8cca9ac
-# ╟─4cdc2af4-872d-4672-87bb-330547d78bca
+# ╠═a9c98903-3f39-4d69-84cb-2e41f8cca9ac
+# ╠═4cdc2af4-872d-4672-87bb-330547d78bca
 # ╟─24d7f6fe-ea94-4502-b49e-6e4c7770a7ce
-# ╟─c393ee0a-5e50-4c00-ad52-ef5851f7d531
+# ╠═c393ee0a-5e50-4c00-ad52-ef5851f7d531
 # ╟─044f12d3-35bf-4df0-9ef2-dde49db982f7
 # ╟─aa063ff2-1644-431e-b322-7135b4e9703f
 # ╟─125b5322-fd07-4e4b-bb81-6b7c41e4c60e
@@ -2738,7 +2738,7 @@ version = "1.4.1+0"
 # ╟─c2a59e8e-bbe2-44c2-8922-6ac7ad4b942b
 # ╟─16c5d3e5-edbe-47cd-a5ab-b09ba4d27104
 # ╟─8d0ad71b-34ca-407c-bd09-3fa191122c70
-# ╟─2fdeb1e8-5811-4dcb-881a-5e857889f6ca
+# ╠═2fdeb1e8-5811-4dcb-881a-5e857889f6ca
 # ╟─9648cc3d-3e45-4dee-b245-1865b31f3c4c
 # ╠═4fb5808d-c406-4586-98b2-42f1b2911bf8
 # ╠═d7cf6b88-4111-4f36-9cc9-ba4e7a4d7688

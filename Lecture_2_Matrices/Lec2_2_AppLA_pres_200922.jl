@@ -1972,7 +1972,7 @@ TestImages = "~1.7.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.1"
+julia_version = "1.8.0"
 manifest_format = "2.0"
 project_hash = "e41a4576b90c69c5617f1f74f97c6911ce66fb53"
 
