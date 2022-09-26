@@ -323,9 +323,9 @@ md"""
 
 # ╔═╡ 538e4b56-11e6-4abc-9bf2-2ee45716ecad
 begin
-	xxx = [0  0.5 0.8; 1 1 0]
-	yyy = [0  0.5 0.8; 1 0 1]
-	zzz = [0  0.5 0.8; 1 0 1]
+	xxx = [0  0.5 0.8 1; 1 1 0 1]
+	yyy = [0  0.5 0.8 1; 1 0 1 1]
+	zzz = [0  0.5 0.8 1; 1 0 1 0]
 	plot(xxx, yyy, zzz, lw = 2, color = [:red :green :blue], xlims = (0,1), ylims = (0,1), zlims = (0,1))
 end
 
@@ -2787,7 +2787,7 @@ version = "1.4.1+0"
 # ╟─7df20338-5e02-4757-8985-c903a1e1b5db
 # ╠═76b104a0-a6f6-4786-b81f-d02c52f86121
 # ╟─73317b75-ad8e-48d6-bee8-ea879429600f
-# ╟─538e4b56-11e6-4abc-9bf2-2ee45716ecad
+# ╠═538e4b56-11e6-4abc-9bf2-2ee45716ecad
 # ╟─66085b26-bde0-4a03-885c-5992ffca74de
 # ╠═727c2e74-30fb-4ae1-a6a7-f05fd49d5a68
 # ╟─369f121d-e97d-4bec-a8ce-5a111b240da4
