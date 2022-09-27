@@ -206,16 +206,85 @@ md"""
 
 #### Form a Markov chain (≡ Transition matrix): 
 $\large \begin{matrix} \qquad \qquad R\downarrow &  N\downarrow &  S\downarrow \end{matrix}$
-$\large {\bf M} = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 1/2 & 1/2 & 1/4 \\
-						1/4 & 0 & 1/4 \\
-						1/4 & 1/2 & 1/2 \end{bmatrix}$
+$\large {\bf M} = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 1/2 & 1/2 & 1/4 \\ 1/4 & 0 & 1/4 \\ 1/4 & 1/2 & 1/2 \end{bmatrix}$
 
 ##### $\qquad - \;$ Numbers show the transition probabilities
 ##### $\qquad - \;$ Each column adds up to 1
 
-> The $ij^{th}$ entry of $M^n$ gives the probability that the Markov chain, starting in state sj, will be in state si after n steps.
+
 ---
 """
+
+# ╔═╡ 2abcc8d3-bb1b-40c3-a4fa-46012278dda8
+md"""#
+#### How do we use the transition matrix $\bf M$ to find the state of the weather after n days?
+
+##### $\qquad - \;$ Choose the initial state (today's state or any random state)
+##### $\qquad \qquad \circ \;$ Today is Nice ⇒ ${\bf w}_0 = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$
+##### $\qquad - \;$ Calculate the transitions day by day
+##### $\qquad \qquad \circ \;$ Tomorrow ⇒ ${\bf w}_1 = {\bf M} {\bf w}_0 = \begin{bmatrix} 0.5 \\ 0.0 \\ 0.5 \end{bmatrix}$
+##### $\qquad \qquad \circ \;$ $2^{nd}$ day ⇒ ${\bf w}_2 = {\bf M} {\bf w}_1 = \begin{bmatrix} 0.375 \\ 0.25 \\ 0.375 \end{bmatrix} = {\bf M}^2 {\bf w}_0$
+##### $\qquad \qquad \circ \;$ $3^{rd}$ day ⇒ ${\bf w}_3 = {\bf M} {\bf w}_2 = \begin{bmatrix} 0.406 \\ 0.188 \\ 0.406 \end{bmatrix}={\bf M}^3 {\bf w}_0$
+
+"""
+
+# ╔═╡ 6a75c767-3cda-4abd-9f13-81f7d3021be9
+M_markov = [0.50 0.50 0.25; 0.25 0.00 0.25; 0.25 0.50 0.50]
+
+# ╔═╡ 959899ad-3d79-4525-abee-e2b24e53cc21
+ones(1,3) * M_markov # Columns add up to 1
+
+# ╔═╡ 46043407-b83f-4816-89e2-b6c46bfdb46d
+w_0 = [0; 1; 0]
+
+# ╔═╡ 4c84d3f5-0f14-4180-8f09-2f09d03a51c8
+w_1 = M_markov * w_0
+
+# ╔═╡ 23806649-3ab8-4c5e-b72f-7b65767f4652
+w_2 = M_markov * w_1
+
+# ╔═╡ 56017a8c-b567-4cda-9fd8-73f71c1e2220
+w_3 = M_markov * w_2
+
+# ╔═╡ a911226a-6414-49ad-97d5-81d8f3f97d3b
+M_markov^3 * w_0 == w_3 
+
+# ╔═╡ a5276cd1-c814-4516-b8a0-5f636ecaa3e5
+md"""
+---"""
+
+# ╔═╡ 8e86ccca-7b4f-4010-936f-9b2273115c6f
+md"""#
+#### Theorem: 
+>##### The $(i,j)^{th}$ entry of $M^n$ gives the probability that the Markov chain, starting in state $j$, will be in state $i$ after n steps.
+
+$\large \begin{matrix} \qquad \qquad R\downarrow &  N\downarrow &  S\downarrow \end{matrix}$
+$\large {\bf M}^6 = \;\;\begin{matrix} R \\ N \\ S \end{matrix} \;\;\begin{bmatrix} 0.4 & 0.4 & 0.4 \\ 0.2 & 0.2 & 0.2 \\ 0.4 & 0.4 & 0.4 \end{bmatrix}$
+
+"""
+
+# ╔═╡ 4be43c74-1e8c-4346-8cf6-05f748cd9175
+M_markov^3 # has almost converged to the steady state
+
+# ╔═╡ c7ec3c97-f311-4846-9328-615c821d4336
+[norm(M_markov^i - M_markov^(i+1)) for i = 1:30] # Convergence data
+
+# ╔═╡ 11a8fdf8-cbcb-4343-b00b-705c1570ff2e
+md"""
+#### A few facts:
+##### $\qquad - \;$ Inital state would make no difference for the steady state
+##### $\qquad \qquad \circ \;$ Think of 
+
+ $\qquad \qquad \qquad \qquad \large {\bf w}_0 = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} \;\; {\bf or} \;\;{\bf w}_0 = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$
+
+\
+
+##### $\qquad - \;$ Sum of the initial state will be preserved over transitions
+##### $\qquad \qquad \circ \;$ Consider
+\
+ $\qquad \qquad \qquad \qquad \large \begin{bmatrix} 1 & 1 & 1 \end{bmatrix} \;{\bf w}_1 = \underbrace{\begin{bmatrix} 1 & 1 & 1 \end{bmatrix} \;{\bf M}}_{\overset{?}{=} \;\begin{bmatrix} 1 & 1 & 1 \end{bmatrix}} \;{\bf w}_0$
+
+---"""
 
 # ╔═╡ fe255021-3935-44dc-85e9-bedd6f1360eb
 md"""#
@@ -481,6 +550,9 @@ md"""
 md"""
 !!! note \"Project Idea - 1\"
 	Review the PageRank algorithm of Google and find a way to promote your web page.
+
+!!! note \"Project Idea - 2 (if possible, for social science students)\"
+	Review the article ["REGIONAL MIGRATION IN TURKEY WITH MARKOV CHAIN ANALYSIS"](https://epc2008.princeton.edu/papers/80494) and implement it.
 """
 
 # ╔═╡ fffd5112-314b-4c0f-90f4-15e5cc483b4c
@@ -3483,6 +3555,19 @@ version = "1.4.1+0"
 # ╟─371fc8fa-6866-4e62-93c3-58469f22a5d8
 # ╟─bdcf9a8d-2204-4d79-8319-e3b6df8c5446
 # ╟─065e786d-c6d6-400b-a47d-f0d194fce920
+# ╟─2abcc8d3-bb1b-40c3-a4fa-46012278dda8
+# ╠═6a75c767-3cda-4abd-9f13-81f7d3021be9
+# ╠═959899ad-3d79-4525-abee-e2b24e53cc21
+# ╠═46043407-b83f-4816-89e2-b6c46bfdb46d
+# ╠═4c84d3f5-0f14-4180-8f09-2f09d03a51c8
+# ╠═23806649-3ab8-4c5e-b72f-7b65767f4652
+# ╠═56017a8c-b567-4cda-9fd8-73f71c1e2220
+# ╠═a911226a-6414-49ad-97d5-81d8f3f97d3b
+# ╟─a5276cd1-c814-4516-b8a0-5f636ecaa3e5
+# ╟─8e86ccca-7b4f-4010-936f-9b2273115c6f
+# ╠═4be43c74-1e8c-4346-8cf6-05f748cd9175
+# ╠═c7ec3c97-f311-4846-9328-615c821d4336
+# ╟─11a8fdf8-cbcb-4343-b00b-705c1570ff2e
 # ╟─fe255021-3935-44dc-85e9-bedd6f1360eb
 # ╟─19cad43b-de3a-4922-a55a-56a192aca919
 # ╟─3b117d55-f043-4deb-a5d3-66078ace53db
@@ -3505,7 +3590,7 @@ version = "1.4.1+0"
 # ╠═53017ff5-8e06-4e23-b027-ee49257aff6b
 # ╠═cc17fd62-e5c2-4a0f-b8dd-506941951803
 # ╠═5314ec4c-d0ae-4290-b9d6-26eec26e104d
-# ╠═8de9608c-472d-40a0-8ab2-ba80463c74d8
+# ╟─8de9608c-472d-40a0-8ab2-ba80463c74d8
 # ╠═991d9d71-c85f-4fdb-9c9b-b13138c2a692
 # ╟─58678b29-d37e-4d15-a5da-8a94632900c0
 # ╟─4402e8ea-c9c6-46fa-8e54-43c94f954148
