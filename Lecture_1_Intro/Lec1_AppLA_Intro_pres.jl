@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.11
+# v0.19.12
 
 using Markdown
 using InteractiveUtils
@@ -56,7 +56,6 @@ md"""# Applied Linear Algebra for Everyone (Fall 2022)
 **M. İrşadi Aksun**\
 **Electrical and Electronics Engineering**\
 **e-mail: iaksun@ku.edu.tr**
-
 \
 
 #### Recommended Materials:
@@ -420,6 +419,11 @@ md"""#
 ###### † REPL is the abreviation of Read–Eval–Print-Loop
 """
 
+# ╔═╡ 0e81c59d-5c4a-4cbe-86f0-f9fbd5acf093
+md"""#
+#### REPL Environment
+"""
+
 # ╔═╡ 90d44a05-15c2-4a4c-b665-0ded387a6a8d
 # repl.png is in the same folder as Pluto_LA.jl, so no need for the complete path
 repl = load("repl.png")
@@ -498,9 +502,22 @@ md"""
 ---"""
 
 # ╔═╡ dfe8d392-e180-459f-9633-316dfe99ea93
-md"#
+md"""#
 ### Pluto interface
+"""
 
+# ╔═╡ b1da9124-a31b-4887-9fe7-1d98dca9bdbb
+@bind pluto_rows1 RangeSlider(1:size(pluto_browser)[1])
+
+# ╔═╡ a56c4db6-8d98-4c58-9862-97bfb57f430b
+pluto_browser[pluto_rows1,:]
+
+# ╔═╡ 18c263b5-d1bb-4022-bdca-a884a1354f30
+md"""
+---"""
+
+# ╔═╡ 2a5380a0-f762-4a64-9e9a-baf385387180
+md"""#
 !!! note 
 
 	##### - Results appear above the cell in Pluto environment 
@@ -513,14 +530,7 @@ md"#
 #### $\;\; -\;\;$ _recent session_: open from the list
 
 ---
-"
-
-# ╔═╡ a56c4db6-8d98-4c58-9862-97bfb57f430b
-pluto_browser[pluto_rows,:]
-
-# ╔═╡ 2a34aeb9-41b3-41ff-8f74-26b49aa1777d
-md"""
----"""
+"""
 
 # ╔═╡ 1e9b21e4-078e-4d3d-8dc2-908181f81267
 md"""#
@@ -544,8 +554,12 @@ a, b = rand((1:5),1), rand((1:5),1)
 # ╔═╡ c912c3cf-cd26-4a1a-9189-3d762da321a7
 c = a/b
 
-# ╔═╡ 7db34f43-0777-4cc3-a070-8f53a68cdca3
+# ╔═╡ 7d88e4f3-f59d-4a25-b640-86c1a6012d73
 md"""
+---"""
+
+# ╔═╡ 7db34f43-0777-4cc3-a070-8f53a68cdca3
+md"""#
 ##### $\qquad\;\; -\;\;$ Assign a new value for ``a`` in another cell, what happens?
 
 """
@@ -589,7 +603,7 @@ md"""
 ---"""
 
 # ╔═╡ 534234e3-e8a3-4d8d-a905-9dc6c59baf8d
-md"# Content
+md"""# Content
 
 > #### Lecture 1: Vectors 
 
@@ -601,7 +615,11 @@ md"# Content
 >> ##### Lecture 4.1: Linear Regression
 >> ##### Lecture 4.2: Polynomial and piecewise fit
 >> ##### Lecture 4.3: Classification
+---
+"""
 
+# ╔═╡ 5d418c04-6f93-4162-ab82-87ce2a210380
+md"""#
 > #### Lecture 5: Eigenvalues and Eigenvectors
 
 > #### Lecture 6: Factorization
@@ -616,10 +634,10 @@ md"# Content
 
 > #### Lecture 10: Linear programming (??)
 ---
-"
+"""
 
 # ╔═╡ 01797703-30fb-42e7-893a-faa5883fea10
-md"# Lecture - 1: Vectors
+md"""# Lecture - 1: Vectors
 
 ### Content 
 
@@ -632,16 +650,19 @@ md"# Lecture - 1: Vectors
 >> ##### 1.1.4. A few definitions
 >>> ##### Length and distance
 >>> ##### Norm
+---
+"""
 
+# ╔═╡ 197ab858-2d38-43e5-97aa-805bfb8a4a01
+md"""#
 >> ##### 1.2. Relevant applications
 >>> ##### 1.2.1. Sum, Mean, RMS value
 >>> ##### 1.2.2. De-meaned vector, Standart deviation
 >>> ##### 1.2.3. Standardization
 >>> ##### 1.2.4. Correlation coefficient
 >>> ##### 1.2.5. Projection
-
 ---
-"
+"""
 
 # ╔═╡ c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 md"## 1.1. Brief Review of Vectors
@@ -681,12 +702,23 @@ md"""#
 ##### $\qquad \qquad \bullet\:\; when \;driving, \;the \;speed \;of \;car \;like \;65 \;km/h \;or \;100 \;km/h,$
 ##### $\qquad \qquad \bullet\:\; your \;age, \;like \;21 \;or \;21.5 \;years \;old,$
 ##### $\qquad \qquad \bullet\:\; ...$
+---
+"""
 
+# ╔═╡ 36fa0eb4-12d9-48f8-aca4-740ea2d4b26c
+md"""#
+### 1.1.1. Why do we need vectors (cont'd)?
 
 ##### $\qquad \bullet\;\;$ Some others may be defined using only $\color{red} \bf \;integer \;numbers:$
 ##### $\qquad \qquad \bullet\:\; number \;of \;courses \;you \;take, \;maybe \;5 \;or \;6,$ 
 ##### $\qquad \qquad \bullet\:\; a \;student's \;rank \;in \;the \;class, 1^{st}, 10^{th},$
 ##### $\qquad \qquad \bullet\:\; number \;of \;books \;you \;have \;read, \;maybe \;10 \;or \;25,$
+##### $\qquad \qquad \bullet\:\; ...$
+
+##### $\qquad \bullet\;\;$ Some others may be defined using only $\color{red} \bf Boolean \;data \;type:$
+##### $\qquad \qquad \bullet\:\; rain, \;snow \;and \;other \;weather \;conditions: \; 'YES' \;or \; 'NO',$ 
+##### $\qquad \qquad \bullet\:\; pass \;or \;fail: \;'1:Pass' \;or \;'0:Fail',$
+##### $\qquad \qquad \bullet\:\; having \;a \;hearth \;deases: \;'1:YES' \;or \;'0:NO',$
 ##### $\qquad \qquad \bullet\:\; ...$
 
 ---
@@ -695,13 +727,6 @@ md"""#
 # ╔═╡ 6e4d8535-050a-483e-89d7-22c8378fc458
 md"""#
 ### 1.1.1. Why do we need vectors (cont'd)?
-
-##### $\qquad \bullet\;\;$ Some others may be defined using only $\color{red} \bf Boolean \;data \;type:$
-##### $\qquad \qquad \bullet\:\; rain, \;snow \;and \;other \;weather \;conditions: \; 'YES' \;or \; 'NO',$ 
-##### $\qquad \qquad \bullet\:\; pass \;or \;fail: \;'1:Pass' \;or \;'0:Fail',$
-##### $\qquad \qquad \bullet\:\; having \;a \;hearth \;deases: \;'1:YES' \;or \;'0:NO',$
-##### $\qquad \qquad \bullet\:\; ...$
-
 
 ##### $\qquad \bullet\;\;$ Some others may need $\color{red} \bf more \;than \;one \;number:$
 ##### $\qquad \qquad \bullet\:\; velocity \;of \;a \;car: \;need \;its \;speed \;and \;direction,$
@@ -746,8 +771,12 @@ md"""#
 	\large {\bf F} = [10,20,30]
 	```
 	##### where ${\bf v}$ and ${\bf F}$ are column arrays in _Julia_.
+---
+"""
 
-##### Let us draw 2-vectors on the cartasian coordinate
+# ╔═╡ 6f029ec2-5ce8-48e8-ab15-5eb06a2c4c27
+md"""#
+#### Let us draw 2-vectors on the cartasian coordinate
 \
 ``{\color{blue} \large {\bf v_1} = [v_{11},v_{12}] \rm  \;is \;the \;blue \;vector,} \;and\;``
 ``{\color{red} \large {\bf v_2} = [v_{21},v_{22}] \rm  \;is \;the \;red \;vector}:``
@@ -777,6 +806,10 @@ begin
      xticks = -3:1:3, yticks = -3:1:3,
      framestyle = :origin)
 end
+
+# ╔═╡ 341c8fd0-b69f-49b8-924d-5fd8bb2cd9ce
+md"""
+---"""
 
 # ╔═╡ 025a7287-b093-48a4-980c-f5174fc00f30
 md"""#
@@ -811,6 +844,10 @@ begin
 	 xlabel = L"x", ylabel = L"y", zlabel = L"z")
 #     framestyle = :origin)
 end
+
+# ╔═╡ 289d44ef-2633-4372-8db4-4aaefb692e13
+md"""
+---"""
 
 # ╔═╡ 0a2597c4-4b63-45b5-b170-a8af7d066ead
 md"
@@ -914,7 +951,7 @@ md"""#
 df_houseCSV = CSV.read("kc_house_data.csv", DataFrame); 
 
 # ╔═╡ 4db5a423-ae86-4b41-97e9-6b04b5bfab2a
-describe(df_houseCSV)
+describe(df_houseCSV);
 
 # ╔═╡ 4487ebe1-6267-4b5e-a239-271ccd83b672
 df_house = df_houseCSV[:,3:end];
@@ -2179,7 +2216,7 @@ XLSX = "~0.7.8"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.1"
 manifest_format = "2.0"
 project_hash = "7e1d14b3b6053b9593125c579c2b7d9f7111c0da"
 
@@ -3475,6 +3512,7 @@ version = "0.9.1+5"
 # ╠═f002d8e5-821a-485c-8a13-0c198935c955
 # ╟─d72f679b-777f-48d6-9a08-40aa693c008f
 # ╟─4d88b926-9543-11ea-293a-1379b1b5ae64
+# ╟─0e81c59d-5c4a-4cbe-86f0-f9fbd5acf093
 # ╟─90d44a05-15c2-4a4c-b665-0ded387a6a8d
 # ╟─ca8ab926-c213-4914-9a5f-993356cd1b25
 # ╟─b956d523-8f52-4b9b-8885-6c77b9e64c7a
@@ -3485,11 +3523,14 @@ version = "0.9.1+5"
 # ╠═84de5da7-e014-448b-9ad9-ef86d4cee3d3
 # ╟─657cf33d-5d62-43cb-8117-fd92d046d4de
 # ╟─dfe8d392-e180-459f-9633-316dfe99ea93
-# ╟─a56c4db6-8d98-4c58-9862-97bfb57f430b
-# ╟─2a34aeb9-41b3-41ff-8f74-26b49aa1777d
+# ╟─b1da9124-a31b-4887-9fe7-1d98dca9bdbb
+# ╠═a56c4db6-8d98-4c58-9862-97bfb57f430b
+# ╟─18c263b5-d1bb-4022-bdca-a884a1354f30
+# ╟─2a5380a0-f762-4a64-9e9a-baf385387180
 # ╟─1e9b21e4-078e-4d3d-8dc2-908181f81267
 # ╠═7e054d5e-badd-48e4-b9e2-5ed0aa85de26
 # ╠═c912c3cf-cd26-4a1a-9189-3d762da321a7
+# ╟─7d88e4f3-f59d-4a25-b640-86c1a6012d73
 # ╟─7db34f43-0777-4cc3-a070-8f53a68cdca3
 # ╟─170d9642-e88c-4c05-93d4-4252b879778e
 # ╟─1b6b35ab-c02a-4d40-8740-ca39c622260e
@@ -3497,27 +3538,33 @@ version = "0.9.1+5"
 # ╟─4710b609-ec9c-4c15-94f6-00e9ec5c8eb5
 # ╟─394bc307-b090-422b-aeb3-51bb420c6834
 # ╟─534234e3-e8a3-4d8d-a905-9dc6c59baf8d
+# ╟─5d418c04-6f93-4162-ab82-87ce2a210380
 # ╟─01797703-30fb-42e7-893a-faa5883fea10
+# ╟─197ab858-2d38-43e5-97aa-805bfb8a4a01
 # ╟─c4dec3a3-6d20-4c09-85a8-f753cd3dc094
 # ╟─70f17fd5-c54d-4888-b745-9ac48bf7efb9
 # ╟─001b6077-9659-472c-8975-192465264100
 # ╟─69add601-4db0-4ed9-8e33-f06b0153c938
 # ╟─a6535620-6ac8-4c80-93a6-148b6b75ff4f
+# ╟─36fa0eb4-12d9-48f8-aca4-740ea2d4b26c
 # ╟─6e4d8535-050a-483e-89d7-22c8378fc458
 # ╟─46321d63-6b36-4af8-95cb-13ca7ca5faf0
+# ╟─6f029ec2-5ce8-48e8-ab15-5eb06a2c4c27
 # ╟─ff2f7d91-2c71-4cf4-a8dc-75f18650088b
 # ╟─f6eef184-ae45-492e-8896-ae5e755a2b9e
+# ╟─341c8fd0-b69f-49b8-924d-5fd8bb2cd9ce
 # ╟─025a7287-b093-48a4-980c-f5174fc00f30
 # ╟─4f0f0340-8cc2-4820-99a0-94b7e00b50ec
 # ╟─c9d0d206-08d7-40a9-a520-eae2c24bc477
+# ╟─289d44ef-2633-4372-8db4-4aaefb692e13
 # ╟─0a2597c4-4b63-45b5-b170-a8af7d066ead
 # ╟─4154d786-0a91-4c05-a159-5afc2b820fec
 # ╟─d7ef1697-b832-4038-9d9f-512a74094fca
 # ╟─4f30b1ac-195a-45dd-9cc8-aad4cbea0904
 # ╟─a2a0aa9d-c6a7-4b72-8f77-5dcd1123732d
-# ╠═cec35ba2-6ec0-49a6-abbc-f4cc7ab68cb7
+# ╟─cec35ba2-6ec0-49a6-abbc-f4cc7ab68cb7
 # ╠═7581aea1-9ee0-4cdd-ae58-c395152bef03
-# ╟─4db5a423-ae86-4b41-97e9-6b04b5bfab2a
+# ╠═4db5a423-ae86-4b41-97e9-6b04b5bfab2a
 # ╠═b244b31e-2ab7-4956-97b7-0d591937c6d1
 # ╠═5d751584-072d-4f8f-bfe0-a37be49fa811
 # ╠═4487ebe1-6267-4b5e-a239-271ccd83b672

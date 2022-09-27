@@ -34,7 +34,7 @@ As I have stated above, I have been inspired by the three exceptional groups wit
 
 * learnt some of the materials, and/or 
 * used their shared materials in the forms of datasets, Julia codes, Pluto notebooks in my lectures and 
-* got some help in setting up the paltforms that has made my life a lot easier 
+* got some help in setting up the platforms that has made my life a lot easier 
 
 during the development stage of this course.
 
